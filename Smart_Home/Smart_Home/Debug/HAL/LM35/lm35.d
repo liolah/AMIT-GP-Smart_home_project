@@ -1,0 +1,1 @@
+HAL/LM35/lm35.d HAL/LM35/lm35.o: ../HAL/LM35/lm35.c
