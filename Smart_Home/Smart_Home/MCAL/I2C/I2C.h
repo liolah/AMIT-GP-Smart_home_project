@@ -32,7 +32,7 @@ typedef enum EN_I2CMasterStatusCode_t
 
 void I2C_init(void);
 
-EN_I2CMasterStatusCode_t I2C_start(uint8_t address);
+EN_I2CMasterStatusCode_t I2C_start();
 
 EN_I2CMasterStatusCode_t I2C_repeatedStart(uint8_t read_address);
 
