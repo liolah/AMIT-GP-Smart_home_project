@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+Application\app.c
+
 HAL\Buzzer\buzzer.c
 
 HAL\EEPROM\eeprom.c
@@ -37,4 +39,8 @@ MCAL\Interrupts\interrupts.c
 MCAL\Timer\timer.c
 
 MCAL\UART\uart.c
+
+Services\LCD_menu\lcd_menu.c
+
+Services\User\user.c
 

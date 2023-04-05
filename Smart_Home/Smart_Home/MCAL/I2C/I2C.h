@@ -19,7 +19,10 @@
   // Master Mode
  // *************************************************
 
+#ifndef F_CPU
 #define F_CPU 16000000
+#endif
+
 #define SCL_CLK 10000
  //SCL frequency =  (CPU CLK frequency)/(16+2(TWBR)*4^TWPS )
  /* Define bit rate */

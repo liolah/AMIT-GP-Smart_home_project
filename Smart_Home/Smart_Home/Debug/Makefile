@@ -53,11 +53,15 @@ SUBDIRS :=  \
 ../MCAL/Timer \
 ../HAL \
 ../Application \
+../Services \
+../Services/LCD_menu \
+../Services/User \
 ../Utilities
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../Application/app.c \
 ../HAL/Buzzer/buzzer.c \
 ../HAL/EEPROM/eeprom.c \
 ../HAL/HC-05/hc_05.c \
@@ -75,7 +79,9 @@ C_SRCS +=  \
 ../MCAL/I2C/i2c.c \
 ../MCAL/Interrupts/interrupts.c \
 ../MCAL/Timer/timer.c \
-../MCAL/UART/uart.c
+../MCAL/UART/uart.c \
+../Services/LCD_menu/lcd_menu.c \
+../Services/User/user.c
 
 
 PREPROCESSING_SRCS += 
@@ -85,6 +91,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+Application/app.o \
 HAL/Buzzer/buzzer.o \
 HAL/EEPROM/eeprom.o \
 HAL/HC-05/hc_05.o \
@@ -102,9 +109,12 @@ MCAL/DIO/dio.o \
 MCAL/I2C/i2c.o \
 MCAL/Interrupts/interrupts.o \
 MCAL/Timer/timer.o \
-MCAL/UART/uart.o
+MCAL/UART/uart.o \
+Services/LCD_menu/lcd_menu.o \
+Services/User/user.o
 
 OBJS_AS_ARGS +=  \
+Application/app.o \
 HAL/Buzzer/buzzer.o \
 HAL/EEPROM/eeprom.o \
 HAL/HC-05/hc_05.o \
@@ -122,9 +132,12 @@ MCAL/DIO/dio.o \
 MCAL/I2C/i2c.o \
 MCAL/Interrupts/interrupts.o \
 MCAL/Timer/timer.o \
-MCAL/UART/uart.o
+MCAL/UART/uart.o \
+Services/LCD_menu/lcd_menu.o \
+Services/User/user.o
 
 C_DEPS +=  \
+Application/app.d \
 HAL/Buzzer/buzzer.d \
 HAL/EEPROM/eeprom.d \
 HAL/HC-05/hc_05.d \
@@ -142,9 +155,12 @@ MCAL/DIO/dio.d \
 MCAL/I2C/i2c.d \
 MCAL/Interrupts/interrupts.d \
 MCAL/Timer/timer.d \
-MCAL/UART/uart.d
+MCAL/UART/uart.d \
+Services/LCD_menu/lcd_menu.d \
+Services/User/user.d
 
 C_DEPS_AS_ARGS +=  \
+Application/app.d \
 HAL/Buzzer/buzzer.d \
 HAL/EEPROM/eeprom.d \
 HAL/HC-05/hc_05.d \
@@ -162,7 +178,9 @@ MCAL/DIO/dio.d \
 MCAL/I2C/i2c.d \
 MCAL/Interrupts/interrupts.d \
 MCAL/Timer/timer.d \
-MCAL/UART/uart.d
+MCAL/UART/uart.d \
+Services/LCD_menu/lcd_menu.d \
+Services/User/user.d
 
 OUTPUT_FILE_PATH +=Smart_Home.elf
 
@@ -178,6 +196,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+Application/app.o: ../Application/app.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 HAL/Buzzer/buzzer.o: ../HAL/Buzzer/buzzer.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -298,6 +323,20 @@ MCAL/Timer/timer.o: ../MCAL/Timer/timer.c
 	
 
 MCAL/UART/uart.o: ../MCAL/UART/uart.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Services/LCD_menu/lcd_menu.o: ../Services/LCD_menu/lcd_menu.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Services/User/user.o: ../Services/User/user.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

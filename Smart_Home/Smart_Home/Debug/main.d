@@ -11,8 +11,9 @@ main.d main.o: .././main.c .././HAL/LCD/lcd.h .././HAL/LCD/lcd_config.h \
  .././HAL/LCD/../../MCAL/DIO/../../Utilities/types.h \
  .././HAL/LCD/../../MCAL/DIO/../../Utilities/bit_manipulation.h \
  .././HAL/Keypad/keypad.h .././HAL/Keypad/../../MCAL/DIO/dio.h \
- .././MCAL/I2C/I2C.h .././MCAL/I2C/../../Utilities/registers.h \
- .././MCAL/I2C/../../Utilities/bit_manipulation.h
+ .././HAL/EEPROM/eeprom.h .././HAL/EEPROM/../../MCAL/I2C/I2C.h \
+ .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/registers.h \
+ .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h
 
 .././HAL/LCD/lcd.h:
 
@@ -44,8 +45,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 .././HAL/Keypad/../../MCAL/DIO/dio.h:
 
-.././MCAL/I2C/I2C.h:
+.././HAL/EEPROM/eeprom.h:
 
-.././MCAL/I2C/../../Utilities/registers.h:
+.././HAL/EEPROM/../../MCAL/I2C/I2C.h:
 
-.././MCAL/I2C/../../Utilities/bit_manipulation.h:
+.././HAL/EEPROM/../../MCAL/I2C/../../Utilities/registers.h:
+
+.././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h:
