@@ -41,6 +41,7 @@ EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal);
 EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue);
 
 // Initialize the timers to start in pwm mode
+// The PWM pin must be set as output 
 EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode);
 
 // Change the duty cycle of a timer
@@ -50,7 +51,7 @@ EN_timerError_t set_DC(uint8_t pwmPin, double dutyCycle);
 EN_timerError_t PWM_stop(uint8_t pwmPin);
 
 // Start the timer
-EN_timerError_t Timer_start(uint8_t timerNumber, uint8_t prescalar);
+EN_timerError_t Timer_start(uint8_t timerNumber, uint16_t prescalar);
 
 // Stop the timer
 EN_timerError_t Timer_stop(uint8_t timerNumber);

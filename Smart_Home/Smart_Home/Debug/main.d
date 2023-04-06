@@ -21,7 +21,10 @@ main.d main.o: .././main.c \
  .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h \
  .././MCAL/ADC/adc.h .././MCAL/ADC/../../Utilities/registers.h \
  .././MCAL/ADC/../../Utilities/bit_manipulation.h \
- .././MCAL/ADC/adc_config.h
+ .././MCAL/ADC/adc_config.h .././MCAL/Timer/timer.h \
+ .././MCAL/Timer/../../Utilities/registers.h \
+ .././MCAL/Timer/../../Utilities/bit_manipulation.h \
+ .././MCAL/Timer/timer_config.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
@@ -76,3 +79,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 .././MCAL/ADC/../../Utilities/bit_manipulation.h:
 
 .././MCAL/ADC/adc_config.h:
+
+.././MCAL/Timer/timer.h:
+
+.././MCAL/Timer/../../Utilities/registers.h:
+
+.././MCAL/Timer/../../Utilities/bit_manipulation.h:
+
+.././MCAL/Timer/timer_config.h:
