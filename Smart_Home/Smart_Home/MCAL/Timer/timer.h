@@ -44,7 +44,7 @@ EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue);
 EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode);
 
 // Change the duty cycle of a timer
-EN_timerError_t set_DC(uint8_t pwmPin, uint16_t dutyCycle);
+EN_timerError_t set_DC(uint8_t pwmPin, double dutyCycle);
 
 // disconnects the OC pins and sets the prescalar to 0.
 EN_timerError_t PWM_stop(uint8_t pwmPin);

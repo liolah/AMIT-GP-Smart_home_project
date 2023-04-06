@@ -156,6 +156,45 @@ EN_timerError_t set_prescalar(uint8_t timer, uint16_t prescalarValue) {
   return TIMER_OK;
   }
 
+EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
+  // Validate the timer number
+  if (!isValidTimer(timerNumber)) {
+    return WRONG_TIMER;
+    }
+  // Check if the compare value is too large for the timer's OCR
+  if (timerNumber == TIMER_0 || timerNumber == TIMER_2) {
+    if (initialVal > 255)
+      return WRONG_TIMER_TCNT_VALUE;
+    }
+  switch (timerNumber) {
+      case TIMER_0:
+        // Set the timer mode to normal mode
+        clear_bit(TCCR0, WGM01);
+        clear_bit(TCCR0, WGM00);
+        // Set the initial value in the TCNT register.
+        TCNT0 = (uint8_t)initialVal;
+        break;
+      case TIMER_1:
+        // Set the timer mode to normal mode
+        clear_bit(TCCR1A, WGM10);
+        clear_bit(TCCR1A, WGM11);
+        clear_bit(TCCR1B, WGM12);
+        clear_bit(TCCR1B, WGM13);
+        // Set the initial value in the TCNT register.
+        TCNT1 = initialVal;
+        break;
+      case TIMER_2:
+        // Set the timer mode to normal mode
+        clear_bit(TCCR2, WGM21);
+        clear_bit(TCCR2, WGM20);
+        // Set the initial value in the TCNT register.
+        TCNT2 = (uint8_t)initialVal;
+        break;
+    }
+  // Everything went well
+  return TIMER_OK;
+  }
+
 // Initialize the timers to start in CTC mode
 EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue) {
   // Validate the timer number
@@ -289,45 +328,6 @@ EN_timerError_t Timer_read_and_reset_OCF(uint8_t timerNumber, bool* flag) {
   return TIMER_OK;
   }
 
-EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
-  // Validate the timer number
-  if (!isValidTimer(timerNumber)) {
-    return WRONG_TIMER;
-    }
-  // Check if the compare value is too large for the timer's OCR
-  if (timerNumber == TIMER_0 || timerNumber == TIMER_2) {
-    if (initialVal > 255)
-      return WRONG_TIMER_TCNT_VALUE;
-    }
-  switch (timerNumber) {
-      case TIMER_0:
-        // Set the timer mode to normal mode
-        clear_bit(TCCR0, WGM01);
-        clear_bit(TCCR0, WGM00);
-        // Set the initial value in the TCNT register.
-        TCNT0 = (uint8_t)initialVal;
-        break;
-      case TIMER_1:
-        // Set the timer mode to normal mode
-        clear_bit(TCCR1A, WGM10);
-        clear_bit(TCCR1A, WGM11);
-        clear_bit(TCCR1B, WGM12);
-        clear_bit(TCCR1B, WGM13);
-        // Set the initial value in the TCNT register.
-        TCNT1 = initialVal;
-        break;
-      case TIMER_2:
-        // Set the timer mode to normal mode
-        clear_bit(TCCR2, WGM21);
-        clear_bit(TCCR2, WGM20);
-        // Set the initial value in the TCNT register.
-        TCNT2 = (uint8_t)initialVal;
-        break;
-    }
-  // Everything went well
-  return TIMER_OK;
-  }
-
 // *The pwm frequency can be calculated from the equation: (F_CPU/(N*256)) for fast pwm and (F_CPU/(N*510)) for phase correct pwm
 // Initialize the timers to start in pwm mode
 EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
@@ -359,8 +359,6 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         TCNT0 = 0;
         // The value in the OCR determines the duty cycle
         OCR0 = (dutyCycle * 255);
-        // setting the prescalar starts the pwm signal generation
-        set_prescalar(TIMER_0, PWM_PRESCALAR);
         break;
       case OC_1A:
         switch (mode) {
@@ -386,7 +384,6 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
 #endif
         TCNT1 = 0;
         OCR1A = (dutyCycle * 65535);
-        set_prescalar(TIMER_1, PWM_PRESCALAR);
         break;
       case OC_1B:
         switch (mode) {
@@ -412,7 +409,6 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
 #endif
         TCNT1 = 0;
         OCR1A = (dutyCycle * 65535);
-        set_prescalar(TIMER_1, PWM_PRESCALAR);
         break;
       case OC_2:
         switch (mode) {
@@ -435,8 +431,6 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         TCNT2 = 0;
         // The value in the OCR determines the duty cycle
         OCR2 = (dutyCycle * 255);
-        // setting the prescalar starts the pwm signal generation
-        set_prescalar(TIMER_2, PWM_PRESCALAR);
         break;
     }
   return TIMER_OK;
