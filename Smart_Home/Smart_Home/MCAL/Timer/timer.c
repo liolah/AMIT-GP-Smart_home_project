@@ -289,158 +289,154 @@ EN_timerError_t Timer_read_and_reset_OCF(uint8_t timerNumber, bool* flag) {
   return TIMER_OK;
   }
 
-// TODO: implement the normal mode function
 EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
-  return WRONG_TIMER;
+  // Validate the timer number
+  if (!isValidTimer(timerNumber)) {
+    return WRONG_TIMER;
+    }
+  // Check if the compare value is too large for the timer's OCR
+  if (timerNumber == TIMER_0 || timerNumber == TIMER_2) {
+    if (initialVal > 255)
+      return WRONG_TIMER_TCNT_VALUE;
+    }
+  switch (timerNumber) {
+      case TIMER_0:
+        // Set the timer mode to normal mode
+        clear_bit(TCCR0, WGM01);
+        clear_bit(TCCR0, WGM00);
+        // Set the initial value in the TCNT register.
+        TCNT0 = (uint8_t)initialVal;
+        break;
+      case TIMER_1:
+        // Set the timer mode to normal mode
+        clear_bit(TCCR1A, WGM10);
+        clear_bit(TCCR1A, WGM11);
+        clear_bit(TCCR1B, WGM12);
+        clear_bit(TCCR1B, WGM13);
+        // Set the initial value in the TCNT register.
+        TCNT1 = initialVal;
+        break;
+      case TIMER_2:
+        // Set the timer mode to normal mode
+        clear_bit(TCCR2, WGM21);
+        clear_bit(TCCR2, WGM20);
+        // Set the initial value in the TCNT register.
+        TCNT2 = (uint8_t)initialVal;
+        break;
+    }
+  // Everything went well
+  return TIMER_OK;
   }
 
 // *The pwm frequency can be calculated from the equation: (F_CPU/(N*256)) for fast pwm and (F_CPU/(N*510)) for phase correct pwm
 // Initialize the timers to start in pwm mode
-EN_timerError_t PWM_init(uint8_t pwmPin, uint16_t dutyCycle, uint8_t mode) {
+EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
   if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
     return WRONG_PWM_PIN;
-    }
-  if (pwmPin == OC_0 || pwmPin == OC_2) {
-    if (dutyCycle > 255)
-      return WRONG_TIMER_OCR_VALUE;
     }
   if (mode != PWM_FAST && mode != PWM_PHASE_CORRECT) {
     return WRONG_PWM_MODE;
     }
-  switch (mode) {
-      case PWM_FAST:
-        switch (pwmPin) {
-            case OC_0:
+  switch (pwmPin) {
+      case OC_0:
+        switch (mode) {
+            case PWM_FAST:
               set_bit(TCCR0, WGM00);
               set_bit(TCCR0, WGM01);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR0, COM00);
-              set_bit(TCCR0, COM01);
-#else 
-              set_bit(TCCR0, COM00);
-              set_bit(TCCR0, COM01);
-#endif
-              TCNT0 = 0;
-              // The value in the OCR determines the duty cycle
-              OCR0 = dutyCycle;
-              // setting the prescalar starts the pwm signal generation
-              set_prescalar(TIMER_0, PWM_PRESCALAR);
               break;
-            case OC_1A:
-              set_bit(TCCR1A, WGM10);
-              set_bit(TCCR1A, WGM11);
-              set_bit(TCCR1B, WGM12);
-              set_bit(TCCR1B, WGM13);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR1A, COM1A0);
-              set_bit(TCCR1A, COM1A1);
-#else 
-              set_bit(TCCR1A, COM1A0);
-              set_bit(TCCR1A, COM1A1);
-#endif
-              TCNT1 = 0;
-              OCR1A = dutyCycle;
-              set_prescalar(TIMER_1, PWM_PRESCALAR);
-              break;
-            case OC_1B:
-              set_bit(TCCR1A, WGM10);
-              set_bit(TCCR1A, WGM11);
-              set_bit(TCCR1B, WGM12);
-              set_bit(TCCR1B, WGM13);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR1A, COM1B0);
-              set_bit(TCCR1A, COM1B1);
-#else 
-              set_bit(TCCR1A, COM1B0);
-              set_bit(TCCR1A, COM1B1);
-#endif
-              TCNT1 = 0;
-              OCR1A = dutyCycle;
-              set_prescalar(TIMER_1, PWM_PRESCALAR);
-              break;
-            case OC_2:
-              set_bit(TCCR2, WGM20);
-              set_bit(TCCR2, WGM21);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR2, COM20);
-              set_bit(TCCR2, COM21);
-#else 
-              set_bit(TCCR2, COM20);
-              set_bit(TCCR2, COM21);
-#endif
-              TCNT2 = 0;
-              // The value in the OCR determines the duty cycle
-              OCR2 = dutyCycle;
-              // setting the prescalar starts the pwm signal generation
-              set_prescalar(TIMER_2, PWM_PRESCALAR);
-              break;
-          }
-        break;
-      case PWM_PHASE_CORRECT:
-        switch (pwmPin) {
-            case OC_0:
+            case PWM_PHASE_CORRECT:
               set_bit(TCCR0, WGM00);
               clear_bit(TCCR0, WGM01);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR0, COM00);
-              set_bit(TCCR0, COM01);
-#else 
-              set_bit(TCCR0, COM00);
-              set_bit(TCCR0, COM01);
-#endif
-              TCNT0 = 0;
-              OCR0 = dutyCycle;
-              set_prescalar(TIMER_0, PWM_PRESCALAR);
-              break;
-            case OC_1A:
-              set_bit(TCCR1A, WGM10);
-              set_bit(TCCR1A, WGM11);
-              clear_bit(TCCR1B, WGM12);
-              set_bit(TCCR1B, WGM13);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR1A, COM1A0);
-              set_bit(TCCR1A, COM1A1);
-#else 
-              set_bit(TCCR1A, COM1A0);
-              set_bit(TCCR1A, COM1A1);
-#endif
-              TCNT1 = 0;
-              OCR1A = dutyCycle;
-              set_prescalar(TIMER_1, PWM_PRESCALAR);
-              break;
-            case OC_1B:
-              set_bit(TCCR1A, WGM10);
-              set_bit(TCCR1A, WGM11);
-              clear_bit(TCCR1B, WGM12);
-              set_bit(TCCR1B, WGM13);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR1A, COM1B0);
-              set_bit(TCCR1A, COM1B1);
-#else 
-              set_bit(TCCR1A, COM1B0);
-              set_bit(TCCR1A, COM1B1);
-#endif
-              TCNT1 = 0;
-              OCR1A = dutyCycle;
-              set_prescalar(TIMER_1, PWM_PRESCALAR);
-              break;
-            case OC_2:
-              set_bit(TCCR2, WGM20);
-              clear_bit(TCCR2, WGM21);
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR2, COM20);
-              set_bit(TCCR2, COM21);
-#else 
-              set_bit(TCCR2, COM20);
-              set_bit(TCCR2, COM21);
-#endif
-              TCNT2 = 0;
-              // The value in the OCR determines the duty cycle
-              OCR2 = dutyCycle;
-              // setting the prescalar starts the pwm signal generation
-              set_prescalar(TIMER_2, PWM_PRESCALAR);
               break;
           }
+#ifdef PWM_NON_INVERTED_MODE
+        clear_bit(TCCR0, COM00);
+        set_bit(TCCR0, COM01);
+#else 
+        set_bit(TCCR0, COM00);
+        set_bit(TCCR0, COM01);
+#endif
+        TCNT0 = 0;
+        // The value in the OCR determines the duty cycle
+        OCR0 = (dutyCycle * 255);
+        // setting the prescalar starts the pwm signal generation
+        set_prescalar(TIMER_0, PWM_PRESCALAR);
+        break;
+      case OC_1A:
+        switch (mode) {
+            case PWM_FAST:
+              set_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              set_bit(TCCR1B, WGM12);
+              set_bit(TCCR1B, WGM13);
+              break;
+            case PWM_PHASE_CORRECT:
+              set_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              clear_bit(TCCR1B, WGM12);
+              set_bit(TCCR1B, WGM13);
+              break;
+          }
+#ifdef PWM_NON_INVERTED_MODE
+        clear_bit(TCCR1A, COM1A0);
+        set_bit(TCCR1A, COM1A1);
+#else 
+        set_bit(TCCR1A, COM1A0);
+        set_bit(TCCR1A, COM1A1);
+#endif
+        TCNT1 = 0;
+        OCR1A = (dutyCycle * 65535);
+        set_prescalar(TIMER_1, PWM_PRESCALAR);
+        break;
+      case OC_1B:
+        switch (mode) {
+            case PWM_FAST:
+              set_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              set_bit(TCCR1B, WGM12);
+              set_bit(TCCR1B, WGM13);
+              break;
+            case PWM_PHASE_CORRECT:
+              set_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              clear_bit(TCCR1B, WGM12);
+              set_bit(TCCR1B, WGM13);
+              break;
+          }
+#ifdef PWM_NON_INVERTED_MODE
+        clear_bit(TCCR1A, COM1B0);
+        set_bit(TCCR1A, COM1B1);
+#else 
+        set_bit(TCCR1A, COM1B0);
+        set_bit(TCCR1A, COM1B1);
+#endif
+        TCNT1 = 0;
+        OCR1A = (dutyCycle * 65535);
+        set_prescalar(TIMER_1, PWM_PRESCALAR);
+        break;
+      case OC_2:
+        switch (mode) {
+            case PWM_FAST:
+              set_bit(TCCR2, WGM20);
+              set_bit(TCCR2, WGM21);
+              break;
+            case PWM_PHASE_CORRECT:
+              set_bit(TCCR2, WGM20);
+              clear_bit(TCCR2, WGM21);
+              break;
+          }
+#ifdef PWM_NON_INVERTED_MODE
+        clear_bit(TCCR2, COM20);
+        set_bit(TCCR2, COM21);
+#else 
+        set_bit(TCCR2, COM20);
+        set_bit(TCCR2, COM21);
+#endif
+        TCNT2 = 0;
+        // The value in the OCR determines the duty cycle
+        OCR2 = (dutyCycle * 255);
+        // setting the prescalar starts the pwm signal generation
+        set_prescalar(TIMER_2, PWM_PRESCALAR);
         break;
     }
   return TIMER_OK;
@@ -480,26 +476,22 @@ EN_timerError_t PWM_stop(uint8_t pwmPin) {
   }
 
 // Change the duty cycle of a timer
-EN_timerError_t set_DC(uint8_t pwmPin, uint16_t dutyCycle) {
+EN_timerError_t set_DC(uint8_t pwmPin, double dutyCycle) {
   if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
     return WRONG_PWM_PIN;
     }
-  if (pwmPin == OC_0 || pwmPin == OC_2) {
-    if (dutyCycle > 255)
-      return WRONG_TIMER_OCR_VALUE;
-    }
   switch (pwmPin) {
       case OC_0:
-        OCR0 = dutyCycle;
-          break;
+        OCR0 = (dutyCycle * 255);
+        break;
       case OC_1A:
-        OCR1A = dutyCycle;
+        OCR1A = (dutyCycle * 65535);
         break;
       case OC_1B:
-        OCR1A = dutyCycle;
+        OCR1A = (dutyCycle * 65535);
         break;
       case OC_2:
-        OCR2 = dutyCycle;
+        OCR2 = (dutyCycle * 255);
         break;
     }
   return TIMER_OK;

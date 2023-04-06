@@ -49,14 +49,14 @@ EN_UARTError_t UART_init(uint32_t baudRate) {
 
 // Send a char using UART
 void UART_sendChar(uint8_t data) {
-  while (!read_bit(UCSRA, UDRE)) {} // Wait for the register to be empty.
+  while (!read_bit(UCSRA, UDRE)); // Wait for the register to be empty.
   UDR = data;
-  while (!read_bit(UCSRA, TXC)) {} // Wait for the data in the register to be sent.
+  while (!read_bit(UCSRA, TXC)); // Wait for the data in the register to be sent.
   }
 
 // Receive a char using UART
 void UART_receiveChar(uint8_t* x) {
-  while (!read_bit(UCSRA, RXC)) {} // Wait for the data to be received.
+  while (!read_bit(UCSRA, RXC)); // Wait for the data to be received.
   *x = UDR;
   }
 

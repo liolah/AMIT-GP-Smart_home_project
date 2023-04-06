@@ -271,6 +271,11 @@
 #define ACBG    6
 #define ACD     7
 
+#define SFIOR    *((volatile uint8_t*)0x50)  // 8-bit register
+#define ADTS0     5
+#define ADTS1     6
+#define ADTS2     7
+
 // *********************************************************
 // USART Registers
 // *********************************************************

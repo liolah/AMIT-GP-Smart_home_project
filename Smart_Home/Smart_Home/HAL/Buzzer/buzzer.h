@@ -11,6 +11,8 @@
 
 #include "../../MCAL/DIO/dio.h"
 
+#define BUZZER_PORT PORT_D
+#define BUZZER_PIN  6
 typedef enum EN_BuzzerError_t
   {
   BUZZER_OK, BUZZER_ERROR_INIT, BUZZER_ERROR_ON, BUZZER_ERROR_OFF, BUZZER_ERROR_TOGGLE

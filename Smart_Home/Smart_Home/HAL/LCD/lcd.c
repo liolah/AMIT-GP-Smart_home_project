@@ -7,7 +7,7 @@
 
 #include "lcd.h"
 
-// TODO: implement the eight bit mode
+ // TODO: implement the eight bit mode
 
 void LCD_sendEnablePulse(void) {
   DIO_write(EN, LCD_CTRL_PORT, HIGH);
@@ -68,13 +68,13 @@ void LCD_clear_screen() {
 
 void LCD_init(void) {
   _delay_ms(20); // wait for the LCD to start up.
-  
+
 #if LCD_MODE == FOUR_BIT_MODE
   DIO_init(LCD_DATA_PIN4, LCD_DATA_PORT, OUT);
   DIO_init(LCD_DATA_PIN5, LCD_DATA_PORT, OUT);
   DIO_init(LCD_DATA_PIN6, LCD_DATA_PORT, OUT);
   DIO_init(LCD_DATA_PIN7, LCD_DATA_PORT, OUT);
-  
+
   DIO_init(RS, LCD_CTRL_PORT, OUT);
   DIO_init(RW, LCD_CTRL_PORT, OUT);
   DIO_init(EN, LCD_CTRL_PORT, OUT);
@@ -99,14 +99,13 @@ void LCD_sendString(char* str) {
   }
 
 void LCD_writeString_xy(uint8_t x, uint8_t y, char* str) {
-  switch (y)
-  {
+  switch (y) {
       case 0:
-        LCD_sendCommand(0x80+x);
+        LCD_sendCommand(0x80 + x);
         break;
-  case 1:
-        LCD_sendCommand(0xC0+x);
-    break;
+      case 1:
+        LCD_sendCommand(0xC0 + x);
+        break;
     }
   LCD_sendString(str);
   // TODO: Input validation

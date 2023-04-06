@@ -232,9 +232,6 @@
     <Compile Include="MCAL\I2C\i2c.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\Interrupts\interrupts.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="MCAL\Interrupts\interrupts.h">
       <SubType>compile</SubType>
     </Compile>

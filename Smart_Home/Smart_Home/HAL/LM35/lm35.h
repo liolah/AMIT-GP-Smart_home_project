@@ -9,8 +9,10 @@
 #ifndef LM35_H_
 #define LM35_H_
 
+#include "../../MCAL/ADC/adc.h"
+#include "../../MCAL/DIO/dio.h"
+#include "../../MCAL/Timer/timer.h"
 
-
-
+void lm35_init(uint8_t pinNumber);
 
 #endif /* LM35_H_ */
