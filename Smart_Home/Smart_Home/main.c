@@ -15,8 +15,8 @@
 
 int main(void) {
 	set_bit(DDRB, 3);
-	PWM_init(OC_0, 0.5, PWM_PHASE_CORRECT);
-	Timer_start(TIMER_1, 8);
+	PWM_init(OC_0, 0.9, PWM_FAST);
+	Timer_start(TIMER_0, 8);
 	while (1) {
 		// int i;
 		// for (i = 0; i < 65535; i++) {

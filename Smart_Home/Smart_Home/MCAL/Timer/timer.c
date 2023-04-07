@@ -341,9 +341,9 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
       case OC_0:
         switch (mode) {
             case PWM_FAST:
-              TCCR0 |= (1 << WGM00) | (1 << WGM01);
-              // set_bit(TCCR0, WGM00);
-              // set_bit(TCCR0, WGM01);
+              // TCCR0 |= (1 << WGM01) | (1 << WGM00);
+              set_bit(TCCR0, WGM00);
+              set_bit(TCCR0, WGM01);
               break;
             case PWM_PHASE_CORRECT:
               // TCCR0 |= (1 << WGM00);
@@ -353,16 +353,12 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               break;
           }
 #ifdef PWM_NON_INVERTED_MODE
-        TCCR0 |= (1 << COM00) | (1 << CS01);
-        // clear_bit(TCCR0, COM00);
-        // set_bit(TCCR0, COM01);
-        // set_bit(TCCR0, COM00);
-        // set_bit(TCCR0, COM01);
+        clear_bit(TCCR0, COM00);
+        set_bit(TCCR0, COM01);
 #else 
         set_bit(TCCR0, COM00);
         set_bit(TCCR0, COM01);
 #endif
-        TCNT0 = 0;
         // The value in the OCR determines the duty cycle
         OCR0 = (uint8_t)(dutyCycle * 255);
         break;
@@ -388,8 +384,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         set_bit(TCCR1A, COM1A0);
         set_bit(TCCR1A, COM1A1);
 #endif
-        TCNT1 = 0;
-        OCR1A = 1000;
+        OCR1A = (uint16_t)(dutyCycle * 65535);
         break;
       case OC_1B:
         switch (mode) {
@@ -413,32 +408,29 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         set_bit(TCCR1A, COM1B0);
         set_bit(TCCR1A, COM1B1);
 #endif
-        TCNT1 = 0;
         OCR1A = (uint16_t)(dutyCycle * 65535);
         break;
       case OC_2:
         switch (mode) {
             case PWM_FAST:
-              TCCR2 |= (1 << WGM20) | (1 << WGM21);
-              // set_bit(TCCR2, WGM20);
-              // set_bit(TCCR2, WGM21);
+              // TCCR2 |= (1 << WGM20) | (1 << WGM21);
+              set_bit(TCCR2, WGM20);
+              set_bit(TCCR2, WGM21);
               break;
             case PWM_PHASE_CORRECT:
-              TCCR2 |= (1 << WGM20);
-              TCCR2 &= ~(1 << WGM21);
-              // set_bit(TCCR2, WGM20);
-              // clear_bit(TCCR2, WGM21);
+              // TCCR2 |= (1 << WGM20);
+              // TCCR2 &= ~(1 << WGM21);
+              set_bit(TCCR2, WGM20);
+              clear_bit(TCCR2, WGM21);
               break;
           }
 #ifdef PWM_NON_INVERTED_MODE
-        TCCR2 |= (1 << COM20) | (1 << CS21);
-        // clear_bit(TCCR2, COM20);
-        // set_bit(TCCR2, COM21);
+        clear_bit(TCCR2, COM20);
+        set_bit(TCCR2, COM21);
 #else 
         set_bit(TCCR2, COM20);
         set_bit(TCCR2, COM21);
 #endif
-        TCNT2 = 0;
         // The value in the OCR determines the duty cycle
         OCR2 = (uint8_t)(dutyCycle * 255);
         break;
