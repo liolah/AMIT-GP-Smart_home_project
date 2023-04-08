@@ -418,11 +418,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, WGM11);
               clear_bit(TCCR1B, WGM12);
               set_bit(TCCR1B, WGM13);
-#ifdef OC_1X_SERVO
-              ICR1 = 20000;
-#else
               ICR1 = TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1_VALUE;
-#endif
 #elif TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A
               set_bit(TCCR1A, WGM10);
               set_bit(TCCR1A, WGM11);

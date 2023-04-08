@@ -31,6 +31,7 @@
 
  // Determines the frequency
 #define TIMER_1_FAST_PWM_TOP_ICR1_VALUE           0xFFFF
-#define TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1_VALUE  0xFFFF
+ // ICR1 is set to generate 50Hz PWM signal fro the servo
+#define TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1_VALUE  20000
 
 #endif /* TIMER_CONFIG_H_ */
