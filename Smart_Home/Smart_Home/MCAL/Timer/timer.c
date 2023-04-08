@@ -526,7 +526,7 @@ EN_timerError_t PWM_set_DC(uint8_t pwmPin, double dutyCycle) {
         OCR1A = (uint16_t)(dutyCycle * 65535);
         break;
       case OC_1B:
-        OCR1A = (uint16_t)(dutyCycle * 65535);
+        OCR1B = (uint16_t)(dutyCycle * 65535);
         break;
       case OC_2:
         OCR2 = (uint8_t)(dutyCycle * 255);
