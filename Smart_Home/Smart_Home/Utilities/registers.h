@@ -147,6 +147,14 @@
 #define OCR1B   *((volatile uint16_t*)0x48)  // 16-bit register
 #define OCR2    *((volatile uint8_t*)0x43)  // 8-bit register
 
+#define OCR1AL  *((volatile uint8_t*)0x4A)  // 8-bit register
+#define OCR1AH  *((volatile uint8_t*)0x4B)  // 8-bit register
+
+#define ICR1   *((volatile uint16_t*)0x46)  // 16-bit register
+
+#define ICR1L   *((volatile uint8_t*)0x46)  // 8-bit register
+#define ICR1H   *((volatile uint8_t*)0x47)  // 8-bit register
+
 // Timer/Counter registers
 #define TCNT0   *((volatile uint8_t*)0x52)  // 8-bit register
 #define TCNT1   *((volatile uint16_t*)0x4C)  // 16-bit register

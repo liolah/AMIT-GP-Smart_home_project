@@ -14,9 +14,13 @@
 #include "MCAL/Timer/timer.h"
 
 int main(void) {
-	set_bit(DDRB, 3);
-	PWM_init(OC_0, 0.9, PWM_FAST);
-	Timer_start(TIMER_0, 8);
+	set_bit(DDRD, 5);
+	set_bit(DDRD, 4);
+
+	PWM_init(OC_1A, 0.3, PWM_PHASE_CORRECT);
+	PWM_init(OC_1B, 0.7, PWM_PHASE_CORRECT);
+
+	Timer_start(TIMER_1, 8);
 	while (1) {
 		// int i;
 		// for (i = 0; i < 65535; i++) {

@@ -341,13 +341,10 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
       case OC_0:
         switch (mode) {
             case PWM_FAST:
-              // TCCR0 |= (1 << WGM01) | (1 << WGM00);
               set_bit(TCCR0, WGM00);
               set_bit(TCCR0, WGM01);
               break;
             case PWM_PHASE_CORRECT:
-              // TCCR0 |= (1 << WGM00);
-              // TCCR0 &= ~(1 << WGM01);
               set_bit(TCCR0, WGM00);
               clear_bit(TCCR0, WGM01);
               break;
@@ -362,64 +359,105 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         // The value in the OCR determines the duty cycle
         OCR0 = (uint8_t)(dutyCycle * 255);
         break;
+        //? The problem that has been occurring with this OC1A (the pin was always high and no pwm signal was generated) was caused by
+        //? the timer being set in pwm mode 15, which makes OCR1A the TOP and also compares it to itself, which results in the OCR register and the TOP being always equal.
+        //? The behavior of the avr in that case is to generate and always high signal, which was happening.
+        //? The fix for this issue is to use ICR1 as TOP instead (mode 14 in fast pwm), thus allowing OCR1A and OCR1B to be used to set the duty cycle while ICR1 is used tyo set the frequency.
+        //? Mode 15 can be used at the cost of disabling PWM on OC1A, but we get more glitch-free variable frequency PWM signal on OC1B due to the double buffering of OC1A, which ICR1 doesn't have.
+        //? Since I don't need a variable frequency pwm signal, ICR1 will be used as TOP by default and set to MAX.
       case OC_1A:
-        switch (mode) {
-            case PWM_FAST:
-              set_bit(TCCR1A, WGM10);
-              set_bit(TCCR1A, WGM11);
-              set_bit(TCCR1B, WGM12);
-              set_bit(TCCR1B, WGM13);
-              break;
-            case PWM_PHASE_CORRECT:
-              set_bit(TCCR1A, WGM10);
-              set_bit(TCCR1A, WGM11);
-              clear_bit(TCCR1B, WGM12);
-              set_bit(TCCR1B, WGM13);
-              break;
-          }
-#ifdef PWM_NON_INVERTED_MODE
-        clear_bit(TCCR1A, COM1A0);
-        set_bit(TCCR1A, COM1A1);
-#else 
-        set_bit(TCCR1A, COM1A0);
-        set_bit(TCCR1A, COM1A1);
-#endif
-        OCR1A = (uint16_t)(dutyCycle * 65535);
-        break;
       case OC_1B:
         switch (mode) {
             case PWM_FAST:
+#if TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT
+              set_bit(TCCR1A, WGM10);
+              clear_bit(TCCR1A, WGM11);
+              set_bit(TCCR1B, WGM12);
+              clear_bit(TCCR1B, WGM13);
+#elif TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT
+              clear_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              set_bit(TCCR1B, WGM12);
+              clear_bit(TCCR1B, WGM13);
+#elif TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT
+              set_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              set_bit(TCCR1B, WGM12);
+              clear_bit(TCCR1B, WGM13);
+#elif TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1
+              clear_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              set_bit(TCCR1B, WGM12);
+              set_bit(TCCR1B, WGM13);
+              ICR1 = TIMER_1_FAST_PWM_TOP_ICR1_VALUE;
+#elif TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A
               set_bit(TCCR1A, WGM10);
               set_bit(TCCR1A, WGM11);
               set_bit(TCCR1B, WGM12);
               set_bit(TCCR1B, WGM13);
+#endif
               break;
             case PWM_PHASE_CORRECT:
+#if TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT
+              set_bit(TCCR1A, WGM10);
+              clear_bit(TCCR1A, WGM11);
+              clear_bit(TCCR1B, WGM12);
+              clear_bit(TCCR1B, WGM13);
+#elif TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT
+              clear_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              clear_bit(TCCR1B, WGM12);
+              clear_bit(TCCR1B, WGM13);
+#elif TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT
+              set_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              clear_bit(TCCR1B, WGM12);
+              clear_bit(TCCR1B, WGM13);
+#elif TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1
+              clear_bit(TCCR1A, WGM10);
+              set_bit(TCCR1A, WGM11);
+              clear_bit(TCCR1B, WGM12);
+              set_bit(TCCR1B, WGM13);
+              ICR1 = TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1_VALUE;
+#elif TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A
               set_bit(TCCR1A, WGM10);
               set_bit(TCCR1A, WGM11);
               clear_bit(TCCR1B, WGM12);
               set_bit(TCCR1B, WGM13);
+#endif
               break;
           }
+        // Enable the PWM function of the OC pin.
+        switch (pwmPin) {
+            case OC_1A:
 #ifdef PWM_NON_INVERTED_MODE
-        clear_bit(TCCR1A, COM1B0);
-        set_bit(TCCR1A, COM1B1);
+              clear_bit(TCCR1A, COM1A0);
+              set_bit(TCCR1A, COM1A1);
 #else 
-        set_bit(TCCR1A, COM1B0);
-        set_bit(TCCR1A, COM1B1);
+              set_bit(TCCR1A, COM1A0);
+              set_bit(TCCR1A, COM1A1);
 #endif
         OCR1A = (uint16_t)(dutyCycle * 65535);
+              break;
+            case OC_1B:
+#ifdef PWM_NON_INVERTED_MODE
+              clear_bit(TCCR1A, COM1B0);
+              set_bit(TCCR1A, COM1B1);
+#else 
+              set_bit(TCCR1A, COM1B0);
+              set_bit(TCCR1A, COM1B1);
+#endif
+        OCR1B = (uint16_t)(dutyCycle * 65535);
+              break;
+          }
         break;
       case OC_2:
         switch (mode) {
             case PWM_FAST:
-              // TCCR2 |= (1 << WGM20) | (1 << WGM21);
               set_bit(TCCR2, WGM20);
               set_bit(TCCR2, WGM21);
               break;
             case PWM_PHASE_CORRECT:
-              // TCCR2 |= (1 << WGM20);
-              // TCCR2 &= ~(1 << WGM21);
               set_bit(TCCR2, WGM20);
               clear_bit(TCCR2, WGM21);
               break;

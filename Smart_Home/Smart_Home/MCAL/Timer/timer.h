@@ -26,6 +26,7 @@
 
 #define PWM_FAST 1
 #define PWM_PHASE_CORRECT 2
+#define PWM_PHASE_AND_FREQUENCY_CORRECT 3
 
 typedef enum EN_timerError_t
   {
