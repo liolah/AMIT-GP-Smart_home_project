@@ -19,12 +19,14 @@ main.d main.o: .././main.c \
  .././HAL/EEPROM/eeprom.h .././HAL/EEPROM/../../MCAL/I2C/I2C.h \
  .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/registers.h \
  .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h \
- .././MCAL/ADC/adc.h .././MCAL/ADC/../../Utilities/registers.h \
+ .././HAL/Servo/servo.h .././HAL/Servo/../../MCAL/DIO/dio.h \
+ .././HAL/Servo/../../MCAL/Timer/timer.h \
+ .././HAL/Servo/../../MCAL/Timer/../../Utilities/registers.h \
+ .././HAL/Servo/../../MCAL/Timer/../../Utilities/bit_manipulation.h \
+ .././HAL/Servo/../../MCAL/Timer/timer_config.h .././MCAL/ADC/adc.h \
+ .././MCAL/ADC/../../Utilities/registers.h \
  .././MCAL/ADC/../../Utilities/bit_manipulation.h \
- .././MCAL/ADC/adc_config.h .././MCAL/Timer/timer.h \
- .././MCAL/Timer/../../Utilities/registers.h \
- .././MCAL/Timer/../../Utilities/bit_manipulation.h \
- .././MCAL/Timer/timer_config.h
+ .././MCAL/ADC/adc_config.h .././MCAL/Timer/timer.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
@@ -72,6 +74,18 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h:
 
+.././HAL/Servo/servo.h:
+
+.././HAL/Servo/../../MCAL/DIO/dio.h:
+
+.././HAL/Servo/../../MCAL/Timer/timer.h:
+
+.././HAL/Servo/../../MCAL/Timer/../../Utilities/registers.h:
+
+.././HAL/Servo/../../MCAL/Timer/../../Utilities/bit_manipulation.h:
+
+.././HAL/Servo/../../MCAL/Timer/timer_config.h:
+
 .././MCAL/ADC/adc.h:
 
 .././MCAL/ADC/../../Utilities/registers.h:
@@ -81,9 +95,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 .././MCAL/ADC/adc_config.h:
 
 .././MCAL/Timer/timer.h:
-
-.././MCAL/Timer/../../Utilities/registers.h:
-
-.././MCAL/Timer/../../Utilities/bit_manipulation.h:
-
-.././MCAL/Timer/timer_config.h:

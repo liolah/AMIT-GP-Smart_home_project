@@ -16,8 +16,6 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
-#define OC_1X_SERVO
-
 #include "../../MCAL/DIO/dio.h"
 #include "../../MCAL/Timer/timer.h"
 
