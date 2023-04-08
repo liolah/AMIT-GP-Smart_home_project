@@ -16,15 +16,20 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
+#define OC_1X_SERVO
+
 #include "../../MCAL/DIO/dio.h"
 #include "../../MCAL/Timer/timer.h"
 
-#define SERVO_MAX_CONTROL_PULSE_WIDTH_uS 1000
-#define SERVO_MIN_CONTROL_PULSE_WIDTH_uS 2000
+#define SERVO_MAX_CONTROL_HIGH_PULSE_WIDTH_uS 1000
+#define SERVO_MIN_CONTROL_HIGH_PULSE_WIDTH_uS 2000
 
 #define SERVO_PORT PORT_D
 #define SERVO_PWM_PIN  OC_1A
 #define SERVO_PIN  5
+
+#define SERVO_MIN_ANGLE  0
+#define SERVO_MAX_ANGLE  180
 
 // Initialized the servo
 void servo_init();

@@ -328,7 +328,7 @@ Discarded input sections
                 0x00000000       0x86 MCAL/Timer/timer.o
  .text.PWM_stop
                 0x00000000       0x70 MCAL/Timer/timer.o
- .text.set_DC   0x00000000       0x7e MCAL/Timer/timer.o
+ .text.PWM_set_DC   0x00000000       0x7e MCAL/Timer/timer.o
  .text          0x00000000        0x0 MCAL/UART/uart.o
  .data          0x00000000        0x0 MCAL/UART/uart.o
  .bss           0x00000000        0x0 MCAL/UART/uart.o
