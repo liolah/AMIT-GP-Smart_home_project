@@ -359,7 +359,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         // The value in the OCR determines the duty cycle
         OCR0 = (uint8_t)(dutyCycle * 255);
         break;
-        //? The problem that has been occurring with this OC1A (the pin was always high and no pwm signal was generated) was caused by
+        //? The problem that has been occurring with OC1A (the pin was always high and no pwm signal was generated) was caused by
         //? the timer being set in pwm mode 15, which makes OCR1A the TOP and also compares it to itself, which results in the OCR register and the TOP being always equal.
         //? The behavior of the avr in that case is to generate and always high signal, which was happening.
         //? The fix for this issue is to use ICR1 as TOP instead (mode 14 in fast pwm), thus allowing OCR1A and OCR1B to be used to set the duty cycle while ICR1 is used tyo set the frequency.
@@ -389,7 +389,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, WGM11);
               set_bit(TCCR1B, WGM12);
               set_bit(TCCR1B, WGM13);
-              ICR1 = TIMER_1_FAST_PWM_TOP_ICR1_VALUE;
+              ICR1 = TIMER_1_PWM_TOP_ICR1_VALUE;
 #elif TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A
               set_bit(TCCR1A, WGM10);
               set_bit(TCCR1A, WGM11);
@@ -418,7 +418,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, WGM11);
               clear_bit(TCCR1B, WGM12);
               set_bit(TCCR1B, WGM13);
-              ICR1 = TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1_VALUE;
+              ICR1 = TIMER_1_PWM_TOP_ICR1_VALUE;
 #elif TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A
               set_bit(TCCR1A, WGM10);
               set_bit(TCCR1A, WGM11);
@@ -437,7 +437,17 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, COM1A0);
               set_bit(TCCR1A, COM1A1);
 #endif
+#if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
+              OCR1A = (uint16_t)(dutyCycle * 0x00FF);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
+              OCR1A = (uint16_t)(dutyCycle * 0x01FF);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT)
+              OCR1A = (uint16_t)(dutyCycle * 0x03FF);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1 || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1)
+              OCR1A = (uint16_t)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A)
               OCR1A = (uint16_t)(dutyCycle * 65535);
+#endif
               break;
             case OC_1B:
 #ifdef PWM_NON_INVERTED_MODE
@@ -447,7 +457,17 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, COM1B0);
               set_bit(TCCR1A, COM1B1);
 #endif
+#if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
+              OCR1B = (uint16_t)(dutyCycle * 0x00FF);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
+              OCR1B = (uint16_t)(dutyCycle * 0x01FF);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT)
+              OCR1B = (uint16_t)(dutyCycle * 0x03FF);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1 || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1)
+              OCR1B = (uint16_t)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
+#elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A)
               OCR1B = (uint16_t)(dutyCycle * 65535);
+#endif
               break;
           }
         break;
