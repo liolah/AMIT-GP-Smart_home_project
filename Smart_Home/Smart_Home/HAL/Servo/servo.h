@@ -12,22 +12,26 @@
 //^ A PWM signal with high pulse duration of * 1mS * will make the servo move to * 0 * angle position
 //^ A PWM signal with high pulse duration of * 1.5mS * will make the servo move to * 90 * angle position
 //^ A PWM signal with high pulse duration of * 2mS * will make the servo move to * 180 * angle position
+//! However, when I tried it practically, it worked from 0.5mS to 2.5mS, so I will adjust the simulation accordingly
 
 #ifndef SERVO_H_
 #define SERVO_H_
 
+
 #include "../../MCAL/DIO/dio.h"
 #include "../../MCAL/Timer/timer.h"
-
-#define SERVO_MAX_CONTROL_HIGH_PULSE_WIDTH_uS 1000
-#define SERVO_MIN_CONTROL_HIGH_PULSE_WIDTH_uS 2000
 
 #define SERVO_PORT PORT_D
 #define SERVO_PWM_PIN  OC_1A
 #define SERVO_PIN  5
 
-#define SERVO_MIN_ANGLE  0
-#define SERVO_MAX_ANGLE  180
+#define SERVO_PULSE_PERIODIC_TIME_mS 20.0 
+
+#define SERVO_MIN_HIGH_PULSE_DURATION_mS  0.5
+#define SERVO_MAX_HIGH_PULSE_DURATION_mS  2.5
+
+#define SERVO_MIN_ANGLE  0.0
+#define SERVO_MAX_ANGLE  180.0
 
 // Initialized the servo
 void servo_init();
