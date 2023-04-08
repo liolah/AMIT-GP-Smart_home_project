@@ -514,7 +514,7 @@ EN_timerError_t PWM_stop(uint8_t pwmPin) {
   }
 
 // Change the duty cycle of a timer
-EN_timerError_t set_DC(uint8_t pwmPin, double dutyCycle) {
+EN_timerError_t PWM_set_DC(uint8_t pwmPin, double dutyCycle) {
   if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
     return WRONG_PWM_PIN;
     }
