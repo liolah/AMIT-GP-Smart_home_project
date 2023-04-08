@@ -1060,8 +1060,8 @@ EN_dioError_t DIO_init(uint8_t pinNumber, uint8_t portNumber, uint8_t direction)
  696:	9e b5       	in	r25, 0x2e	; 46
  698:	90 61       	ori	r25, 0x10	; 16
  69a:	9e bd       	out	0x2e, r25	; 46
- 69c:	2f ef       	ldi	r18, 0xFF	; 255
- 69e:	3f ef       	ldi	r19, 0xFF	; 255
+ 69c:	20 e2       	ldi	r18, 0x20	; 32
+ 69e:	3e e4       	ldi	r19, 0x4E	; 78
  6a0:	37 bd       	out	0x27, r19	; 39
  6a2:	26 bd       	out	0x26, r18	; 38
  6a4:	81 30       	cpi	r24, 0x01	; 1

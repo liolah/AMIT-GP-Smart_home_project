@@ -17,5 +17,5 @@ void servo_init(){
 // Moves the servo to a specific angle (relative to the 0 angle position, not the previous one).
 void servo_move_to_angle(uint8_t angle){
   // PWM_set_DC(SERVO_PWM_PIN, (((double)angle/ 180.0) / 20.0) + 0.05)
-  PWM_set_DC(SERVO_PWM_PIN, (((double)angle / 3600.0) / 20.0) + 0.05);
+  PWM_set_DC(SERVO_PWM_PIN, ((double)angle / 3600.0) + 0.05);
 }
