@@ -11,7 +11,7 @@ void EEPROM_init() {
   I2C_init();
   }
 
-void EEPROM_read_byte(uint8_t page, uint8_t address, uint8_t* data) {
+void EEPROM_read_byte(uint8_t page, uint8_t address, char* data) {
   I2C_start();
   // I2C_write(0b10100000 + (page << 1));
   I2C_write(0xA0 + (page << 1)); // EEPROM address first part + page number
@@ -24,9 +24,9 @@ void EEPROM_read_byte(uint8_t page, uint8_t address, uint8_t* data) {
   I2C_stop();
   }
 
-void EEPROM_read_block(uint8_t page, uint8_t address, uint8_t bytes_number, uint8_t* data) {
+void EEPROM_read_block(uint8_t page, uint8_t address, uint16_t bytes_number, char* data) {
 #if READ_BLOCK_METHOD == BYTE_BY_BYTE
-  int i;
+  uint16_t i;
   for (i = 0;i < bytes_number;i++) {
     EEPROM_read_byte(page, address + i, &data[i]);
     }
@@ -36,7 +36,7 @@ void EEPROM_read_block(uint8_t page, uint8_t address, uint8_t bytes_number, uint
   I2C_write(address);
   I2C_start();
   I2C_write(0xA0 + (page << 1) + 1);
-  int i;
+  uint16_t i;
   for (i = 0;i < bytes_number - 1;i++) {
     I2C_read_Ack(&data[i]);
     }
@@ -45,7 +45,7 @@ void EEPROM_read_block(uint8_t page, uint8_t address, uint8_t bytes_number, uint
 #endif
   }
 
-void EEPROM_write_byte(uint8_t page, uint8_t address, int8_t data) {
+void EEPROM_write_byte(uint8_t page, uint8_t address, char data) {
   I2C_start();
   // I2C_write(0b10100000 + (page << 1));
   I2C_write(0xA0 + (page << 1)); // EEPROM address first part + page number
@@ -58,24 +58,65 @@ void EEPROM_write_byte(uint8_t page, uint8_t address, int8_t data) {
 #endif
   }
 
-// bytes_number must be less than 16
-void EEPROM_write_block(uint8_t page, uint8_t address, uint8_t bytes_number, int8_t* data) {
+// bytes_number must be within page size (256 bytes)
+void EEPROM_write_block(uint8_t page, uint8_t address, uint16_t bytes_number, char* data) {
 #if WRITE_BLOCK_METHOD == BYTE_BY_BYTE
-  int i;
+  uint16_t i;
   for (i = 0;i < bytes_number;i++) {
     EEPROM_write_byte(page, address + i, data[i]);
     }
 #elif WRITE_BLOCK_METHOD == MULTIBYTE
-  int i;
+  //! In multibyte write, the bytes are first saved in a 16 bytes buffer then written to the EEPROM in the write cycle after the stop condition. 
+  //! The buffer is a row of 16 bytes in the EEPROM, Each consecutive 16 bytes in each page is the buffer for the multibyte write operation
+  //! done starting from a byte within these 16 bytes. As an example: 0x00 is the start of the first row and the first buffer. 0x10 is the start of the second row and the second buffer.
+  //! If data is required to be written in the first 16 bytes starting from byte 10 for example, the data will be stored starting from bytes 10, 
+  //! and if the data exceeds the row limit ** IT WILL ROLL OVER AND OVERWRITE THE ROW **. Therefore, in a single multibyte write cycle, we can't write more than 16 bytes at maximum if starting from the first byte in the row
+  //! or the remaining bytes till the end of the row from the starting position. The remaining bytes must be written in another write cycle to avoind the roll over problem.
+
+  uint16_t dataIndex, blockNumber, i;
+  uint16_t first_block_size = 16 - (address % 16);
+  if (16 - (address % 16) > bytes_number) first_block_size = bytes_number;
+  
+  // Write the first part of the data in the remaining space in the starting row
   I2C_start();
   I2C_write(0xA0 + (page << 1));
   I2C_write(address);
-
-  for (i = 0;i < bytes_number;i++) {
-    I2C_write(data[i]);
+  for (dataIndex = 0;dataIndex < first_block_size;dataIndex++) {
+    I2C_write(data[dataIndex]);
     }
   I2C_stop();
+#if EEPROM_WRITE_DELAY_MS
+  _delay_ms(EEPROM_WRITE_DELAY_MS);
+#endif
 
+  // Return if the data fits in the row (data fits in a single row or the remaining part of it after the address)
+  if (first_block_size == bytes_number) return;
+  
+  uint16_t last_block_size = (address + bytes_number) % 16;
+  uint16_t blocks_number = (bytes_number - first_block_size - last_block_size) / 16;
+  // Write the remaining whole rows if any
+  for (blockNumber = 0;blockNumber < blocks_number;blockNumber++) {
+    I2C_start();
+    I2C_write(0xA0 + (page << 1));
+    I2C_write(address + dataIndex);
+    for (i = 0;i < 16;i++) {
+      I2C_write(data[dataIndex + i]);
+      }
+    dataIndex += 16;
+    I2C_stop();
+#if EEPROM_WRITE_DELAY_MS
+    _delay_ms(EEPROM_WRITE_DELAY_MS);
+#endif
+    }
+
+  // Write the last part of the data
+  I2C_start();
+  I2C_write(0xA0 + (page << 1));
+  I2C_write(address + dataIndex);
+  for (i = 0;i < last_block_size;i++) {
+    I2C_write(data[dataIndex + i]);
+    }
+  I2C_stop();
 #if EEPROM_WRITE_DELAY_MS
   _delay_ms(EEPROM_WRITE_DELAY_MS);
 #endif

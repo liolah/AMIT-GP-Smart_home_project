@@ -13,21 +13,33 @@
 #include "HAL/Servo/servo.h"
 #include "MCAL/ADC/adc.h"
 #include "MCAL/Timer/timer.h"
+#include "Services/User/user.h"
 
 int main(void) {
-	servo_init();
-	while (1) {
-		int i;
-		for (i = 0; i < 185; i += 5)
-		{
-			servo_move_to_angle(i);
-			_delay_ms(20);
-			}
-		for (i = 180; i >= 0; i -= 5)
-		{
-			servo_move_to_angle(i);
-			_delay_ms(20);
-		}
+	EEPROM_init();
+	format_users_db();
+	
+	// servo_init();
+	// char x[202];
+	// EEPROM_read_block(0, 0, 250, x);
+		while (1) {
+			// int i;
+		// for (i = 0; i < 185; i += 5)
+		// {
+		// 	servo_move_to_angle(i);
+		// 	_delay_ms(100);
+		// 	}
+		// for (i = 180; i >= 0; i -= 5)
+		// {
+		// 	servo_move_to_angle(i);
+		// 	_delay_ms(100);
+		// }
+		// servo_move_to_angle(0);
+		// 	_delay_ms(500);
+		// servo_move_to_angle(90);
+		// 	_delay_ms(500);
+		// servo_move_to_angle(180);
+		// 	_delay_ms(500);
 		}
 	}
 

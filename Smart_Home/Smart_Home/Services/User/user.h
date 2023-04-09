@@ -30,11 +30,6 @@ typedef enum EN_UserStatusCode_t
   LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY
   } EN_UserStatusCode_t;
 
-bool remote_user_loggedin = false;
-bool local_user_loggedin = false;
-
-uint8_t invalid_trails = 0;
-
 EN_UserStatusCode_t login_remote(void);
 
 EN_UserStatusCode_t login_normal(void);
@@ -67,6 +62,7 @@ void set_alarm(void);
 // The second bytes is used to save the authority of each user (admin or not) using bit masking.0 = normal user, 1 = admin
 // The other six bytes are reserved unused. 
 // Excluding the isAdmin flag, each user needs 31 bytes to be stored. Starting from bytes 9. The users are stored one after each other.
+//? It also creates the first admin user. username: admin, userCode: 000000, password: 1234
 EN_UserStatusCode_t format_users_db(void);
 
 #endif /* USER_H_ */

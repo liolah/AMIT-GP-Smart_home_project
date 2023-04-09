@@ -10,6 +10,7 @@
 #define EEPROM_H_
 
 #define F_CPU 16000000ul
+
 #include <util/delay.h>
 #include "../../MCAL/I2C/I2C.h"
 
@@ -25,15 +26,15 @@
 void EEPROM_init();
 
 // Read a byte on the EEPROM, given the address and the page number
-void EEPROM_read_byte(uint8_t page, uint8_t add, uint8_t* data);
+void EEPROM_read_byte(uint8_t page, uint8_t address, char* data);
 
 // Read a block on the EEPROM, given the address and the page number. 
-void EEPROM_read_block(uint8_t page, uint8_t address, uint8_t bytes_number, uint8_t* data);
+void EEPROM_read_block(uint8_t page, uint8_t address, uint16_t bytes_number, char* data);
 
 // Write a byte on the EEPROM, given the address and the page number
-void EEPROM_write_byte(uint8_t page, uint8_t address, int8_t data);
+void EEPROM_write_byte(uint8_t page, uint8_t address, char data);
 
-// Write a block on the EEPROM, given the address and the page number. The block size shouldn't be larger than 16 bytes. 
-void EEPROM_write_block(uint8_t page, uint8_t add, uint8_t block_size, int8_t* data);
+// Write a block on the EEPROM, given the address and the page number. Block_size must be within page size (256 bytes)
+void EEPROM_write_block(uint8_t page, uint8_t address, uint16_t block_size, char* data);
 
 #endif /* EEPROM_H_ */
