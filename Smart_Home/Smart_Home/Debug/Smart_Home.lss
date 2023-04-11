@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000000c8  00000000  00000000  000004c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000bd2  00000000  00000000  0000058c  2**0
+  6 .debug_info   00000bc0  00000000  00000000  0000058c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000875  00000000  00000000  0000115e  2**0
+  7 .debug_abbrev 00000866  00000000  00000000  0000114c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000798  00000000  00000000  000019d3  2**0
+  8 .debug_line   00000792  00000000  00000000  000019b2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001a8  00000000  00000000  0000216c  2**2
+  9 .debug_frame  000001a8  00000000  00000000  00002144  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005b8  00000000  00000000  00002314  2**0
+ 10 .debug_str    000005b8  00000000  00000000  000022ec  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002d5  00000000  00000000  000028cc  2**0
+ 11 .debug_loc    000002d5  00000000  00000000  000028a4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00002ba1  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  00002b79  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -106,19 +106,18 @@ void BT_sendString(s8* str) {
   96:	08 95       	ret
 
 00000098 <main>:
+#include "MCAL/Timer/timer.h"
+#include "Services/User/user.h"
 #include "Services/Remote_access/remote.h"
 
 int main(void) {
-	u8 x = sizeof(short int);
-	u8 y = sizeof(short);
-	DDRA = x;
-  98:	82 e0       	ldi	r24, 0x02	; 2
-  9a:	8a bb       	out	0x1a, r24	; 26
-	DDRB = y;
-  9c:	87 bb       	out	0x17, r24	; 23
-	UART_init(y);
-  9e:	62 e0       	ldi	r22, 0x02	; 2
-  a0:	70 e0       	ldi	r23, 0x00	; 0
+	set_bit(DDRD, 1);
+  98:	81 b3       	in	r24, 0x11	; 17
+  9a:	82 60       	ori	r24, 0x02	; 2
+  9c:	81 bb       	out	0x11, r24	; 17
+	UART_init(9600);
+  9e:	60 e8       	ldi	r22, 0x80	; 128
+  a0:	75 e2       	ldi	r23, 0x25	; 37
   a2:	80 e0       	ldi	r24, 0x00	; 0
   a4:	90 e0       	ldi	r25, 0x00	; 0
   a6:	0e 94 61 00 	call	0xc2	; 0xc2 <UART_init>

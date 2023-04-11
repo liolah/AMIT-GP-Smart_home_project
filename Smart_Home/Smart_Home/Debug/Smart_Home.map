@@ -999,29 +999,29 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xbd2
+.debug_info     0x00000000      0xbc0
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_info    0x000004e6      0x181 HAL/HC-05/hc_05.o
- .debug_info    0x00000667      0x218 main.o
- .debug_info    0x0000087f      0x190 MCAL/UART/uart.o
- .debug_info    0x00000a0f      0x1c3 Services/Remote_access/remote.o
+ .debug_info    0x00000667      0x206 main.o
+ .debug_info    0x0000086d      0x190 MCAL/UART/uart.o
+ .debug_info    0x000009fd      0x1c3 Services/Remote_access/remote.o
 
-.debug_abbrev   0x00000000      0x875
+.debug_abbrev   0x00000000      0x866
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_abbrev  0x000004a3       0xbf HAL/HC-05/hc_05.o
- .debug_abbrev  0x00000562      0x13e main.o
- .debug_abbrev  0x000006a0       0xf3 MCAL/UART/uart.o
- .debug_abbrev  0x00000793       0xe2 Services/Remote_access/remote.o
+ .debug_abbrev  0x00000562      0x12f main.o
+ .debug_abbrev  0x00000691       0xf3 MCAL/UART/uart.o
+ .debug_abbrev  0x00000784       0xe2 Services/Remote_access/remote.o
 
-.debug_line     0x00000000      0x798
+.debug_line     0x00000000      0x792
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x116 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_line    0x00000116      0x103 HAL/HC-05/hc_05.o
- .debug_line    0x00000219      0x1ec main.o
- .debug_line    0x00000405      0x200 MCAL/UART/uart.o
- .debug_line    0x00000605      0x193 Services/Remote_access/remote.o
+ .debug_line    0x00000219      0x1e6 main.o
+ .debug_line    0x000003ff      0x200 MCAL/UART/uart.o
+ .debug_line    0x000005ff      0x193 Services/Remote_access/remote.o
 
 .debug_frame    0x00000000      0x1a8
  *(.debug_frame)

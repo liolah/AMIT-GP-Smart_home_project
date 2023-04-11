@@ -12,6 +12,8 @@
  // uint32_t is defined as unsigned int in stdin.h, and it's supposed to be 4 bytes, which is not true for atmega32a
  // Therefore, this typedefs are needed
 
+// Note: short int and short and int are the same for atmega32a, all of them are 16 bits integer datatypes
+
 typedef unsigned char u8;
 typedef char s8;
 typedef unsigned short int u16;

@@ -17,11 +17,8 @@
 #include "Services/Remote_access/remote.h"
 
 int main(void) {
-	u8 x = sizeof(short int);
-	u8 y = sizeof(short);
-	DDRA = x;
-	DDRB = y;
-	UART_init(y);
+	set_bit(DDRD, 1);
+	UART_init(9600);
 
 	while (1) {
 		test();

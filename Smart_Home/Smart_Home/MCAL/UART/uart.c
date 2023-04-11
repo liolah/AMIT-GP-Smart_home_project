@@ -8,7 +8,7 @@
 #include "uart.h"
 
  // Initialize the UART interface
-EN_UARTError_t UART_init(unsigned long int baudRate) {
+EN_UARTError_t UART_init(u32 baudRate) {
   //! Issue 1: The UBRR variable was being optimized, making the case statements empty, which goes under the fallthrough optimization and gets optimized
   //! until the default case is reached resulting in the function returning an error and the UART never gets initialized. (probably)
   //? So Just removed UBRR and used registers in the cases directly
