@@ -228,9 +228,20 @@
 #define MCUCR *((volatile uint8_t*)0x55)  // 8-bit register
 #define ISC00   0
 #define ISC01   1
+#define ISC10   2
+#define ISC11   3
+#define SM0     4
+#define SM1     5
+#define SM2     6
+#define SE      7
+
+#define MCUCSR *((volatile uint8_t*)0x54)  // 8-bit register
+#define ISC2   6
 
 // General interrupt control register
 #define GICR *((volatile uint8_t*)0x5B)  // 8-bit register
+#define IVCE    0
+#define IVSEL   1
 #define INT2    5
 #define INT0    6
 #define INT1    7

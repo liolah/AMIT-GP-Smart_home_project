@@ -17,11 +17,8 @@
 
 int main(void) {
 	EEPROM_init();
-	format_users_db();
-	
-	// servo_init();
-	// char x[202];
-	// EEPROM_read_block(0, 0, 250, x);
+	char x[202];
+	EEPROM_read_block(0, 0, 200, x);
 		while (1) {
 			// int i;
 		// for (i = 0; i < 185; i += 5)

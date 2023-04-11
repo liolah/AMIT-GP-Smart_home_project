@@ -232,6 +232,9 @@
     <Compile Include="MCAL\I2C\i2c.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\Interrupts\interrupts.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MCAL\Interrupts\interrupts.h">
       <SubType>compile</SubType>
     </Compile>
@@ -254,6 +257,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Services\LCD_menu\lcd_menu.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\Remote_access\remote.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\Remote_access\remote.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Services\User\user.c">
@@ -295,6 +304,7 @@
     <Folder Include="Application" />
     <Folder Include="Services" />
     <Folder Include="Services\LCD_menu" />
+    <Folder Include="Services\Remote_access" />
     <Folder Include="Services\User" />
     <Folder Include="Utilities" />
   </ItemGroup>

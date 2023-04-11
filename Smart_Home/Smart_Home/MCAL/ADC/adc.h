@@ -28,9 +28,9 @@ typedef enum EN_ADCError_t
 // Initialize the ADC
 EN_ADCError_t ADC_init();
 
-// Initialize the ADC in auto triggering on the positive edge of timer0 compare match
+// Initialize the ADC in auto trigger mode
 // The conversion result is handled through the adc interrupt
-EN_ADCError_t ADC_init_timer0_CTC_triggering_with_interrupt();
+EN_ADCError_t ADC_init_auto_trigger(uint8_t trigger);
 
 // Read the input on a channel and passes the value by reference
 EN_ADCError_t ADC_read(uint8_t channel, uint16_t* result);

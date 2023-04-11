@@ -34,11 +34,15 @@ MCAL\DIO\dio.c
 
 MCAL\I2C\i2c.c
 
+MCAL\Interrupts\interrupts.c
+
 MCAL\Timer\timer.c
 
 MCAL\UART\uart.c
 
 Services\LCD_menu\lcd_menu.c
+
+Services\Remote_access\remote.c
 
 Services\User\user.c
 

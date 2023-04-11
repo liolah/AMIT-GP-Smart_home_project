@@ -9,7 +9,7 @@
 
 // The lm35 will be used with the ADC in auto triggering mode
 void lm35_init(uint8_t pinNumber) {
-  ADC_init_timer0_CTC_triggering_with_interrupt();
+  ADC_init_auto_trigger(TIMER_0_COMPARE_MATCH_TRIGGER);
   ADC_select_channel(pinNumber);
   DIO_init(pinNumber, PORT_A, IN);
   Timer_CTC_init(TIMER_0, 0);

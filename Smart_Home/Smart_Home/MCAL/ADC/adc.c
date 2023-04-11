@@ -54,8 +54,8 @@ EN_ADCError_t ADC_read(uint8_t channel, uint16_t* result) {
   return ADC_OK;
   }
 
-// Initialize the ADC in auto triggering on the positive edge of timer0 compare match
-EN_ADCError_t ADC_init_timer0_CTC_triggering_with_interrupt() {
+// Initialize the ADC in auto trigger mode
+EN_ADCError_t ADC_init_auto_trigger(uint8_t trigger) {
 #if (ADC_VREF == AREF)
   // since the defualt for pins is to be low (0) we don't need to change anything here(since it's 0).
   // I don't need to write anything too. Because the VREF won't be changed during the run time. The only case I will need to clear a bit is if it was set by the MCU or me.
@@ -72,12 +72,34 @@ EN_ADCError_t ADC_init_timer0_CTC_triggering_with_interrupt() {
   set_bit(ADCSRA, ADPS2);
   // Enable the auto trigger mode
   set_bit(ADCSRA, ADATE);
-  // Set the auto trigger mode to timer0 compare match
-  set_bit(SFIOR, ADTS0);
-  set_bit(SFIOR, ADTS1);
+  // Select the auto trigger source
+  switch (trigger) {
+      case FREE_RUNNING_MODE_TRIGGER:
+        // All bits are clear by default
+        break;
+      case ANALOG_COMPARATOR_TRIGGER:
+        set_bit(SFIOR, ADTS0);
+        break;
+      case INT0_TRIGGER:
+        set_bit(SFIOR, ADTS1);
+        break;
+      case TIMER_0_COMPARE_MATCH_TRIGGER:
+        set_bit(SFIOR, ADTS0);
+        set_bit(SFIOR, ADTS1);
+        break;
+      case TIMER_0_OVF_TRIGGER:
+        set_bit(SFIOR, ADTS2);
+        break;
+      case TIMER_1_COMPARE_MATCH_B_TRIGGER:
+        set_bit(SFIOR, ADTS0);
+        set_bit(SFIOR, ADTS2);
+        break;
+      case TIMER_1_OVF_TRIGGER:
+        set_bit(SFIOR, ADTS1);
+        set_bit(SFIOR, ADTS2);
+        break;
+    }
   // Enable the ADC
   set_bit(ADCSRA, ADEN);
-  // Enable the ADC conversion complete interrupt
-  set_bit(ADCSRA, ADIE);
   return ADC_OK;
   }

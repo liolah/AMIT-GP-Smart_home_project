@@ -55,6 +55,7 @@ SUBDIRS :=  \
 ../Application \
 ../Services \
 ../Services/LCD_menu \
+../Services/Remote_access \
 ../Services/User \
 ../Utilities
 
@@ -77,9 +78,11 @@ C_SRCS +=  \
 ../MCAL/ADC/adc.c \
 ../MCAL/DIO/dio.c \
 ../MCAL/I2C/i2c.c \
+../MCAL/Interrupts/interrupts.c \
 ../MCAL/Timer/timer.c \
 ../MCAL/UART/uart.c \
 ../Services/LCD_menu/lcd_menu.c \
+../Services/Remote_access/remote.c \
 ../Services/User/user.c
 
 
@@ -106,9 +109,11 @@ main.o \
 MCAL/ADC/adc.o \
 MCAL/DIO/dio.o \
 MCAL/I2C/i2c.o \
+MCAL/Interrupts/interrupts.o \
 MCAL/Timer/timer.o \
 MCAL/UART/uart.o \
 Services/LCD_menu/lcd_menu.o \
+Services/Remote_access/remote.o \
 Services/User/user.o
 
 OBJS_AS_ARGS +=  \
@@ -128,9 +133,11 @@ main.o \
 MCAL/ADC/adc.o \
 MCAL/DIO/dio.o \
 MCAL/I2C/i2c.o \
+MCAL/Interrupts/interrupts.o \
 MCAL/Timer/timer.o \
 MCAL/UART/uart.o \
 Services/LCD_menu/lcd_menu.o \
+Services/Remote_access/remote.o \
 Services/User/user.o
 
 C_DEPS +=  \
@@ -150,9 +157,11 @@ main.d \
 MCAL/ADC/adc.d \
 MCAL/DIO/dio.d \
 MCAL/I2C/i2c.d \
+MCAL/Interrupts/interrupts.d \
 MCAL/Timer/timer.d \
 MCAL/UART/uart.d \
 Services/LCD_menu/lcd_menu.d \
+Services/Remote_access/remote.d \
 Services/User/user.d
 
 C_DEPS_AS_ARGS +=  \
@@ -172,9 +181,11 @@ main.d \
 MCAL/ADC/adc.d \
 MCAL/DIO/dio.d \
 MCAL/I2C/i2c.d \
+MCAL/Interrupts/interrupts.d \
 MCAL/Timer/timer.d \
 MCAL/UART/uart.d \
 Services/LCD_menu/lcd_menu.d \
+Services/Remote_access/remote.d \
 Services/User/user.d
 
 OUTPUT_FILE_PATH +=Smart_Home.elf
@@ -303,6 +314,13 @@ MCAL/I2C/i2c.o: ../MCAL/I2C/i2c.c
 	@echo Finished building: $<
 	
 
+MCAL/Interrupts/interrupts.o: ../MCAL/Interrupts/interrupts.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 MCAL/Timer/timer.o: ../MCAL/Timer/timer.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -318,6 +336,13 @@ MCAL/UART/uart.o: ../MCAL/UART/uart.c
 	
 
 Services/LCD_menu/lcd_menu.o: ../Services/LCD_menu/lcd_menu.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Services/Remote_access/remote.o: ../Services/Remote_access/remote.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

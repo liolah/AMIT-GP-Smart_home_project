@@ -20,15 +20,19 @@
 typedef struct ST_User_t
   {
   bool isAdmin;
-  char user_name[13];
-  char user_code[7];
+  char name[13];
+  char code[7];
   char password[11];
   } ST_User_t;
 
 typedef enum EN_UserStatusCode_t
   {
-  LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY
+  LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY, USER_ADDED_SUCCESSFULLY, ERROR_FULL_DB
   } EN_UserStatusCode_t;
+
+bool remote_user_loggedin;
+bool local_user_loggedin;
+uint8_t invalid_trails;
 
 EN_UserStatusCode_t login_remote(void);
 
@@ -38,9 +42,9 @@ EN_UserStatusCode_t logout_remote(void);
 
 EN_UserStatusCode_t logout_normal(void);
 
-EN_UserStatusCode_t save_new_user(ST_User_t user);
+EN_UserStatusCode_t add_user(ST_User_t* user);
 
-EN_UserStatusCode_t delete_user(char* userCode);
+EN_UserStatusCode_t delete_user(ST_User_t* user);
 
 // Searches for the user by the username. user is null if the user isn't found 
 EN_UserStatusCode_t search_user(char* user_code_or_name, bool mode, ST_User_t* user);

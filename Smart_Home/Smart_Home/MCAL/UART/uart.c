@@ -30,6 +30,7 @@ EN_UARTError_t UART_init(uint32_t baudRate) {
         return WRONG_BAUDRATE;
         break;
     }
+  
   // Setting the baud rate
   UBRRH = (uint8_t)UBRR >> 8;
   UBRRL = (uint8_t)UBRR;
