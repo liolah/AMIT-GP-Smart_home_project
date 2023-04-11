@@ -17,7 +17,7 @@
 #include "Services/Remote_access/remote.h"
 
 int main(void) {
-	UART_init(9600U);
+	UART_init(500000);
 	
 	while (1) {
 		test();

@@ -23,7 +23,7 @@ typedef enum EN_UARTError_t
   } EN_UARTError_t;
 
 // Initialize the UART interface
-EN_UARTError_t UART_init(uint32_t baudRate);
+EN_UARTError_t UART_init(unsigned long int baudRate);
 
 // Send a char using UART
 void UART_sendChar(char data);

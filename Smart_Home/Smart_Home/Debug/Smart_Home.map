@@ -111,7 +111,7 @@ Discarded input sections
  .text          0x00000000        0x0 HAL/HC-05/hc_05.o
  .data          0x00000000        0x0 HAL/HC-05/hc_05.o
  .bss           0x00000000        0x0 HAL/HC-05/hc_05.o
- .text.BT_init  0x00000000       0x1c HAL/HC-05/hc_05.o
+ .text.BT_init  0x00000000       0x20 HAL/HC-05/hc_05.o
  .text.BT_sendChar
                 0x00000000        0x6 HAL/HC-05/hc_05.o
  .text          0x00000000        0x0 HAL/Keypad/keypad.o
@@ -755,7 +755,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x304
+.text           0x00000000      0x3a0
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
                 0x00000000                __vector_default
@@ -839,27 +839,27 @@ END GROUP
  .text.BT_sendString
                 0x00000092        0x6 HAL/HC-05/hc_05.o
                 0x00000092                BT_sendString
- .text.main     0x00000098       0x20 main.o
+ .text.main     0x00000098       0x24 main.o
                 0x00000098                main
  .text.UART_init
-                0x000000b8       0xda MCAL/UART/uart.o
-                0x000000b8                UART_init
+                0x000000bc      0x172 MCAL/UART/uart.o
+                0x000000bc                UART_init
  .text.UART_sendChar
-                0x00000192       0x5a MCAL/UART/uart.o
-                0x00000192                UART_sendChar
+                0x0000022e       0x5a MCAL/UART/uart.o
+                0x0000022e                UART_sendChar
  .text.UART_sendString
-                0x000001ec       0x5e MCAL/UART/uart.o
-                0x000001ec                UART_sendString
- .text.test     0x0000024a        0xa Services/Remote_access/remote.o
-                0x0000024a                test
+                0x00000288       0x5e MCAL/UART/uart.o
+                0x00000288                UART_sendString
+ .text.test     0x000002e6        0xa Services/Remote_access/remote.o
+                0x000002e6                test
  .text.__vector_13
-                0x00000254       0xac Services/Remote_access/remote.o
-                0x00000254                __vector_13
-                0x00000300                . = ALIGN (0x2)
+                0x000002f0       0xac Services/Remote_access/remote.o
+                0x000002f0                __vector_13
+                0x0000039c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000300        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000300                _exit
-                0x00000300                exit
+ .fini9         0x0000039c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x0000039c                _exit
+                0x0000039c                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -878,11 +878,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000300        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000039c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000304                _etext = .
+                0x000003a0                _etext = .
 
-.data           0x00800060        0x8 load address 0x00000304
+.data           0x00800060        0x8 load address 0x000003a0
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -910,8 +910,8 @@ END GROUP
                 0x0080007a                dump_invalid_data
                 0x0080007b                requesting_function
                 0x0080007c                PROVIDE (__bss_end, .)
-                0x00000304                __data_load_start = LOADADDR (.data)
-                0x0000030c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000003a0                __data_load_start = LOADADDR (.data)
+                0x000003a8                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080007c        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -999,29 +999,29 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xb8f
+.debug_info     0x00000000      0xb92
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_info    0x000004e6      0x171 HAL/HC-05/hc_05.o
- .debug_info    0x00000657      0x1f3 main.o
- .debug_info    0x0000084a      0x187 MCAL/UART/uart.o
- .debug_info    0x000009d1      0x1be Services/Remote_access/remote.o
+ .debug_info    0x000004e6      0x165 HAL/HC-05/hc_05.o
+ .debug_info    0x0000064b      0x1fb main.o
+ .debug_info    0x00000846      0x18e MCAL/UART/uart.o
+ .debug_info    0x000009d4      0x1be Services/Remote_access/remote.o
 
-.debug_abbrev   0x00000000      0x86d
+.debug_abbrev   0x00000000      0x878
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_abbrev  0x000004a3       0xca HAL/HC-05/hc_05.o
- .debug_abbrev  0x0000056d      0x122 main.o
- .debug_abbrev  0x0000068f       0xf1 MCAL/UART/uart.o
- .debug_abbrev  0x00000780       0xed Services/Remote_access/remote.o
+ .debug_abbrev  0x000004a3       0xd5 HAL/HC-05/hc_05.o
+ .debug_abbrev  0x00000578      0x122 main.o
+ .debug_abbrev  0x0000069a       0xf1 MCAL/UART/uart.o
+ .debug_abbrev  0x0000078b       0xed Services/Remote_access/remote.o
 
-.debug_line     0x00000000      0x720
+.debug_line     0x00000000      0x755
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x116 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_line    0x00000116      0x103 HAL/HC-05/hc_05.o
  .debug_line    0x00000219      0x1a9 main.o
- .debug_line    0x000003c2      0x1cb MCAL/UART/uart.o
- .debug_line    0x0000058d      0x193 Services/Remote_access/remote.o
+ .debug_line    0x000003c2      0x200 MCAL/UART/uart.o
+ .debug_line    0x000005c2      0x193 Services/Remote_access/remote.o
 
 .debug_frame    0x00000000      0x1a0
  *(.debug_frame)
@@ -1038,7 +1038,7 @@ END GROUP
  .debug_str     0x00000325      0x108 main.o
                                 0x24c (size before relaxing)
  .debug_str     0x0000042d      0x112 MCAL/UART/uart.o
-                                0x1d5 (size before relaxing)
+                                0x1e7 (size before relaxing)
  .debug_str     0x0000053f       0x87 Services/Remote_access/remote.o
                                 0x22e (size before relaxing)
 
