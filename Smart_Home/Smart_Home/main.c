@@ -17,7 +17,6 @@
 #include "Services/Remote_access/remote.h"
 
 int main(void) {
-	set_bit(DDRD, 1);
 	UART_init(9600);
 
 	while (1) {

@@ -9,14 +9,10 @@
 
  // Initialize the UART interface
 EN_UARTError_t UART_init(u32 baudRate) {
-  //! Issue 1: The UBRR variable was being optimized, making the case statements empty, which goes under the fallthrough optimization and gets optimized
-  //! until the default case is reached resulting in the function returning an error and the UART never gets initialized. (probably)
-  //? So Just removed UBRR and used registers in the cases directly
   // Setting the baud rate
   // UBRR values are calculated based on 16MHz clock speed
   switch (baudRate) {
       case 2400U:
-        // UBRR = 416;
         UBRRH = 1;
         UBRRL = 160;
         break;
@@ -26,13 +22,31 @@ EN_UARTError_t UART_init(u32 baudRate) {
       case 9600U:
         UBRRL = 103;
         break;
+      case 14400U:
+        UBRRL = 68;
+        break;
       case 19200U:
         UBRRL = 51;
+        break;
+      case 28800U:
+        UBRRL = 34;
+        break;
+      case 38400U:
+        UBRRL = 25;
+        break;
+      case 57600U:
+        UBRRL = 16;
+        break;
+      case 76800U:
+        UBRRL = 12;
         break;
       case 115200U:
         UBRRL = 8;
         break;
       case 230400U:
+        UBRRL = 3;
+        break;
+      case 250000U:
         UBRRL = 3;
         break;
       case 500000U:
