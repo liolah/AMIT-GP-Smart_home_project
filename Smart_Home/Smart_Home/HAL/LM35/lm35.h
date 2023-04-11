@@ -13,6 +13,6 @@
 #include "../../MCAL/DIO/dio.h"
 #include "../../MCAL/Timer/timer.h"
 
-void lm35_init(uint8_t pinNumber);
+void lm35_init(u8 pinNumber);
 
 #endif /* LM35_H_ */

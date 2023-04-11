@@ -9,7 +9,7 @@
 
 
  // Initialize the INT0 interrupt given the trigger event
-EN_INT_init_Status_t INT0_init(uint8_t trigger) {
+EN_INT_init_Status_t INT0_init(u8 trigger) {
   if (trigger != LOW_LEVEL_INTERRUPT_REQUEST && trigger != LOGICAL_CHANGE_INTERRUPT_REQUEST && trigger != FALLING_EDGE_INTERRUPT_REQUEST && trigger != RISING_EDGE_INTERRUPT_REQUEST) {
     return WRONG_TRIGGER;
     }
@@ -36,7 +36,7 @@ EN_INT_init_Status_t INT0_init(uint8_t trigger) {
   }
 
 // Initialize the INT1 interrupt given the trigger event
-EN_INT_init_Status_t INT1_init(uint8_t trigger) {
+EN_INT_init_Status_t INT1_init(u8 trigger) {
   if (trigger != LOW_LEVEL_INTERRUPT_REQUEST && trigger != LOGICAL_CHANGE_INTERRUPT_REQUEST && trigger != FALLING_EDGE_INTERRUPT_REQUEST && trigger != RISING_EDGE_INTERRUPT_REQUEST) {
     return WRONG_TRIGGER;
     }
@@ -63,7 +63,7 @@ EN_INT_init_Status_t INT1_init(uint8_t trigger) {
   }
 
 // Initialize the INT2 interrupt given the trigger event
-EN_INT_init_Status_t INT2_init(uint8_t trigger) {
+EN_INT_init_Status_t INT2_init(u8 trigger) {
   if (trigger != FALLING_EDGE_INTERRUPT_REQUEST && trigger != RISING_EDGE_INTERRUPT_REQUEST) {
     return WRONG_TRIGGER;
     }

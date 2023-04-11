@@ -8,7 +8,7 @@
 #include "led.h"
 
  // Initialize the LED
-EN_ledError_t LED_init(uint8_t ledPort, uint8_t ledPin) {
+EN_ledError_t LED_init(u8 ledPort, u8 ledPin) {
   // Check if the dio was initialized correctly
   if (DIO_init(ledPin, ledPort, OUT) == DIO_OK) {
     return LED_OK;
@@ -18,7 +18,7 @@ EN_ledError_t LED_init(uint8_t ledPort, uint8_t ledPin) {
   }
 
 // Turn on the LED
-EN_ledError_t LED_on(uint8_t ledPort, uint8_t ledPin) {
+EN_ledError_t LED_on(u8 ledPort, u8 ledPin) {
   if (DIO_write(ledPin, ledPort, HIGH) == DIO_OK) {
     return LED_OK;
     }
@@ -27,7 +27,7 @@ EN_ledError_t LED_on(uint8_t ledPort, uint8_t ledPin) {
   }
 
 // Turn off the LED
-EN_ledError_t LED_off(uint8_t ledPort, uint8_t ledPin) {
+EN_ledError_t LED_off(u8 ledPort, u8 ledPin) {
   if (DIO_write(ledPin, ledPort, LOW) == DIO_OK) {
     return LED_OK;
     }
@@ -36,7 +36,7 @@ EN_ledError_t LED_off(uint8_t ledPort, uint8_t ledPin) {
   }
 
 // Toggle the LED
-EN_ledError_t LED_toggle(uint8_t ledPort, uint8_t ledPin) {
+EN_ledError_t LED_toggle(u8 ledPort, u8 ledPin) {
   if (DIO_toggle(ledPin, ledPort) == DIO_OK) {
     return LED_OK;
     }

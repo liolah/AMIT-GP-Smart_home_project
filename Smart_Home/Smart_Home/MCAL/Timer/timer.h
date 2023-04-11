@@ -36,31 +36,31 @@ typedef enum EN_timerError_t
 // TODO: A function that takes the timer number and the duration then adjusts the prescalar settings optimally to get the exact required time after a number of cycles. returns the minimum number of cycles
 
 // Initialize the timers to start in normal mode
-EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal);
+EN_timerError_t Timer_normal_init(u8 timerNumber, u16 initialVal);
 
 // Initialize the timers to start in CTC mode
-EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue);
+EN_timerError_t Timer_CTC_init(u8 timerNumber, u16 compareValue);
 
 // Initialize the timers to start in pwm mode
 // The PWM pin must be set as output 
-EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode);
+EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode);
 
 // Change the duty cycle of a timer
-EN_timerError_t PWM_set_DC(uint8_t pwmPin, double dutyCycle);
+EN_timerError_t PWM_set_DC(u8 pwmPin, double dutyCycle);
 
 // disconnects the OC pins and sets the prescalar to 0.
-EN_timerError_t PWM_stop(uint8_t pwmPin);
+EN_timerError_t PWM_stop(u8 pwmPin);
 
 // Start the timer
-EN_timerError_t Timer_start(uint8_t timerNumber, uint16_t prescalar);
+EN_timerError_t Timer_start(u8 timerNumber, u16 prescalar);
 
 // Stop the timer
-EN_timerError_t Timer_stop(uint8_t timerNumber);
+EN_timerError_t Timer_stop(u8 timerNumber);
 
 // Reset the timer
-EN_timerError_t Timer_reset(uint8_t timerNumber);
+EN_timerError_t Timer_reset(u8 timerNumber);
 
 // Check if the timer's OCF is set and reset the flag if set
-EN_timerError_t Timer_read_and_reset_OCF(uint8_t timerNumber, bool* flag);
+EN_timerError_t Timer_read_and_reset_OCF(u8 timerNumber, bool* flag);
 
 #endif /* TIMER_H_ */

@@ -30,7 +30,7 @@ void Keypad_init(void) {
   DIO_write(KEYPAD_C3_PIN, KEYPAD_PORT, HIGH);
   }
 
-void toggle_row(uint8_t row) {
+void toggle_row(u8 row) {
   switch (row) {
       case 0:
         DIO_toggle(KEYPAD_R0_PIN, KEYPAD_PORT);
@@ -47,7 +47,7 @@ void toggle_row(uint8_t row) {
     }
   }
 
-void check_col(uint8_t col, uint8_t* res) {
+void check_col(u8 col, u8* res) {
   switch (col) {
       case 0:
         DIO_Read(KEYPAD_C0_PIN, KEYPAD_PORT, res);
@@ -64,7 +64,7 @@ void check_col(uint8_t col, uint8_t* res) {
     }
   }
 
-void check_row(uint8_t row, uint8_t* res) {
+void check_row(u8 row, u8* res) {
   switch (row) {
       case 0:
         DIO_Read(KEYPAD_R0_PIN, KEYPAD_PORT, res);
@@ -81,10 +81,10 @@ void check_row(uint8_t row, uint8_t* res) {
     }
   }
 
-uint8_t Keypad_getPressedKey(void) {
-  uint8_t pressed = KEYPAD_NO_PRESSED_KEY_VALUE;
-  uint8_t keys[KEYPAD_ROW_NUM][KEYPAD_COL_NUM] = KEYPAD_BUTTON_VALUES;
-  uint8_t row, col, col_state, row_state;
+u8 Keypad_getPressedKey(void) {
+  u8 pressed = KEYPAD_NO_PRESSED_KEY_VALUE;
+  u8 keys[KEYPAD_ROW_NUM][KEYPAD_COL_NUM] = KEYPAD_BUTTON_VALUES;
+  u8 row, col, col_state, row_state;
   // Check if the key has been depressed. If not return no presses.
   for (row = 0;row < KEYPAD_ROW_NUM; row++) {
     check_row(row, &row_state);

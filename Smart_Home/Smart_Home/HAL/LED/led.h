@@ -17,15 +17,15 @@ typedef enum EN_ledError_t
   } EN_ledError_t;
 
 // Initialize the LED
-EN_ledError_t LED_init(uint8_t ledPort, uint8_t ledPin);
+EN_ledError_t LED_init(u8 ledPort, u8 ledPin);
 
 // Turn on the LED
-EN_ledError_t LED_on(uint8_t ledPort, uint8_t ledPin);
+EN_ledError_t LED_on(u8 ledPort, u8 ledPin);
 
 // Turn off the LED
-EN_ledError_t LED_off(uint8_t ledPort, uint8_t ledPin);
+EN_ledError_t LED_off(u8 ledPort, u8 ledPin);
 
 // Toggle the LED
-EN_ledError_t LED_toggle(uint8_t ledPort, uint8_t ledPin);
+EN_ledError_t LED_toggle(u8 ledPort, u8 ledPin);
 
 #endif /* LED_H_ */

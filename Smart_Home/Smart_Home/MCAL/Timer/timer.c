@@ -7,7 +7,7 @@
 
 #include "timer.h"
 
-bool isValidTimer(uint8_t timer) {
+bool isValidTimer(u8 timer) {
   if (timer == TIMER_0 || timer == TIMER_1 || timer == TIMER_2) {
     return true;
     }
@@ -15,7 +15,7 @@ bool isValidTimer(uint8_t timer) {
   }
 
 // Helper function to select the prescalar 
-EN_timerError_t set_prescalar(uint8_t timer, uint16_t prescalarValue) {
+EN_timerError_t set_prescalar(u8 timer, u16 prescalarValue) {
   // Validate the timer number
   if (!isValidTimer(timer)) {
     return WRONG_TIMER;
@@ -156,7 +156,7 @@ EN_timerError_t set_prescalar(uint8_t timer, uint16_t prescalarValue) {
   return TIMER_OK;
   }
 
-EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
+EN_timerError_t Timer_normal_init(u8 timerNumber, u16 initialVal) {
   // Validate the timer number
   if (!isValidTimer(timerNumber)) {
     return WRONG_TIMER;
@@ -172,7 +172,7 @@ EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
         clear_bit(TCCR0, WGM01);
         clear_bit(TCCR0, WGM00);
         // Set the initial value in the TCNT register.
-        TCNT0 = (uint8_t)initialVal;
+        TCNT0 = (u8)initialVal;
         break;
       case TIMER_1:
         // Set the timer mode to normal mode
@@ -188,7 +188,7 @@ EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
         clear_bit(TCCR2, WGM21);
         clear_bit(TCCR2, WGM20);
         // Set the initial value in the TCNT register.
-        TCNT2 = (uint8_t)initialVal;
+        TCNT2 = (u8)initialVal;
         break;
     }
   // Everything went well
@@ -196,7 +196,7 @@ EN_timerError_t Timer_normal_init(uint8_t timerNumber, uint16_t initialVal) {
   }
 
 // Initialize the timers to start in CTC mode
-EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue) {
+EN_timerError_t Timer_CTC_init(u8 timerNumber, u16 compareValue) {
   // Validate the timer number
   if (!isValidTimer(timerNumber)) {
     return WRONG_TIMER;
@@ -214,7 +214,7 @@ EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue) {
         // Reset the value in TCNT register. It's probably zero but just to make sure.
         TCNT0 = 0;
         // Set the OCR to the calculated value
-        OCR0 = (uint8_t)compareValue;
+        OCR0 = (u8)compareValue;
         break;
       case TIMER_1:
         // Set the timer mode to CTC
@@ -234,7 +234,7 @@ EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue) {
         // Reset the value in TCNT register.
         TCNT2 = 0;
         // Set the OCR to the calculated value
-        OCR2 = (uint8_t)compareValue;
+        OCR2 = (u8)compareValue;
         break;
     }
   // Everything went well
@@ -242,7 +242,7 @@ EN_timerError_t Timer_CTC_init(uint8_t timerNumber, uint16_t compareValue) {
   }
 
 // Start the timer
-EN_timerError_t Timer_start(uint8_t timerNumber, uint16_t prescalar) {
+EN_timerError_t Timer_start(u8 timerNumber, u16 prescalar) {
   // Validate the timer number
   if (!isValidTimer(timerNumber)) {
     return WRONG_TIMER;
@@ -254,7 +254,7 @@ EN_timerError_t Timer_start(uint8_t timerNumber, uint16_t prescalar) {
   }
 
 // Stop the timer
-EN_timerError_t Timer_stop(uint8_t timerNumber) {
+EN_timerError_t Timer_stop(u8 timerNumber) {
   // Validate the timer number
   if (!isValidTimer(timerNumber)) {
     return WRONG_TIMER;
@@ -267,7 +267,7 @@ EN_timerError_t Timer_stop(uint8_t timerNumber) {
 
 // Reset the timer
 // The timers are reset by setting the value of TCNT to zero
-EN_timerError_t Timer_reset(uint8_t timerNumber) {
+EN_timerError_t Timer_reset(u8 timerNumber) {
   // Validate the timer number
   if (!isValidTimer(timerNumber)) {
     return WRONG_TIMER;
@@ -288,7 +288,7 @@ EN_timerError_t Timer_reset(uint8_t timerNumber) {
   }
 
 // Check if the timer's OCF is set and reset the flag if set. Returns true if the flag is set.
-EN_timerError_t Timer_read_and_reset_OCF(uint8_t timerNumber, bool* flag) {
+EN_timerError_t Timer_read_and_reset_OCF(u8 timerNumber, bool* flag) {
   // Validate the timer number
   if (!isValidTimer(timerNumber)) {
     return WRONG_TIMER;
@@ -330,7 +330,7 @@ EN_timerError_t Timer_read_and_reset_OCF(uint8_t timerNumber, bool* flag) {
 
 // *The pwm frequency can be calculated from the equation: (F_CPU/(N*256)) for fast pwm and (F_CPU/(N*510)) for phase correct pwm
 // Initialize the timers to start in pwm mode
-EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
+EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode) {
   if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
     return WRONG_PWM_PIN;
     }
@@ -357,7 +357,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         set_bit(TCCR0, COM01);
 #endif
         // The value in the OCR determines the duty cycle
-        OCR0 = (uint8_t)(dutyCycle * 255);
+        OCR0 = (u8)(dutyCycle * 255);
         break;
         //? The problem that has been occurring with OC1A (the pin was always high and no pwm signal was generated) was caused by
         //? the timer being set in pwm mode 15, which makes OCR1A the TOP and also compares it to itself, which results in the OCR register and the TOP being always equal.
@@ -438,15 +438,15 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, COM1A1);
 #endif
 #if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
-              OCR1A = (uint16_t)(dutyCycle * 0x00FF);
+              OCR1A = (u16)(dutyCycle * 0x00FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
-              OCR1A = (uint16_t)(dutyCycle * 0x01FF);
+              OCR1A = (u16)(dutyCycle * 0x01FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT)
-              OCR1A = (uint16_t)(dutyCycle * 0x03FF);
+              OCR1A = (u16)(dutyCycle * 0x03FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1 || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1)
-              OCR1A = (uint16_t)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
+              OCR1A = (u16)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A)
-              OCR1A = (uint16_t)(dutyCycle * 65535);
+              OCR1A = (u16)(dutyCycle * 65535);
 #endif
               break;
             case OC_1B:
@@ -458,15 +458,15 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
               set_bit(TCCR1A, COM1B1);
 #endif
 #if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
-              OCR1B = (uint16_t)(dutyCycle * 0x00FF);
+              OCR1B = (u16)(dutyCycle * 0x00FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
-              OCR1B = (uint16_t)(dutyCycle * 0x01FF);
+              OCR1B = (u16)(dutyCycle * 0x01FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT)
-              OCR1B = (uint16_t)(dutyCycle * 0x03FF);
+              OCR1B = (u16)(dutyCycle * 0x03FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1 || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1)
-              OCR1B = (uint16_t)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
+              OCR1B = (u16)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A)
-              OCR1B = (uint16_t)(dutyCycle * 65535);
+              OCR1B = (u16)(dutyCycle * 65535);
 #endif
               break;
           }
@@ -490,7 +490,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
         set_bit(TCCR2, COM21);
 #endif
         // The value in the OCR determines the duty cycle
-        OCR2 = (uint8_t)(dutyCycle * 255);
+        OCR2 = (u8)(dutyCycle * 255);
         break;
     }
   return TIMER_OK;
@@ -498,7 +498,7 @@ EN_timerError_t PWM_init(uint8_t pwmPin, double dutyCycle, uint8_t mode) {
 
 // PWM stop 
 // disconnects the OC pins and sets the prescalar to 0.
-EN_timerError_t PWM_stop(uint8_t pwmPin) {
+EN_timerError_t PWM_stop(u8 pwmPin) {
   if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
     return WRONG_PWM_PIN;
     }
@@ -530,42 +530,42 @@ EN_timerError_t PWM_stop(uint8_t pwmPin) {
   }
 
 // Change the duty cycle of a timer
-EN_timerError_t PWM_set_DC(uint8_t pwmPin, double dutyCycle) {
+EN_timerError_t PWM_set_DC(u8 pwmPin, double dutyCycle) {
   if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
     return WRONG_PWM_PIN;
     }
   switch (pwmPin) {
       case OC_0:
-        OCR0 = (uint8_t)(dutyCycle * 255);
+        OCR0 = (u8)(dutyCycle * 255);
         break;
       case OC_1A:
 #if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
-        OCR1A = (uint16_t)(dutyCycle * 0x00FF);
+        OCR1A = (u16)(dutyCycle * 0x00FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
-        OCR1A = (uint16_t)(dutyCycle * 0x01FF);
+        OCR1A = (u16)(dutyCycle * 0x01FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT)
-        OCR1A = (uint16_t)(dutyCycle * 0x03FF);
+        OCR1A = (u16)(dutyCycle * 0x03FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1 || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1)
-        OCR1A = (uint16_t)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
+        OCR1A = (u16)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A)
-        OCR1A = (uint16_t)(dutyCycle * 65535);
+        OCR1A = (u16)(dutyCycle * 65535);
 #endif
         break;
       case OC_1B:
 #if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
-        OCR1B = (uint16_t)(dutyCycle * 0x00FF);
+        OCR1B = (u16)(dutyCycle * 0x00FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
-        OCR1B = (uint16_t)(dutyCycle * 0x01FF);
+        OCR1B = (u16)(dutyCycle * 0x01FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_10_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_10_BIT)
-        OCR1B = (uint16_t)(dutyCycle * 0x03FF);
+        OCR1B = (u16)(dutyCycle * 0x03FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_ICR1 || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_ICR1)
-        OCR1B = (uint16_t)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
+        OCR1B = (u16)(dutyCycle * TIMER_1_PWM_TOP_ICR1_VALUE);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_TOP_OCR1A || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_TOP_OCR1A)
-        OCR1B = (uint16_t)(dutyCycle * 65535);
+        OCR1B = (u16)(dutyCycle * 65535);
 #endif
         break;
       case OC_2:
-        OCR2 = (uint8_t)(dutyCycle * 255);
+        OCR2 = (u8)(dutyCycle * 255);
         break;
     }
   return TIMER_OK;

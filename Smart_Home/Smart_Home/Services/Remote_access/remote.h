@@ -3,7 +3,7 @@
  *
  * Created: 4/9/2023 4:21:03 PM
  *  Author: hesha
- */ 
+ */
 
 
 #ifndef REMOTE_H_
@@ -15,9 +15,9 @@
 #include "../../Utilities/registers.h"
 #include "../../Utilities/bit_manipulation.h"
 
-uint8_t msg_buffer[15];
-uint8_t msg_length;
-uint8_t msg_buffer_pointer;
+u8 msg_buffer[15];
+u8 msg_length;
+u8 msg_buffer_pointer;
 bool invalid_user_input;
 
 typedef enum EN_remoteConnStat_t
@@ -26,7 +26,7 @@ typedef enum EN_remoteConnStat_t
   }
 EN_remoteConnStat_t;
 
-void remote_init(uint32_t baudRate);
+void remote_init(u32 baudRate);
 
 void test();
 

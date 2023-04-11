@@ -74,7 +74,7 @@ void UART_receiveChar(char* x) {
   }
 
 void UART_sendString(char* str) {
-  uint32_t i = 0;
+  u32 i = 0;
   while (str[i] != 0) {
     UART_sendChar(str[i]);
     i++;
@@ -83,7 +83,7 @@ void UART_sendString(char* str) {
   }
 
 void UART_receiveString(char* str) {
-  uint32_t i = 0;
+  u32 i = 0;
   char c;
   UART_receiveChar(&c);
   while (c != 0) {

@@ -8,7 +8,7 @@
 #include "lm35.h"
 
 // The lm35 will be used with the ADC in auto triggering mode
-void lm35_init(uint8_t pinNumber) {
+void lm35_init(u8 pinNumber) {
   ADC_init_auto_trigger(TIMER_0_COMPARE_MATCH_TRIGGER);
   ADC_select_channel(pinNumber);
   DIO_init(pinNumber, PORT_A, IN);

@@ -15,14 +15,14 @@ void LCD_sendEnablePulse(void) {
   DIO_write(EN, LCD_CTRL_PORT, LOW);
   }
 
-void LCD_write_4bits(uint8_t data) {
+void LCD_write_4bits(u8 data) {
   DIO_write(LCD_DATA_PIN4, LCD_DATA_PORT, read_bit(data, 0));
   DIO_write(LCD_DATA_PIN5, LCD_DATA_PORT, read_bit(data, 1));
   DIO_write(LCD_DATA_PIN6, LCD_DATA_PORT, read_bit(data, 2));
   DIO_write(LCD_DATA_PIN7, LCD_DATA_PORT, read_bit(data, 3));
   }
 
-void LCD_sendData(uint8_t data) {
+void LCD_sendData(u8 data) {
 #if LCD_MODE == FOUR_BIT_MODE
   LCD_write_4bits(data >> 4);
 
@@ -42,7 +42,7 @@ void LCD_sendData(uint8_t data) {
 #endif
   }
 
-void LCD_sendCommand(uint8_t cmd) {
+void LCD_sendCommand(u8 cmd) {
 #if LCD_MODE == FOUR_BIT_MODE
   LCD_write_4bits(cmd >> 4);
 
@@ -92,13 +92,13 @@ void LCD_init(void) {
   }
 
 void LCD_sendString(char* str) {
-  uint32_t i;
+  u32 i;
   for (i = 0;str[i] != 0;i++) {
     LCD_sendData(str[i]);
     }
   }
 
-void LCD_writeString_xy(uint8_t x, uint8_t y, char* str) {
+void LCD_writeString_xy(u8 x, u8 y, char* str) {
   switch (y) {
       case 0:
         LCD_sendCommand(0x80 + x);

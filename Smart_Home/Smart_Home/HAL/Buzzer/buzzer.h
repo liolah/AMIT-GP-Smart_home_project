@@ -19,15 +19,15 @@ typedef enum EN_BuzzerError_t
   } EN_BuzzerError_t;
 
 // Initialize the buzzer
-EN_BuzzerError_t Buzzer_init(uint8_t buzzerPort, uint8_t buzzerPin);
+EN_BuzzerError_t Buzzer_init(u8 buzzerPort, u8 buzzerPin);
 
 // Turn on the buzzer
-EN_BuzzerError_t Buzzer_on(uint8_t buzzerPort, uint8_t buzzerPin);
+EN_BuzzerError_t Buzzer_on(u8 buzzerPort, u8 buzzerPin);
 
 // Turn off the buzzer
-EN_BuzzerError_t Buzzer_off(uint8_t buzzerPort, uint8_t buzzerPin);
+EN_BuzzerError_t Buzzer_off(u8 buzzerPort, u8 buzzerPin);
 
 // Toggle the buzzer
-EN_BuzzerError_t Buzzer_toggle(uint8_t buzzerPort, uint8_t buzzerPin);
+EN_BuzzerError_t Buzzer_toggle(u8 buzzerPort, u8 buzzerPin);
 
 #endif /* BUZZER_H_ */

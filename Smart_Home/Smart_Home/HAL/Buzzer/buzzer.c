@@ -8,7 +8,7 @@
 #include "buzzer.h"
 
  // Initialize the buzzer
-EN_BuzzerError_t Buzzer_init(uint8_t buzzerPort, uint8_t buzzerPin) {
+EN_BuzzerError_t Buzzer_init(u8 buzzerPort, u8 buzzerPin) {
   // Check if the dio was initialized correctly
   if (DIO_init(buzzerPin, buzzerPort, OUT) == DIO_OK) {
     return BUZZER_OK;
@@ -18,7 +18,7 @@ EN_BuzzerError_t Buzzer_init(uint8_t buzzerPort, uint8_t buzzerPin) {
   }
 
 // Turn on the buzzer
-EN_BuzzerError_t Buzzer_on(uint8_t buzzerPort, uint8_t buzzerPin) {
+EN_BuzzerError_t Buzzer_on(u8 buzzerPort, u8 buzzerPin) {
   if (DIO_write(buzzerPin, buzzerPort, HIGH) == DIO_OK) {
     return BUZZER_OK;
     }
@@ -27,7 +27,7 @@ EN_BuzzerError_t Buzzer_on(uint8_t buzzerPort, uint8_t buzzerPin) {
   }
 
 // Turn off the buzzer
-EN_BuzzerError_t Buzzer_off(uint8_t buzzerPort, uint8_t buzzerPin) {
+EN_BuzzerError_t Buzzer_off(u8 buzzerPort, u8 buzzerPin) {
   if (DIO_write(buzzerPin, buzzerPort, LOW) == DIO_OK) {
     return BUZZER_OK;
     }
@@ -36,7 +36,7 @@ EN_BuzzerError_t Buzzer_off(uint8_t buzzerPort, uint8_t buzzerPin) {
   }
 
 // Toggle the buzzer
-EN_BuzzerError_t Buzzer_toggle(uint8_t buzzerPort, uint8_t buzzerPin) {
+EN_BuzzerError_t Buzzer_toggle(u8 buzzerPort, u8 buzzerPin) {
   if (DIO_toggle(buzzerPin, buzzerPort) == DIO_OK) {
     return BUZZER_OK;
     }

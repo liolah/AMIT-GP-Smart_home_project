@@ -30,15 +30,15 @@ typedef enum EN_dioError_t
 	} EN_dioError_t;
 
 // Initialize the pin direction
-EN_dioError_t DIO_init(uint8_t pinNumber, uint8_t portNumber, uint8_t direction);
+EN_dioError_t DIO_init(u8 pinNumber, u8 portNumber, u8 direction);
 
 // Write a value to a pin
-EN_dioError_t DIO_write(uint8_t pinNumber, uint8_t portNumber, uint8_t value);
+EN_dioError_t DIO_write(u8 pinNumber, u8 portNumber, u8 value);
 
 // Read a value from a pin
-EN_dioError_t DIO_Read(uint8_t pinNumber, uint8_t portNumber, uint8_t* value);
+EN_dioError_t DIO_Read(u8 pinNumber, u8 portNumber, u8* value);
 
 // Toggle a pin
-EN_dioError_t DIO_toggle(uint8_t pinNumber, uint8_t portNumber);
+EN_dioError_t DIO_toggle(u8 pinNumber, u8 portNumber);
 
 #endif /* DIO_H_ */

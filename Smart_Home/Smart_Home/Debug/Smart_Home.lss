@@ -123,7 +123,7 @@ int main(void) {
   a4:	0e 94 73 01 	call	0x2e6	; 0x2e6 <test>
 	#else
 		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+		__ticks_dc = (u32)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
@@ -389,7 +389,7 @@ void UART_sendString(char* str) {
  292:	de b7       	in	r29, 0x3e	; 62
  294:	9c 83       	std	Y+4, r25	; 0x04
  296:	8b 83       	std	Y+3, r24	; 0x03
-  uint32_t i = 0;
+  u32 i = 0;
  298:	1a 82       	std	Y+2, r1	; 0x02
  29a:	19 82       	std	Y+1, r1	; 0x01
   while (str[i] != 0) {
@@ -414,7 +414,7 @@ void UART_sendString(char* str) {
   }
 
 void UART_sendString(char* str) {
-  uint32_t i = 0;
+  u32 i = 0;
   while (str[i] != 0) {
  2bc:	2b 81       	ldd	r18, Y+3	; 0x03
  2be:	3c 81       	ldd	r19, Y+4	; 0x04
@@ -448,7 +448,7 @@ void test() {
   BT_sendString("Hello!\n");
   }
 
-void callFunWhenBufferReady(uint8_t functionNumber) {
+void callFunWhenBufferReady(u8 functionNumber) {
  2e6:	80 e6       	ldi	r24, 0x60	; 96
  2e8:	90 e0       	ldi	r25, 0x00	; 0
  2ea:	0e 94 49 00 	call	0x92	; 0x92 <BT_sendString>

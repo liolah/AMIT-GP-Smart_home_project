@@ -7,28 +7,28 @@
 
 #include "dio.h"
 
-bool isValidPinNumber(uint8_t pinNumber) {
+bool isValidPinNumber(u8 pinNumber) {
 	if (pinNumber < 8) {
 		return true;
 		}
 	return false;
 	}
 
-bool isValidPortNumber(uint8_t portNumber) {
+bool isValidPortNumber(u8 portNumber) {
 	if (portNumber == PORT_A || portNumber == PORT_B || portNumber == PORT_C || portNumber == PORT_D) {
 		return true;
 		}
 	return false;
 	}
 
-bool isValidDirection(uint8_t direction) {
+bool isValidDirection(u8 direction) {
 	if (direction == IN || direction == OUT) {
 		return true;
 		}
 	return false;
 	}
 
-bool isValidState(uint8_t state) {
+bool isValidState(u8 state) {
 	if (state == HIGH || state == LOW) {
 		return true;
 		}
@@ -36,7 +36,7 @@ bool isValidState(uint8_t state) {
 	}
 
 // Initialize the pin direction
-EN_dioError_t DIO_init(uint8_t pinNumber, uint8_t portNumber, uint8_t direction) {
+EN_dioError_t DIO_init(u8 pinNumber, u8 portNumber, u8 direction) {
 	// Validate the pin number
 	if (!isValidPinNumber(pinNumber)) {
 		return WRONG_PIN;
@@ -87,7 +87,7 @@ EN_dioError_t DIO_init(uint8_t pinNumber, uint8_t portNumber, uint8_t direction)
 	}
 
 // Write a value to a pin
-EN_dioError_t DIO_write(uint8_t pinNumber, uint8_t portNumber, uint8_t state) {
+EN_dioError_t DIO_write(u8 pinNumber, u8 portNumber, u8 state) {
 	// Validate the pin number
 	if (!isValidPinNumber(pinNumber)) {
 		return WRONG_PIN;
@@ -138,7 +138,7 @@ EN_dioError_t DIO_write(uint8_t pinNumber, uint8_t portNumber, uint8_t state) {
 	}
 
 // Read a value from a pin
-EN_dioError_t DIO_Read(uint8_t pinNumber, uint8_t portNumber, uint8_t* value) {
+EN_dioError_t DIO_Read(u8 pinNumber, u8 portNumber, u8* value) {
 	// Validate the pin number
 	if (!isValidPinNumber(pinNumber)) {
 		return WRONG_PIN;
@@ -165,7 +165,7 @@ EN_dioError_t DIO_Read(uint8_t pinNumber, uint8_t portNumber, uint8_t* value) {
 	}
 
 // Toggle a pin
-EN_dioError_t DIO_toggle(uint8_t pinNumber, uint8_t portNumber) {
+EN_dioError_t DIO_toggle(u8 pinNumber, u8 portNumber) {
 	// Validate the pin number
 	if (!isValidPinNumber(pinNumber)) {
 		return WRONG_PIN;

@@ -32,12 +32,12 @@ EN_ADCError_t ADC_init();
 
 // Initialize the ADC in auto trigger mode
 // The conversion result is handled through the adc interrupt
-EN_ADCError_t ADC_init_auto_trigger(uint8_t trigger);
+EN_ADCError_t ADC_init_auto_trigger(u8 trigger);
 
 // Read the input on a channel and passes the value by reference
-EN_ADCError_t ADC_read(uint8_t channel, uint16_t* result);
+EN_ADCError_t ADC_read(u8 channel, u16* result);
 
 // Select an ADC channel to read from
-EN_ADCError_t ADC_select_channel(uint8_t channel);
+EN_ADCError_t ADC_select_channel(u8 channel);
 
 #endif /* ADC_H_ */

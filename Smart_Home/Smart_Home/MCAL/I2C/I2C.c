@@ -64,21 +64,21 @@ EN_I2CMasterStatusCode_t I2C_repeatedStart() {   // Same as start, just a differ
   return getCurrentStatus();
   }
 
-EN_I2CMasterStatusCode_t I2C_write(uint8_t data) {
+EN_I2CMasterStatusCode_t I2C_write(u8 data) {
   TWDR = data;
   TWCR = (1 << TWEN) | (1 << TWINT);
   while (read_bit(TWCR, TWINT) == 0);
   return getCurrentStatus();
   }
 
-EN_I2CMasterStatusCode_t I2C_read_Ack(uint8_t* data) {
+EN_I2CMasterStatusCode_t I2C_read_Ack(u8* data) {
   TWCR = (1 << TWEA) | (1 << TWEN) | (1 << TWINT);
   while (read_bit(TWCR, TWINT) == 0);
   *data = TWDR;
   return getCurrentStatus();
   }
 
-EN_I2CMasterStatusCode_t I2C_read_Nack(uint8_t* data) {
+EN_I2CMasterStatusCode_t I2C_read_Nack(u8* data) {
   TWCR = (1 << TWEN) | (1 << TWINT);
   while (read_bit(TWCR, TWINT) == 0);
   *data = TWDR;

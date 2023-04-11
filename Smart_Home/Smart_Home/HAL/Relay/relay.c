@@ -8,7 +8,7 @@
 #include "relay.h"
 
  // Initialize the relay
-EN_relayError_t relay_init(uint8_t relayPort, uint8_t relayPin) {
+EN_relayError_t relay_init(u8 relayPort, u8 relayPin) {
   // Check if the dio was initialized correctly
   if (DIO_init(relayPin, relayPort, OUT) == DIO_OK) {
     return RELAY_OK;
@@ -18,7 +18,7 @@ EN_relayError_t relay_init(uint8_t relayPort, uint8_t relayPin) {
   }
 
 // Turn on the relay
-EN_relayError_t relay_on(uint8_t relayPort, uint8_t relayPin) {
+EN_relayError_t relay_on(u8 relayPort, u8 relayPin) {
   if (DIO_write(relayPin, relayPort, HIGH) == DIO_OK) {
     return RELAY_OK;
     }
@@ -27,7 +27,7 @@ EN_relayError_t relay_on(uint8_t relayPort, uint8_t relayPin) {
   }
 
 // Turn off the relay
-EN_relayError_t relay_off(uint8_t relayPort, uint8_t relayPin) {
+EN_relayError_t relay_off(u8 relayPort, u8 relayPin) {
   if (DIO_write(relayPin, relayPort, LOW) == DIO_OK) {
     return RELAY_OK;
     }
@@ -36,7 +36,7 @@ EN_relayError_t relay_off(uint8_t relayPort, uint8_t relayPin) {
   }
 
 // Toggle the relay
-EN_relayError_t relay_toggle(uint8_t relayPort, uint8_t relayPin) {
+EN_relayError_t relay_toggle(u8 relayPort, u8 relayPin) {
   if (DIO_toggle(relayPin, relayPort) == DIO_OK) {
     return RELAY_OK;
     }

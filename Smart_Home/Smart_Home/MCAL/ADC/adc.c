@@ -29,7 +29,7 @@ EN_ADCError_t ADC_init() {
 
 
 // Select an ADC channel to read from
-EN_ADCError_t ADC_select_channel(uint8_t channel) {
+EN_ADCError_t ADC_select_channel(u8 channel) {
   if (channel > 7) return WRONG_ADC_CHANNEL;
   ADMUX = (ADMUX & 0xE0) | channel;  // Storing the channel in MUX4:0 bits
   // ADMUX = (ADMUX & 0b11100000) | channel;
@@ -37,7 +37,7 @@ EN_ADCError_t ADC_select_channel(uint8_t channel) {
   }
 
 // Read the input on a channel and passes the value by reference
-EN_ADCError_t ADC_read(uint8_t channel, uint16_t* result) {
+EN_ADCError_t ADC_read(u8 channel, u16* result) {
   ADC_select_channel(channel);
   set_bit(ADCSRA, ADSC); // Start conversion
   while (read_bit(ADCSRA, ADIF) == 0); // Wait until the conversion is complete
@@ -49,13 +49,13 @@ EN_ADCError_t ADC_read(uint8_t channel, uint16_t* result) {
   // When ADCL is read, the ADC Data Register is not updated until ADCH is read.Consequently, if the result is left
   //   adjusted and no more than 8 - bit precision is required, it is sufficient to read ADCH.Otherwise, ADCL must be read
   //   first, then ADCH.
-  * result = (uint16_t)ADCL + ((uint16_t)ADCH << 8); //? This will work
-  //! *result = ((uint16_t)ADCH << 8) + (uint16_t)ADCL; // This won't work
+  * result = (u16)ADCL + ((u16)ADCH << 8); //? This will work
+  //! *result = ((u16)ADCH << 8) + (u16)ADCL; // This won't work
   return ADC_OK;
   }
 
 // Initialize the ADC in auto trigger mode
-EN_ADCError_t ADC_init_auto_trigger(uint8_t trigger) {
+EN_ADCError_t ADC_init_auto_trigger(u8 trigger) {
 #if (ADC_VREF == AREF)
   // since the defualt for pins is to be low (0) we don't need to change anything here(since it's 0).
   // I don't need to write anything too. Because the VREF won't be changed during the run time. The only case I will need to clear a bit is if it was set by the MCU or me.

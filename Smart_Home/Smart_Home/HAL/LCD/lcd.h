@@ -13,13 +13,13 @@
 
 void LCD_init(void);
 
-void LCD_sendData(uint8_t data);
+void LCD_sendData(u8 data);
 
-void LCD_sendCommand(uint8_t cmd);
+void LCD_sendCommand(u8 cmd);
 
 void LCD_sendString(char* str);
 
-void LCD_writeString_xy(uint8_t x, uint8_t y, char* str);
+void LCD_writeString_xy(u8 x, u8 y, char* str);
 
 void LCD_clear_screen();
 

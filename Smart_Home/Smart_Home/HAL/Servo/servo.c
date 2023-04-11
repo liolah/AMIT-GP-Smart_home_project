@@ -15,6 +15,6 @@ void servo_init() {
   }
 
 // Moves the servo to a specific angle (relative to the 0 angle position, not the previous one).
-void servo_move_to_angle(uint8_t angle) {
+void servo_move_to_angle(u8 angle) {
   PWM_set_DC(SERVO_PWM_PIN, ((double)angle / ((SERVO_MAX_ANGLE - SERVO_MIN_ANGLE) * (SERVO_PULSE_PERIODIC_TIME_mS / (SERVO_MAX_HIGH_PULSE_DURATION_mS - SERVO_MIN_HIGH_PULSE_DURATION_mS)))) + (SERVO_MIN_HIGH_PULSE_DURATION_mS / SERVO_PULSE_PERIODIC_TIME_mS));
   }

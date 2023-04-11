@@ -115,13 +115,13 @@ typedef enum EN_INT_init_Status_t
         } EN_INT_init_Status_t;
 
 // Initialize the INT0 interrupt given the trigger event
-EN_INT_init_Status_t INT0_init(uint8_t trigger);
+EN_INT_init_Status_t INT0_init(u8 trigger);
 
 // Initialize the INT1 interrupt given the trigger event
-EN_INT_init_Status_t INT1_init(uint8_t trigger);
+EN_INT_init_Status_t INT1_init(u8 trigger);
 
 // Initialize the INT2 interrupt given the trigger event
-EN_INT_init_Status_t INT2_init(uint8_t trigger);
+EN_INT_init_Status_t INT2_init(u8 trigger);
 
 // Initialize the ADC conversion complete interrupt
 EN_INT_init_Status_t ADC_INT_init(void);

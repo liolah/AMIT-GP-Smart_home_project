@@ -39,11 +39,11 @@ EN_I2CMasterStatusCode_t I2C_start();
 
 EN_I2CMasterStatusCode_t I2C_repeatedStart();
 
-EN_I2CMasterStatusCode_t I2C_write(uint8_t data);
+EN_I2CMasterStatusCode_t I2C_write(u8 data);
 
-EN_I2CMasterStatusCode_t I2C_read_Ack(uint8_t* data);
+EN_I2CMasterStatusCode_t I2C_read_Ack(u8* data);
 
-EN_I2CMasterStatusCode_t I2C_read_Nack(uint8_t* data);
+EN_I2CMasterStatusCode_t I2C_read_Nack(u8* data);
 
 void I2C_stop(void);
 

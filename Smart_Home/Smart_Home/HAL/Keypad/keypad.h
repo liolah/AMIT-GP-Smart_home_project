@@ -30,6 +30,6 @@
 #define KEYPAD_NO_PRESSED_KEY_VALUE  0xFF
 
 void Keypad_init(void);
-uint8_t Keypad_getPressedKey(void);
+u8 Keypad_getPressedKey(void);
 
 #endif /* KEYPAD_H_ */

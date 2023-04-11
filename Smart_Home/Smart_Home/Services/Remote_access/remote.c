@@ -7,15 +7,15 @@
 
 #include "remote.h"
 
-uint8_t msg_buffer[15];
-uint8_t msg_length;
-uint8_t msg_buffer_pointer;
-uint8_t requesting_function;
+u8 msg_buffer[15];
+u8 msg_length;
+u8 msg_buffer_pointer;
+u8 requesting_function;
 bool invalid_user_input;
 bool dump_invalid_data;
 
 
-void remote_init(uint32_t baudRate) {
+void remote_init(u32 baudRate) {
   BT_init(baudRate);
   }
 
@@ -24,7 +24,7 @@ void test() {
   BT_sendString("Hello!\n");
   }
 
-void callFunWhenBufferReady(uint8_t functionNumber) {
+void callFunWhenBufferReady(u8 functionNumber) {
   switch (functionNumber) {
       case 0:
         break;
@@ -49,7 +49,7 @@ ISR(USART_RXC_vect) {
       dump_invalid_data = false;
       invalid_user_input = false;
       }
-      return;
+    return;
     }
   msg_buffer[msg_buffer_pointer] = UDR;
   msg_buffer_pointer++;

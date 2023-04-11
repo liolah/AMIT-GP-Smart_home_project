@@ -10,12 +10,12 @@
 bool remote_user_loggedin = false;
 bool local_user_loggedin = false;
 
-uint8_t invalid_trails = 0;
+u8 invalid_trails = 0;
 
 EN_UserStatusCode_t getUserByName(char* userName, ST_User_t* user) {
   // search by user name
     // In each page 
-  uint8_t page, userIndex, usersBlockStatus, usersAuthorityLevel;
+  u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
   char tempUserName[13];
   char tempUserCode[7];
   char tempUserPassword[7];
@@ -45,7 +45,7 @@ EN_UserStatusCode_t getUserByName(char* userName, ST_User_t* user) {
 EN_UserStatusCode_t getUserByCode(char* userCode, ST_User_t* user) {
   // search by user code
    // In each page 
-  uint8_t page, userIndex, usersBlockStatus, usersAuthorityLevel;
+  u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
   char tempUserName[13];
   char tempUserCode[7];
   char tempUserPassword[7];
@@ -100,12 +100,12 @@ void set_alarm(void) {
   Buzzer_on(BUZZER_PORT, BUZZER_PIN);
   }
 
-void write_user(uint8_t userBlockIndex, ST_User_t* user) {
+void write_user(u8 userBlockIndex, ST_User_t* user) {
   // Get the user block location (page - index)
-  uint8_t page = userBlockIndex / 8;
-  uint8_t blockNumber = userBlockIndex % 8;
+  u8 page = userBlockIndex / 8;
+  u8 blockNumber = userBlockIndex % 8;
   // Read and update the block status (reserve the block). And update the user authority level flag if the user is admin
-  uint8_t usersBlockStatus, usersAuthorityLevel;
+  u8 usersBlockStatus, usersAuthorityLevel;
   EEPROM_read_byte(page, 0, &usersBlockStatus);
   EEPROM_read_byte(page, 1, &usersAuthorityLevel);
   set_bit(usersBlockStatus, blockNumber);
@@ -120,7 +120,7 @@ void write_user(uint8_t userBlockIndex, ST_User_t* user) {
 
 EN_UserStatusCode_t add_user(ST_User_t* user) {
   // Find an empty location to write the user data
-  uint8_t page, usersBlockStatus, availableUserBlockIndex = 0;
+  u8 page, usersBlockStatus, availableUserBlockIndex = 0;
   for (page = 0; page < 8; page++) {
     EEPROM_read_byte(page, 0, &usersBlockStatus);
     if (usersBlockStatus != 0xFF) {
@@ -139,7 +139,7 @@ EN_UserStatusCode_t add_user(ST_User_t* user) {
 
 EN_UserStatusCode_t delete_user(ST_User_t* user) {
   // Find the user block index
-  uint8_t page, userIndex, usersBlockStatus, usersAuthorityLevel;
+  u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
   char tempUserName[13];
   // Comparing the user code is slightly more efficient because it's shorter
   char tempUserCode[7];
@@ -149,9 +149,9 @@ EN_UserStatusCode_t delete_user(ST_User_t* user) {
     EEPROM_read_byte(page, 1, &usersAuthorityLevel);
     for (userIndex = 0; userIndex < 8;userIndex++) {
       if (read_bit(usersBlockStatus, userIndex)) {  // If the user isn't deleted
-          EEPROM_read_block(page, 21 + 31 * userIndex, 7, tempUserCode);
+        EEPROM_read_block(page, 21 + 31 * userIndex, 7, tempUserCode);
         if (strcmp(user->code, tempUserName) == 0) { // User has been found
-          
+
           return USER_FOUND;
           }
         }
@@ -165,8 +165,8 @@ EN_UserStatusCode_t delete_user(ST_User_t* user) {
 // DB initialization functions
 // *****************************************************
 void eeprom_fill_zeroes(void) {
-  uint8_t page;
-  uint16_t byte;
+  u8 page;
+  u16 byte;
   char zeroes[16] = { 0 };
   for (page = 0; page < 8;page++) {
     for (byte = 0; byte < 256; byte += 16) {

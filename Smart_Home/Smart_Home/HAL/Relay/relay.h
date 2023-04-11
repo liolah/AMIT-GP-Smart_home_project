@@ -17,15 +17,15 @@ typedef enum EN_relayError_t
   } EN_relayError_t;
 
 // Initialize the relay
-EN_relayError_t relay_init(uint8_t relayPort, uint8_t relayPin);
+EN_relayError_t relay_init(u8 relayPort, u8 relayPin);
 
 // Turn on the relay
-EN_relayError_t relay_on(uint8_t relayPort, uint8_t relayPin);
+EN_relayError_t relay_on(u8 relayPort, u8 relayPin);
 
 // Turn off the relay
-EN_relayError_t relay_off(uint8_t relayPort, uint8_t relayPin);
+EN_relayError_t relay_off(u8 relayPort, u8 relayPin);
 
 // Toggle the relay
-EN_relayError_t relay_toggle(uint8_t relayPort, uint8_t relayPin);
+EN_relayError_t relay_toggle(u8 relayPort, u8 relayPin);
 
 #endif /* RELAY_H_ */

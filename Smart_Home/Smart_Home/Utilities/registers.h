@@ -15,7 +15,7 @@
 // DIO Registers
 // *********************************************************
 // PORTA registers
-#define PORTA *((volatile uint8_t*)0x3B)  // 8-bit register
+#define PORTA *((volatile u8*)0x3B)  // 8-bit register
 #define PORTA7  7
 #define PORTA6  6
 #define PORTA5  5
@@ -25,7 +25,7 @@
 #define PORTA1  1
 #define PORTA0  0
 
-#define DDRA *((volatile uint8_t*)0x3A)  // 8-bit register
+#define DDRA *((volatile u8*)0x3A)  // 8-bit register
 #define DDRA7   7
 #define DDRA6   6
 #define DDRA5   5
@@ -35,7 +35,7 @@
 #define DDRA1   1
 #define DDRA0   0
 
-#define PINA *((volatile uint8_t*)0x39)  // 8-bit register
+#define PINA *((volatile u8*)0x39)  // 8-bit register
 #define PINA7   7
 #define PINA6   6
 #define PINA5   5
@@ -46,7 +46,7 @@
 #define PINA0   0
 
 // PORTB registers
-#define PORTB *((volatile uint8_t*)0x38)  // 8-bit register
+#define PORTB *((volatile u8*)0x38)  // 8-bit register
 #define PORTB7  7
 #define PORTB6  6
 #define PORTB5  5
@@ -56,7 +56,7 @@
 #define PORTB1  1
 #define PORTB0  0
 
-#define DDRB *((volatile uint8_t*)0x37)  // 8-bit register
+#define DDRB *((volatile u8*)0x37)  // 8-bit register
 #define DDRB7   7
 #define DDRB6   6
 #define DDRB5   5
@@ -66,7 +66,7 @@
 #define DDRB1   1
 #define DDRB0   0
 
-#define PINB *((volatile uint8_t*)0x36)  // 8-bit register
+#define PINB *((volatile u8*)0x36)  // 8-bit register
 #define PINB7   7
 #define PINB6   6
 #define PINB5   5
@@ -77,7 +77,7 @@
 #define PINB0   0
 
 // PORTC registers
-#define PORTC *((volatile uint8_t*)0x35)  // 8-bit register
+#define PORTC *((volatile u8*)0x35)  // 8-bit register
 #define PORTC7  7
 #define PORTC6  6
 #define PORTC5  5
@@ -87,7 +87,7 @@
 #define PORTC1  1
 #define PORTC0  0
 
-#define DDRC *((volatile uint8_t*)0x34)  // 8-bit register
+#define DDRC *((volatile u8*)0x34)  // 8-bit register
 #define DDRC7   7
 #define DDRC6   6
 #define DDRC5   5
@@ -97,7 +97,7 @@
 #define DDRC1   1
 #define DDRC0   0
 
-#define PINC *((volatile uint8_t*)0x33)  // 8-bit register
+#define PINC *((volatile u8*)0x33)  // 8-bit register
 #define PINC7   7
 #define PINC6   6
 #define PINC5   5
@@ -108,7 +108,7 @@
 #define PINC0   0
 
 // PORTD registers
-#define PORTD *((volatile uint8_t*)0x32)  // 8-bit register
+#define PORTD *((volatile u8*)0x32)  // 8-bit register
 #define PORTD7  7
 #define PORTD6  6
 #define PORTD5  5
@@ -118,7 +118,7 @@
 #define PORTD1  1
 #define PORTD0  0
 
-#define DDRD *((volatile uint8_t*)0x31)  // 8-bit register
+#define DDRD *((volatile u8*)0x31)  // 8-bit register
 #define DDRD7   7
 #define DDRD6   6
 #define DDRD5   5
@@ -128,7 +128,7 @@
 #define DDRD1   1
 #define DDRD0   0
 
-#define PIND *((volatile uint8_t*)0x30)  // 8-bit register
+#define PIND *((volatile u8*)0x30)  // 8-bit register
 #define PIND7   7
 #define PIND6   6
 #define PIND5   5
@@ -142,26 +142,26 @@
 // Timer Registers
 // *********************************************************
 // Output compare registers
-#define OCR0    *((volatile uint8_t*)0x5C)  // 8-bit register
-#define OCR1A   *((volatile uint16_t*)0x4A)  // 16-bit register
-#define OCR1B   *((volatile uint16_t*)0x48)  // 16-bit register
-#define OCR2    *((volatile uint8_t*)0x43)  // 8-bit register
+#define OCR0    *((volatile u8*)0x5C)  // 8-bit register
+#define OCR1A   *((volatile u16*)0x4A)  // 16-bit register
+#define OCR1B   *((volatile u16*)0x48)  // 16-bit register
+#define OCR2    *((volatile u8*)0x43)  // 8-bit register
 
-#define OCR1AL  *((volatile uint8_t*)0x4A)  // 8-bit register
-#define OCR1AH  *((volatile uint8_t*)0x4B)  // 8-bit register
+#define OCR1AL  *((volatile u8*)0x4A)  // 8-bit register
+#define OCR1AH  *((volatile u8*)0x4B)  // 8-bit register
 
-#define ICR1   *((volatile uint16_t*)0x46)  // 16-bit register
+#define ICR1   *((volatile u16*)0x46)  // 16-bit register
 
-#define ICR1L   *((volatile uint8_t*)0x46)  // 8-bit register
-#define ICR1H   *((volatile uint8_t*)0x47)  // 8-bit register
+#define ICR1L   *((volatile u8*)0x46)  // 8-bit register
+#define ICR1H   *((volatile u8*)0x47)  // 8-bit register
 
 // Timer/Counter registers
-#define TCNT0   *((volatile uint8_t*)0x52)  // 8-bit register
-#define TCNT1   *((volatile uint16_t*)0x4C)  // 16-bit register
-#define TCNT2   *((volatile uint8_t*)0x44)  // 8-bit register
+#define TCNT0   *((volatile u8*)0x52)  // 8-bit register
+#define TCNT1   *((volatile u16*)0x4C)  // 16-bit register
+#define TCNT2   *((volatile u8*)0x44)  // 8-bit register
 
 // Timer/Counter control registers
-#define TCCR0   *((volatile uint8_t*)0x53)  // 8-bit register
+#define TCCR0   *((volatile u8*)0x53)  // 8-bit register
 #define CS00    0
 #define CS01    1
 #define CS02    2
@@ -171,7 +171,7 @@
 #define WGM00   6
 #define FOC0    7
 
-#define TCCR1A  *((volatile uint8_t*)0x4F)  // 8-bit register
+#define TCCR1A  *((volatile u8*)0x4F)  // 8-bit register
 #define WGM10   0
 #define WGM11   1
 #define FOC1B   2
@@ -181,7 +181,7 @@
 #define COM1A0  6
 #define COM1A1  7
 
-#define TCCR1B  *((volatile uint8_t*)0x4E)  // 8-bit register
+#define TCCR1B  *((volatile u8*)0x4E)  // 8-bit register
 #define CS10    0
 #define CS11    1
 #define CS12    2
@@ -190,7 +190,7 @@
 #define ICES1   6
 #define ICNC1   7
 
-#define TCCR2   *((volatile uint8_t*)0x45)  // 8-bit register
+#define TCCR2   *((volatile u8*)0x45)  // 8-bit register
 #define CS20    0
 #define CS21    1
 #define CS22    2
@@ -201,7 +201,7 @@
 #define FOC2    7
 
 // Timer interrupts mask register
-#define TIMSK   *((volatile uint8_t*)0x59)  // 8-bit register
+#define TIMSK   *((volatile u8*)0x59)  // 8-bit register
 #define TOIE0   0
 #define OCIE0   1
 #define TOIE2   6
@@ -212,7 +212,7 @@
 #define TICIE1  5
 
 // Timer interrupts flag register
-#define TIFR    *((volatile uint8_t*)0x58)  // 8-bit register
+#define TIFR    *((volatile u8*)0x58)  // 8-bit register
 #define TOV0    0
 #define OCF0    1
 #define TOV2    6
@@ -225,7 +225,7 @@
 // Interrupts Registers
 // *********************************************************
 // MCU control register
-#define MCUCR *((volatile uint8_t*)0x55)  // 8-bit register
+#define MCUCR *((volatile u8*)0x55)  // 8-bit register
 #define ISC00   0
 #define ISC01   1
 #define ISC10   2
@@ -235,11 +235,11 @@
 #define SM2     6
 #define SE      7
 
-#define MCUCSR *((volatile uint8_t*)0x54)  // 8-bit register
+#define MCUCSR *((volatile u8*)0x54)  // 8-bit register
 #define ISC2   6
 
 // General interrupt control register
-#define GICR *((volatile uint8_t*)0x5B)  // 8-bit register
+#define GICR *((volatile u8*)0x5B)  // 8-bit register
 #define IVCE    0
 #define IVSEL   1
 #define INT2    5
@@ -247,7 +247,7 @@
 #define INT1    7
 
 // General interrupt flag register
-#define GIFR    *((volatile uint8_t*)0x5A)  // 8-bit register
+#define GIFR    *((volatile u8*)0x5A)  // 8-bit register
 #define INTF2   5
 #define INTF0   6
 #define INTF1   7
@@ -255,12 +255,12 @@
 // *********************************************************
 // ADC Registers
 // *********************************************************
-#define ADCW    *((volatile uint16_t*)0x24)  // 16-bit register
+#define ADCW    *((volatile u16*)0x24)  // 16-bit register
 
-#define ADCL    *((volatile uint8_t*)0x24)  // 8-bit register
-#define ADCH    *((volatile uint8_t*)0x25)  // 8-bit register
+#define ADCL    *((volatile u8*)0x24)  // 8-bit register
+#define ADCH    *((volatile u8*)0x25)  // 8-bit register
 
-#define ADCSRA  *((volatile uint8_t*)0x26)  // 8-bit register
+#define ADCSRA  *((volatile u8*)0x26)  // 8-bit register
 #define ADPS0   0
 #define ADPS1   1
 #define ADPS2   2
@@ -270,7 +270,7 @@
 #define ADSC    6
 #define ADEN    7
 
-#define ADMUX   *((volatile uint8_t*)0x27)  // 8-bit register
+#define ADMUX   *((volatile u8*)0x27)  // 8-bit register
 #define MUX0    0
 #define MUX1    1
 #define MUX2    2
@@ -280,7 +280,7 @@
 #define REFS0   6
 #define REFS1   7
 
-#define ACSR    *((volatile uint8_t*)0x28)  // 8-bit register
+#define ACSR    *((volatile u8*)0x28)  // 8-bit register
 #define ACIS0   0
 #define ACIS1   1
 #define ACIC    2
@@ -290,7 +290,7 @@
 #define ACBG    6
 #define ACD     7
 
-#define SFIOR    *((volatile uint8_t*)0x50)  // 8-bit register
+#define SFIOR    *((volatile u8*)0x50)  // 8-bit register
 #define ADTS0     5
 #define ADTS1     6
 #define ADTS2     7
@@ -298,9 +298,9 @@
 // *********************************************************
 // USART Registers
 // *********************************************************
-#define UDR     *((volatile uint8_t*)0x2C)  // 8-bit register
+#define UDR     *((volatile u8*)0x2C)  // 8-bit register
 
-#define UCSRA   *((volatile uint8_t*)0x2B)  // 8-bit register
+#define UCSRA   *((volatile u8*)0x2B)  // 8-bit register
 #define MPCM    0
 #define U2X     1
 #define UPE     2
@@ -310,7 +310,7 @@
 #define TXC     6
 #define RXC     7
 
-#define UCSRB   *((volatile uint8_t*)0x2A)  // 8-bit register
+#define UCSRB   *((volatile u8*)0x2A)  // 8-bit register
 #define TXB8    0
 #define RXB8    1
 #define UCSZ2   2
@@ -320,7 +320,7 @@
 #define TXCIE   6
 #define RXCIE   7
 
-#define UCSRC   *((volatile uint8_t*)0x40)  // 8-bit register
+#define UCSRC   *((volatile u8*)0x40)  // 8-bit register
 #define UCPOL   0
 #define UCSZ0   1
 #define UCSZ1   2
@@ -330,15 +330,15 @@
 #define UMSEL   6
 #define URSEL   7
 
-#define UBRRL   *((volatile uint8_t*)0x29)  // 8-bit register
-#define UBRRH   *((volatile uint8_t*)0x40)  // 8-bit register
+#define UBRRL   *((volatile u8*)0x29)  // 8-bit register
+#define UBRRH   *((volatile u8*)0x40)  // 8-bit register
 
 // *********************************************************
 // TWI (I2C) Registers
 // *********************************************************
-#define TWBR    *((volatile uint8_t*)0x20)  // 8-bit register
+#define TWBR    *((volatile u8*)0x20)  // 8-bit register
 
-#define TWSR    *((volatile uint8_t*)0x21)  // 8-bit register
+#define TWSR    *((volatile u8*)0x21)  // 8-bit register
 #define TWPS0   0
 #define TWPS1   1
 #define TWS3    3
@@ -347,11 +347,11 @@
 #define TWS6    6
 #define TWS7    7
 
-#define TWAR    *((volatile uint8_t*)0x22)  // 8-bit register
+#define TWAR    *((volatile u8*)0x22)  // 8-bit register
 
-#define TWDR    *((volatile uint8_t*)0x23)  // 8-bit register
+#define TWDR    *((volatile u8*)0x23)  // 8-bit register
 
-#define TWCR    *((volatile uint8_t*)0x56)  // 8-bit register
+#define TWCR    *((volatile u8*)0x56)  // 8-bit register
 #define TWIE    0
 #define TWEN    2
 #define TWWC    3
