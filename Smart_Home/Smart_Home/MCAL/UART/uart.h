@@ -25,14 +25,14 @@ typedef enum EN_UARTError_t
 // Initialize the UART interface
 EN_UARTError_t UART_init(unsigned long int baudRate);
 
-// Send a char using UART
-void UART_sendChar(char data);
+// Send a s8 using UART
+void UART_sends8(s8 data);
 
-// Receive a char using UART
-void UART_receiveChar(char* x);
+// Receive a s8 using UART
+void UART_receives8(s8* x);
 
-void UART_sendString(char* str);
+void UART_sendString(s8* str);
 
-void UART_receiveString(char* str);
+void UART_receiveString(s8* str);
 
 #endif /* UART_H_ */

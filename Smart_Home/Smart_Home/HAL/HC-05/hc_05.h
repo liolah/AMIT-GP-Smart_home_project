@@ -17,8 +17,8 @@
 
 void BT_init(u32 buadRate);
 
-void BT_sendChar(char data);
+void BT_sends8(s8 data);
 
-void BT_sendString(char* str);
+void BT_sendString(s8* str);
 
 #endif /* HC_05_H_ */

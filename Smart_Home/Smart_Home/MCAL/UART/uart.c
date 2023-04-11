@@ -54,41 +54,41 @@ EN_UARTError_t UART_init(unsigned long int baudRate) {
   // Asynchronous by default 
   // Parity bit disabled by default
   // One stop bit by default
-  // Set char size to 8 bits
+  // Set s8 size to 8 bits
   set_bit(UCSRC, UCSZ0);
   set_bit(UCSRC, UCSZ1);
   return UART_INIT_OK;
   }
 
-// Send a char using UART
-void UART_sendChar(char data) {
+// Send a s8 using UART
+void UART_sends8(s8 data) {
   while (!read_bit(UCSRA, UDRE)); // Wait for the register to be empty.
   UDR = data;
   while (!read_bit(UCSRA, TXC)); // Wait for the data in the register to be sent.
   }
 
-// Receive a char using UART
-void UART_receiveChar(char* x) {
+// Receive a s8 using UART
+void UART_receives8(s8* x) {
   while (!read_bit(UCSRA, RXC)); // Wait for the data to be received.
   *x = UDR;
   }
 
-void UART_sendString(char* str) {
+void UART_sendString(s8* str) {
   u32 i = 0;
   while (str[i] != 0) {
-    UART_sendChar(str[i]);
+    UART_sends8(str[i]);
     i++;
     }
-  UART_sendChar(0); // Send null to terminate the string
+  UART_sends8(0); // Send null to terminate the string
   }
 
-void UART_receiveString(char* str) {
+void UART_receiveString(s8* str) {
   u32 i = 0;
-  char c;
-  UART_receiveChar(&c);
+  s8 c;
+  UART_receives8(&c);
   while (c != 0) {
     str[i] = c;
-    UART_receiveChar(&c);
+    UART_receives8(&c);
     i++;
     }
   str[i] = 0; // Terminate the string with null

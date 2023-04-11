@@ -11,7 +11,7 @@ void EEPROM_init() {
   I2C_init();
   }
 
-void EEPROM_read_byte(u8 page, u8 address, char* data) {
+void EEPROM_read_byte(u8 page, u8 address, s8* data) {
   I2C_start();
   // I2C_write(0b10100000 + (page << 1));
   I2C_write(0xA0 + (page << 1)); // EEPROM address first part + page number
@@ -24,7 +24,7 @@ void EEPROM_read_byte(u8 page, u8 address, char* data) {
   I2C_stop();
   }
 
-void EEPROM_read_block(u8 page, u8 address, u16 bytes_number, char* data) {
+void EEPROM_read_block(u8 page, u8 address, u16 bytes_number, s8* data) {
 #if READ_BLOCK_METHOD == BYTE_BY_BYTE
   u16 i;
   for (i = 0;i < bytes_number;i++) {
@@ -45,7 +45,7 @@ void EEPROM_read_block(u8 page, u8 address, u16 bytes_number, char* data) {
 #endif
   }
 
-void EEPROM_write_byte(u8 page, u8 address, char data) {
+void EEPROM_write_byte(u8 page, u8 address, s8 data) {
   I2C_start();
   // I2C_write(0b10100000 + (page << 1));
   I2C_write(0xA0 + (page << 1)); // EEPROM address first part + page number
@@ -59,7 +59,7 @@ void EEPROM_write_byte(u8 page, u8 address, char data) {
   }
 
 // bytes_number must be within page size (256 bytes)
-void EEPROM_write_block(u8 page, u8 address, u16 bytes_number, char* data) {
+void EEPROM_write_block(u8 page, u8 address, u16 bytes_number, s8* data) {
 #if WRITE_BLOCK_METHOD == BYTE_BY_BYTE
   u16 i;
   for (i = 0;i < bytes_number;i++) {

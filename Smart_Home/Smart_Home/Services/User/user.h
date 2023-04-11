@@ -20,9 +20,9 @@
 typedef struct ST_User_t
   {
   bool isAdmin;
-  char name[13];
-  char code[7];
-  char password[11];
+  s8 name[13];
+  s8 code[7];
+  s8 password[11];
   } ST_User_t;
 
 typedef enum EN_UserStatusCode_t
@@ -47,9 +47,9 @@ EN_UserStatusCode_t add_user(ST_User_t* user);
 EN_UserStatusCode_t delete_user(ST_User_t* user);
 
 // Searches for the user by the username. user is null if the user isn't found 
-EN_UserStatusCode_t search_user(char* user_code_or_name, bool mode, ST_User_t* user);
+EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* user);
 
-bool validate_user_password(ST_User_t* user, char* password);
+bool validate_user_password(ST_User_t* user, s8* password);
 
 void invalid_login_attempt(void);
 

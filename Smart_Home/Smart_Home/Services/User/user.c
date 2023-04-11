@@ -12,13 +12,13 @@ bool local_user_loggedin = false;
 
 u8 invalid_trails = 0;
 
-EN_UserStatusCode_t getUserByName(char* userName, ST_User_t* user) {
+EN_UserStatusCode_t getUserByName(s8* userName, ST_User_t* user) {
   // search by user name
     // In each page 
   u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
-  char tempUserName[13];
-  char tempUserCode[7];
-  char tempUserPassword[7];
+  s8 tempUserName[13];
+  s8 tempUserCode[7];
+  s8 tempUserPassword[7];
   for (page = 0; page < 8; page++) {
     // Read the first two bytes to see which users are deleted and what blocks to search in. Also save the authority level in case the user was found.
     EEPROM_read_byte(page, 0, &usersBlockStatus);
@@ -42,13 +42,13 @@ EN_UserStatusCode_t getUserByName(char* userName, ST_User_t* user) {
   return USER_NOT_FOUND;
   }
 
-EN_UserStatusCode_t getUserByCode(char* userCode, ST_User_t* user) {
+EN_UserStatusCode_t getUserByCode(s8* userCode, ST_User_t* user) {
   // search by user code
    // In each page 
   u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
-  char tempUserName[13];
-  char tempUserCode[7];
-  char tempUserPassword[7];
+  s8 tempUserName[13];
+  s8 tempUserCode[7];
+  s8 tempUserPassword[7];
   for (page = 0; page < 8; page++) {
     // Read the first two bytes to see which users are deleted and what blocks to search in. Also save the authority level in case the user was found.
     EEPROM_read_byte(page, 0, &usersBlockStatus);
@@ -74,7 +74,7 @@ EN_UserStatusCode_t getUserByCode(char* userCode, ST_User_t* user) {
 
 
 
-EN_UserStatusCode_t search_user(char* user_code_or_name, bool mode, ST_User_t* user) {
+EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* user) {
   // The mode is used to determine if the search is going to be done user name (remote mode) or user code (local mode). 
   if (REMOTE_MODE) {
     return getUserByName(user_code_or_name, user);
@@ -84,7 +84,7 @@ EN_UserStatusCode_t search_user(char* user_code_or_name, bool mode, ST_User_t* u
     }
   }
 
-bool validate_user_password(ST_User_t* user, char* password) {
+bool validate_user_password(ST_User_t* user, s8* password) {
   return (strcmp(user->password, password) == 0);
   }
 
@@ -140,9 +140,9 @@ EN_UserStatusCode_t add_user(ST_User_t* user) {
 EN_UserStatusCode_t delete_user(ST_User_t* user) {
   // Find the user block index
   u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
-  char tempUserName[13];
+  s8 tempUserName[13];
   // Comparing the user code is slightly more efficient because it's shorter
-  char tempUserCode[7];
+  s8 tempUserCode[7];
   for (page = 0; page < 8; page++) {
     // Read the first two bytes to see which users are deleted and what blocks to search in. Also save the authority level in case the user was found.
     EEPROM_read_byte(page, 0, &usersBlockStatus);
@@ -167,7 +167,7 @@ EN_UserStatusCode_t delete_user(ST_User_t* user) {
 void eeprom_fill_zeroes(void) {
   u8 page;
   u16 byte;
-  char zeroes[16] = { 0 };
+  s8 zeroes[16] = { 0 };
   for (page = 0; page < 8;page++) {
     for (byte = 0; byte < 256; byte += 16) {
       EEPROM_write_block(page, byte, 16, zeroes);
@@ -180,9 +180,9 @@ void write_first_user(void) {
   EEPROM_write_byte(0, 0, 1);
   // Wite that the first user's an admin
   EEPROM_write_byte(0, 1, 1);
-  char name[13] = "admin";
-  char code[7] = "000000";
-  char password[11] = "123456";
+  s8 name[13] = "admin";
+  s8 code[7] = "000000";
+  s8 password[11] = "123456";
   EEPROM_write_block(0, 8, 13, name);
   EEPROM_write_block(0, 21, 7, code);
   EEPROM_write_block(0, 28, 11, password);

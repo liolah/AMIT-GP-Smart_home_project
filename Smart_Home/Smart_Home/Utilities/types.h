@@ -9,7 +9,8 @@
 #define TYPES_H_
 
  // In atmega32a, int is 16 bits. long int is 32 bits.
- // u32 is defined as unsigned int, and it's supposed to be 4 bytes, which is not true for atmega32a
+ // uint32_t is defined as unsigned int in stdin.h, and it's supposed to be 4 bytes, which is not true for atmega32a
+ // Therefore, this typedefs are needed
 
 typedef unsigned char u8;
 typedef char s8;

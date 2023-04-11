@@ -91,14 +91,14 @@ void LCD_init(void) {
 #endif
   }
 
-void LCD_sendString(char* str) {
+void LCD_sendString(s8* str) {
   u32 i;
   for (i = 0;str[i] != 0;i++) {
     LCD_sendData(str[i]);
     }
   }
 
-void LCD_writeString_xy(u8 x, u8 y, char* str) {
+void LCD_writeString_xy(u8 x, u8 y, s8* str) {
   switch (y) {
       case 0:
         LCD_sendCommand(0x80 + x);

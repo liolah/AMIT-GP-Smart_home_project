@@ -17,9 +17,9 @@ void LCD_sendData(u8 data);
 
 void LCD_sendCommand(u8 cmd);
 
-void LCD_sendString(char* str);
+void LCD_sendString(s8* str);
 
-void LCD_writeString_xy(u8 x, u8 y, char* str);
+void LCD_writeString_xy(u8 x, u8 y, s8* str);
 
 void LCD_clear_screen();
 
