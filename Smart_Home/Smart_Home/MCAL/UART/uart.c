@@ -8,12 +8,12 @@
 #include "uart.h"
 
  // Initialize the UART interface
-EN_UARTError_t UART_init(unsigned int baudRate) {
+EN_UARTError_t UART_init(uint32_t baudRate) {
   //! Issue 1: The UBRR variable was being optimized, making the case statements empty, which goes under the fallthrough optimization and gets optimized
   //! until the default case is reached resulting in the function returning an error and the UART never gets initialized. (probably)
   //? So Just removed UBRR and used registers in the cases directly
-  uint16_t UBRR;
-  Setting the baud rate
+  // Setting the baud rate
+  // UBRR values are calculated based on 16MHz clock speed
   switch (baudRate) {
       case 2400U:
         // UBRR = 416;
@@ -31,6 +31,15 @@ EN_UARTError_t UART_init(unsigned int baudRate) {
         break;
       case 115200U:
         UBRRL = 8;
+        break;
+      case 230400U:
+        UBRRL = 3;
+        break;
+      case 500000U:
+        UBRRL = 1;
+        break;
+      case 1000000U:
+        UBRRL = 0;
         break;
       default:
         return WRONG_BAUDRATE;
