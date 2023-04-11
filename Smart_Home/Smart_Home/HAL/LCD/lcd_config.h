@@ -9,8 +9,10 @@
 #ifndef LCD_CONFIG_H_
 #define LCD_CONFIG_H_
 
+#ifndef F_CPU
+#define F_CPU 16000000ul
+#endif
 
-#define F_CPU 16000000
 #include "util/delay.h"
 
 #include "../../MCAL/DIO/dio.h"

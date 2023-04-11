@@ -9,7 +9,9 @@
 #ifndef EEPROM_H_
 #define EEPROM_H_
 
+#ifndef	F_CPU
 #define F_CPU 16000000ul
+#endif
 
 #include <util/delay.h>
 #include "../../MCAL/I2C/I2C.h"

@@ -17,4 +17,8 @@
 
 void BT_init(uint32_t buadRate);
 
+void BT_sendChar(char data);
+
+void BT_sendString(char* str);
+
 #endif /* HC_05_H_ */

@@ -14,13 +14,16 @@
 #include "MCAL/ADC/adc.h"
 #include "MCAL/Timer/timer.h"
 #include "Services/User/user.h"
+#include "Services/Remote_access/remote.h"
 
 int main(void) {
-	EEPROM_init();
-	char x[202];
-	EEPROM_read_block(0, 0, 200, x);
-		while (1) {
-			// int i;
+	UART_init(9600U);
+	
+	while (1) {
+		test();
+		_delay_ms(1000);
+
+		// int i;
 		// for (i = 0; i < 185; i += 5)
 		// {
 		// 	servo_move_to_angle(i);

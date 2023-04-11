@@ -9,7 +9,9 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-#define F_CPU 16000000
+#ifndef F_CPU
+#define F_CPU 16000000ul
+#endif
 
 #include <util/delay.h>
 

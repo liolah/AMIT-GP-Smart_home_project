@@ -249,9 +249,11 @@
     </Compile>
     <Compile Include="MCAL\UART\uart.c">
       <SubType>compile</SubType>
+      <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">-O0</CustomCompilationSetting>
     </Compile>
     <Compile Include="MCAL\UART\uart.h">
       <SubType>compile</SubType>
+      <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">-O0</CustomCompilationSetting>
     </Compile>
     <Compile Include="Services\LCD_menu\lcd_menu.c">
       <SubType>compile</SubType>
@@ -267,9 +269,13 @@
     </Compile>
     <Compile Include="Services\User\user.c">
       <SubType>compile</SubType>
+      <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">
+      </CustomCompilationSetting>
     </Compile>
     <Compile Include="Services\User\user.h">
       <SubType>compile</SubType>
+      <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">
+      </CustomCompilationSetting>
     </Compile>
     <Compile Include="Utilities\bit_manipulation.h">
       <SubType>compile</SubType>

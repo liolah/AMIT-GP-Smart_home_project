@@ -29,7 +29,18 @@ main.d main.o: .././main.c \
  .././MCAL/ADC/adc_config.h .././MCAL/Timer/timer.h \
  .././Services/User/user.h .././Services/User/../../HAL/EEPROM/eeprom.h \
  .././Services/User/../../HAL/Buzzer/buzzer.h \
- .././Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h
+ .././Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h \
+ .././Services/Remote_access/remote.h \
+ .././Services/Remote_access/../../HAL/HC-05/hc_05.h \
+ .././Services/Remote_access/../../HAL/HC-05/../../MCAL/DIO/dio.h \
+ .././Services/Remote_access/../../HAL/HC-05/../../MCAL/UART/uart.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ .././Services/Remote_access/../../MCAL/Interrupts/interrupts.h \
+ .././Services/Remote_access/../../MCAL/Interrupts/../../Utilities/registers.h \
+ .././Services/Remote_access/../../MCAL/Interrupts/../../Utilities/bit_manipulation.h \
+ .././Services/Remote_access/../../Utilities/registers.h \
+ .././Services/Remote_access/../../Utilities/bit_manipulation.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
@@ -106,3 +117,25 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 .././Services/User/../../HAL/Buzzer/buzzer.h:
 
 .././Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h:
+
+.././Services/Remote_access/remote.h:
+
+.././Services/Remote_access/../../HAL/HC-05/hc_05.h:
+
+.././Services/Remote_access/../../HAL/HC-05/../../MCAL/DIO/dio.h:
+
+.././Services/Remote_access/../../HAL/HC-05/../../MCAL/UART/uart.h:
+
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
+
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
+
+.././Services/Remote_access/../../MCAL/Interrupts/interrupts.h:
+
+.././Services/Remote_access/../../MCAL/Interrupts/../../Utilities/registers.h:
+
+.././Services/Remote_access/../../MCAL/Interrupts/../../Utilities/bit_manipulation.h:
+
+.././Services/Remote_access/../../Utilities/registers.h:
+
+.././Services/Remote_access/../../Utilities/bit_manipulation.h:

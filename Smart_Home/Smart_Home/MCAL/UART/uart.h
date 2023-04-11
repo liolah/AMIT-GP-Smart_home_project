@@ -13,24 +13,26 @@
 #include "../../Utilities/registers.h"
 #include "../../Utilities/bit_manipulation.h"
 
+#ifndef F_CPU
+#define F_CPU 16000000ul
+#endif
+
 typedef enum EN_UARTError_t
   {
   UART_INIT_OK, WRONG_BAUDRATE
   } EN_UARTError_t;
 
-#define F_CPU 16000000
-
 // Initialize the UART interface
 EN_UARTError_t UART_init(uint32_t baudRate);
 
 // Send a char using UART
-void UART_sendChar(uint8_t data);
+void UART_sendChar(char data);
 
 // Receive a char using UART
-void UART_receiveChar(uint8_t* x);
+void UART_receiveChar(char* x);
 
-void UART_sendString(uint8_t* str);
+void UART_sendString(char* str);
 
-void UART_receiveString(uint8_t* str);
+void UART_receiveString(char* str);
 
 #endif /* UART_H_ */

@@ -20,8 +20,8 @@ void remote_init(uint32_t baudRate) {
   }
 
 
-void sayHello() {
-  
+void test() {
+  BT_sendString("Hello!\n");
   }
 
 void callFunWhenBufferReady(uint8_t functionNumber) {

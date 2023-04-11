@@ -7,7 +7,15 @@
 
 #include "hc_05.h"
 
-void BT_init(uint32_t buadRate) {
+void BT_init(uint32_t baudRate) {
   DIO_init(HC_05_STATUS_PIN, HC_05_STATUS_PORT, IN);
-  UART_init(buadRate);
+  UART_init(baudRate);
   }
+
+void BT_sendChar(char data){
+  UART_sendChar(data);
+}
+
+void BT_sendString(char* str){
+  UART_sendString(str);
+}

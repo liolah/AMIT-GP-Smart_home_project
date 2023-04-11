@@ -22,10 +22,12 @@ bool invalid_user_input;
 
 typedef enum EN_remoteConnStat_t
   {
-  REMOTE_INIT_SUCCESSFUL, ERROR
+  REMOTE_INIT_SUCCESSFUL
   }
 EN_remoteConnStat_t;
 
 void remote_init(uint32_t baudRate);
+
+void test();
 
 #endif /* REMOTE_H_ */
