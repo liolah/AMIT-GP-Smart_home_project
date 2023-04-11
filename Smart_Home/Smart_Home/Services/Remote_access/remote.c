@@ -21,7 +21,8 @@ void remote_init(u32 baudRate) {
 
 
 void test() {
-  BT_sendString("Hello!\n");
+  // Carriage return is required to move to the next line. It should move the cursor to the start of the line, but it's also required as a signal 
+  BT_sendString("Hello!\r");
   }
 
 void callFunWhenBufferReady(u8 functionNumber) {
