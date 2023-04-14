@@ -88,16 +88,16 @@ EN_ADCError_t ADC_init_auto_trigger(u8 trigger) {
         set_bit(SFIOR, ADTS1);
         break;
       case TIMER_0_COMPARE_MATCH_TRIGGER:
-        SFIOR |= (ADTS0) | (1 << ADTS1);
+        SFIOR |= (1 << ADTS0) | (1 << ADTS1);
         break;
       case TIMER_0_OVF_TRIGGER:
         set_bit(SFIOR, ADTS2);
         break;
       case TIMER_1_COMPARE_MATCH_B_TRIGGER:
-        SFIOR |= (ADTS0) | (1 << ADTS2);
+        SFIOR |= (1 << ADTS0) | (1 << ADTS2);
         break;
       case TIMER_1_OVF_TRIGGER:
-        SFIOR |= (ADTS1) | (1 << ADTS2);
+        SFIOR |= (1 << ADTS1) | (1 << ADTS2);
         break;
     }
   // Enable the ADC
