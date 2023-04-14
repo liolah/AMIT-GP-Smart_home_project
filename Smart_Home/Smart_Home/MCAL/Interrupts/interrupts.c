@@ -13,8 +13,6 @@ EN_INT_init_Status_t INT0_init(u8 trigger) {
   if (trigger != LOW_LEVEL_INTERRUPT_REQUEST && trigger != LOGICAL_CHANGE_INTERRUPT_REQUEST && trigger != FALLING_EDGE_INTERRUPT_REQUEST && trigger != RISING_EDGE_INTERRUPT_REQUEST) {
     return WRONG_TRIGGER;
     }
-  // Enable the external interrupt 
-  set_bit(GICR, INT0);
   switch (trigger) {
       case LOW_LEVEL_INTERRUPT_REQUEST:
         // Default trigger mode
@@ -32,6 +30,10 @@ EN_INT_init_Status_t INT0_init(u8 trigger) {
         set_bit(MCUCR, ISC01);
         break;
     }
+  // The external interrupt must be enabled after the sense control is configured. 
+  // Enabling it before setting the interrupt sense control will trigger it(It did so in Proteus sim).
+  // Enable the external interrupt 
+  set_bit(GICR, INT0);
   return INTERRUPT_INIT_OK;
   }
 
@@ -40,8 +42,6 @@ EN_INT_init_Status_t INT1_init(u8 trigger) {
   if (trigger != LOW_LEVEL_INTERRUPT_REQUEST && trigger != LOGICAL_CHANGE_INTERRUPT_REQUEST && trigger != FALLING_EDGE_INTERRUPT_REQUEST && trigger != RISING_EDGE_INTERRUPT_REQUEST) {
     return WRONG_TRIGGER;
     }
-  // Enable the external interrupt 
-  set_bit(GICR, INT1);
   switch (trigger) {
       case LOW_LEVEL_INTERRUPT_REQUEST:
         // Default trigger mode
@@ -59,6 +59,8 @@ EN_INT_init_Status_t INT1_init(u8 trigger) {
         set_bit(MCUCR, ISC11);
         break;
     }
+  // Enable the external interrupt 
+  set_bit(GICR, INT1);
   return INTERRUPT_INIT_OK;
   }
 
@@ -67,8 +69,6 @@ EN_INT_init_Status_t INT2_init(u8 trigger) {
   if (trigger != FALLING_EDGE_INTERRUPT_REQUEST && trigger != RISING_EDGE_INTERRUPT_REQUEST) {
     return WRONG_TRIGGER;
     }
-  // Enable the external interrupt 
-  set_bit(GICR, INT2);
   switch (trigger) {
       case FALLING_EDGE_INTERRUPT_REQUEST:
         break;
@@ -76,6 +76,8 @@ EN_INT_init_Status_t INT2_init(u8 trigger) {
         set_bit(MCUCSR, ISC2);
         break;
     }
+  // Enable the external interrupt 
+  set_bit(GICR, INT2);
   return INTERRUPT_INIT_OK;
   }
 
