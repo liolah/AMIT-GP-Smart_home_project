@@ -73,6 +73,10 @@ EN_ADCError_t ADC_init_auto_trigger(u8 trigger) {
   // Enable the auto trigger mode
   set_bit(ADCSRA, ADATE);
   // Select the auto trigger source
+  //! Cause of a bug: setting ADTS bits one by one. when setting them one by one, only the last bit is set and the rest are cleared. 
+  //! The bits must be set in one write operation.
+  //^ Generally, in this project, setting bits in a register one by one has caused multiple issues, also sometimes the order matters. other times a register must be read before another.
+  //? Setting one bit is okay. But multiple bits need to be set in one write operation.
   switch (trigger) {
       case FREE_RUNNING_MODE_TRIGGER:
         // All bits are clear by default
@@ -84,19 +88,16 @@ EN_ADCError_t ADC_init_auto_trigger(u8 trigger) {
         set_bit(SFIOR, ADTS1);
         break;
       case TIMER_0_COMPARE_MATCH_TRIGGER:
-        set_bit(SFIOR, ADTS0);
-        set_bit(SFIOR, ADTS1);
+        SFIOR |= (ADTS0) | (1 << ADTS1);
         break;
       case TIMER_0_OVF_TRIGGER:
         set_bit(SFIOR, ADTS2);
         break;
       case TIMER_1_COMPARE_MATCH_B_TRIGGER:
-        set_bit(SFIOR, ADTS0);
-        set_bit(SFIOR, ADTS2);
+        SFIOR |= (ADTS0) | (1 << ADTS2);
         break;
       case TIMER_1_OVF_TRIGGER:
-        set_bit(SFIOR, ADTS1);
-        set_bit(SFIOR, ADTS2);
+        SFIOR |= (ADTS1) | (1 << ADTS2);
         break;
     }
   // Enable the ADC
