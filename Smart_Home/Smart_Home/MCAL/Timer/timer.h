@@ -24,13 +24,18 @@
 #define OC_1B 2
 #define OC_2  3
 
+#define OCR_0  0
+#define OCR_1A 1
+#define OCR_1B 2
+#define OCR_2  3
+
 #define PWM_FAST 1
 #define PWM_PHASE_CORRECT 2
 #define PWM_PHASE_AND_FREQUENCY_CORRECT 3
 
 typedef enum EN_timerError_t
   {
-  TIMER_OK, WRONG_TIMER, WRONG_PRESCALAR, WRONG_TIMER_TCNT_VALUE, WRONG_TIMER_OCR_VALUE, WRONG_PWM_MODE, WRONG_PWM_PIN
+  TIMER_OK, WRONG_TIMER, WRONG_PRESCALAR, WRONG_TIMER_TCNT_VALUE, WRONG_TIMER_OCR_VALUE, WRONG_OCR_REGISTER, WRONG_PWM_MODE, WRONG_PWM_PIN
   } EN_timerError_t;
 
 // TODO: A function that takes the timer number and the duration then adjusts the prescalar settings optimally to get the exact required time after a number of cycles. returns the minimum number of cycles
@@ -60,7 +65,10 @@ EN_timerError_t Timer_stop(u8 timerNumber);
 // Reset the timer
 EN_timerError_t Timer_reset(u8 timerNumber);
 
-// Check if the timer's OCF is set and reset the flag if set
-EN_timerError_t Timer_read_and_reset_OCF(u8 timerNumber, bool* flag);
+// Check if the OCR's OCF is set and reset the flag if set
+EN_timerError_t Timer_read_and_reset_OCF(u8 OCRNumber, bool* flag);
 
+// Reset the OCF
+EN_timerError_t Timer_reset_OCF(u8 OCRNumber, bool* flag);
+  
 #endif /* TIMER_H_ */

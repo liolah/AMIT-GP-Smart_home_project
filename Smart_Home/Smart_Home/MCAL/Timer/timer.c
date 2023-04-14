@@ -287,47 +287,6 @@ EN_timerError_t Timer_reset(u8 timerNumber) {
   return TIMER_OK;
   }
 
-// Check if the timer's OCF is set and reset the flag if set. Returns true if the flag is set.
-EN_timerError_t Timer_read_and_reset_OCF(u8 timerNumber, bool* flag) {
-  // Validate the timer number
-  if (!isValidTimer(timerNumber)) {
-    return WRONG_TIMER;
-    }
-  switch (timerNumber) {
-      case TIMER_0:
-        // If the OCF bit is set that means a compare match has occurred. 
-        if (read_bit(TIFR, OCF0) == 1) {
-          // Reset the flag
-          set_bit(TIFR, OCF0);
-          *flag = true;
-          }
-        else {
-          *flag = false;
-          }
-        break;
-      case TIMER_1:
-        if (read_bit(TIFR, OCF1A) == 1) {
-          set_bit(TIFR, OCF1A);
-          *flag = true;
-          }
-        else {
-          *flag = false;
-          }
-        break;
-      case TIMER_2:
-        if (read_bit(TIFR, OCF2) == 1) {
-          set_bit(TIFR, OCF2);
-          *flag = true;
-          }
-        else {
-          *flag = false;
-          }
-        break;
-    }
-  // Everything went well
-  return TIMER_OK;
-  }
-
 // *The pwm frequency can be calculated from the equation: (F_CPU/(N*256)) for fast pwm and (F_CPU/(N*510)) for phase correct pwm
 // Initialize the timers to start in pwm mode
 EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode) {
@@ -566,6 +525,79 @@ EN_timerError_t PWM_set_DC(u8 pwmPin, double dutyCycle) {
         break;
       case OC_2:
         OCR2 = (u8)(dutyCycle * 255);
+        break;
+    }
+  return TIMER_OK;
+  }
+
+// Check if the OCR's OCF is set and reset the flag if set. Returns true if the flag is set.
+EN_timerError_t Timer_read_and_reset_OCF(u8 OCRNumber, bool* flag) {
+  // Validate the OCR number
+  if (OCRNumber != OCR_0 && OCRNumber != OCR_1A && OCRNumber != OCR_1B && OCRNumber != OCR_2) {
+    return WRONG_OCR_REGISTER;
+    }
+  switch (OCRNumber) {
+      case OCR_0:
+        // If the OCF bit is set that means a compare match has occurred. 
+        if (read_bit(TIFR, OCF0)) {
+          // Write one to reset the flag
+          set_bit(TIFR, OCF0);
+          *flag = true;
+          }
+        else {
+          *flag = false;
+          }
+        break;
+      case OCR_1A:
+        if (read_bit(TIFR, OCF1A)) {
+          set_bit(TIFR, OCF1A);
+          *flag = true;
+          }
+        else {
+          *flag = false;
+          }
+        break;
+      case OCR_1B:
+        if (read_bit(TIFR, OCF1B)) {
+          set_bit(TIFR, OCF1B);
+          *flag = true;
+          }
+        else {
+          *flag = false;
+          }
+        break;
+      case OCR_2:
+        if (read_bit(TIFR, OCF2)) {
+          set_bit(TIFR, OCF2);
+          *flag = true;
+          }
+        else {
+          *flag = false;
+          }
+        break;
+    }
+  // Everything went well
+  return TIMER_OK;
+  }
+
+// Reset the OCF
+EN_timerError_t Timer_reset_OCF(u8 OCRNumber, bool* flag) {
+  // Validate the OCR number
+  if (OCRNumber != OCR_0 && OCRNumber != OCR_1A && OCRNumber != OCR_1B && OCRNumber != OCR_2) {
+    return WRONG_OCR_REGISTER;
+    }
+  switch (OCRNumber) {
+      case OCR_0:
+          set_bit(TIFR, OCF0);
+        break;
+      case OCR_1A:
+          set_bit(TIFR, OCF1A);
+        break;
+      case OCR_1B:
+          set_bit(TIFR, OCF1B);
+        break;
+      case OCR_2:
+          set_bit(TIFR, OCF2);
         break;
     }
   return TIMER_OK;
