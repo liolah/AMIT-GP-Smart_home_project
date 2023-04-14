@@ -40,7 +40,7 @@ MCAL\Timer\timer.c
 
 MCAL\UART\uart.c
 
-Services\LCD_menu\lcd_menu.c
+Services\Local_control\local.c
 
 Services\Remote_access\remote.c
 

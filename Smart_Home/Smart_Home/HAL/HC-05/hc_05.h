@@ -17,7 +17,7 @@
 
 void BT_init(u32 buadRate);
 
-void BT_sends8(s8 data);
+void BT_sendChar(s8 data);
 
 void BT_sendString(s8* str);
 

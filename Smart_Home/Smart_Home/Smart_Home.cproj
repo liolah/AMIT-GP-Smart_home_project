@@ -257,10 +257,10 @@
       <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">
       </CustomCompilationSetting>
     </Compile>
-    <Compile Include="Services\LCD_menu\lcd_menu.c">
+    <Compile Include="Services\Local_control\local.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Services\LCD_menu\lcd_menu.h">
+    <Compile Include="Services\Local_control\local.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Services\Remote_access\remote.c">
@@ -311,7 +311,7 @@
     <Folder Include="HAL" />
     <Folder Include="Application" />
     <Folder Include="Services" />
-    <Folder Include="Services\LCD_menu" />
+    <Folder Include="Services\Local_control" />
     <Folder Include="Services\Remote_access" />
     <Folder Include="Services\User" />
     <Folder Include="Utilities" />

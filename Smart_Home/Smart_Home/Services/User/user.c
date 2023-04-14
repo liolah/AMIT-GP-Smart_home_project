@@ -6,10 +6,14 @@
  */
 
 #include "user.h"
+bool remote_user_loggedin;
+bool local_user_loggedin;
+bool run_system;
+u8 invalid_trails;
 
 bool remote_user_loggedin = false;
 bool local_user_loggedin = false;
-
+bool run_system = true;
 u8 invalid_trails = 0;
 
 EN_UserStatusCode_t getUserByName(s8* userName, ST_User_t* user) {
@@ -86,14 +90,6 @@ EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* use
 
 bool validate_user_password(ST_User_t* user, s8* password) {
   return (strcmp(user->password, password) == 0);
-  }
-
-void invalid_login_attempt(void) {
-  invalid_trails++;
-  if (invalid_trails < 3) {
-    return;
-    }
-  set_alarm();
   }
 
 void set_alarm(void) {

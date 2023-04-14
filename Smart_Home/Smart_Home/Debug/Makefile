@@ -54,7 +54,7 @@ SUBDIRS :=  \
 ../HAL \
 ../Application \
 ../Services \
-../Services/LCD_menu \
+../Services/Local_control \
 ../Services/Remote_access \
 ../Services/User \
 ../Utilities
@@ -81,7 +81,7 @@ C_SRCS +=  \
 ../MCAL/Interrupts/interrupts.c \
 ../MCAL/Timer/timer.c \
 ../MCAL/UART/uart.c \
-../Services/LCD_menu/lcd_menu.c \
+../Services/Local_control/local.c \
 ../Services/Remote_access/remote.c \
 ../Services/User/user.c
 
@@ -112,7 +112,7 @@ MCAL/I2C/i2c.o \
 MCAL/Interrupts/interrupts.o \
 MCAL/Timer/timer.o \
 MCAL/UART/uart.o \
-Services/LCD_menu/lcd_menu.o \
+Services/Local_control/local.o \
 Services/Remote_access/remote.o \
 Services/User/user.o
 
@@ -136,7 +136,7 @@ MCAL/I2C/i2c.o \
 MCAL/Interrupts/interrupts.o \
 MCAL/Timer/timer.o \
 MCAL/UART/uart.o \
-Services/LCD_menu/lcd_menu.o \
+Services/Local_control/local.o \
 Services/Remote_access/remote.o \
 Services/User/user.o
 
@@ -160,7 +160,7 @@ MCAL/I2C/i2c.d \
 MCAL/Interrupts/interrupts.d \
 MCAL/Timer/timer.d \
 MCAL/UART/uart.d \
-Services/LCD_menu/lcd_menu.d \
+Services/Local_control/local.d \
 Services/Remote_access/remote.d \
 Services/User/user.d
 
@@ -184,7 +184,7 @@ MCAL/I2C/i2c.d \
 MCAL/Interrupts/interrupts.d \
 MCAL/Timer/timer.d \
 MCAL/UART/uart.d \
-Services/LCD_menu/lcd_menu.d \
+Services/Local_control/local.d \
 Services/Remote_access/remote.d \
 Services/User/user.d
 
@@ -335,7 +335,7 @@ MCAL/UART/uart.o: ../MCAL/UART/uart.c
 	@echo Finished building: $<
 	
 
-Services/LCD_menu/lcd_menu.o: ../Services/LCD_menu/lcd_menu.c
+Services/Local_control/local.o: ../Services/Local_control/local.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

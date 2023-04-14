@@ -32,15 +32,12 @@ typedef enum EN_UserStatusCode_t
 
 bool remote_user_loggedin;
 bool local_user_loggedin;
+bool run_system;
 u8 invalid_trails;
 
-EN_UserStatusCode_t login_remote(void);
+EN_UserStatusCode_t getUserByName(s8* userName, ST_User_t* user);
 
-EN_UserStatusCode_t login_normal(void);
-
-EN_UserStatusCode_t logout_remote(void);
-
-EN_UserStatusCode_t logout_normal(void);
+EN_UserStatusCode_t getUserByCode(s8* userCode, ST_User_t* user);
 
 EN_UserStatusCode_t add_user(ST_User_t* user);
 

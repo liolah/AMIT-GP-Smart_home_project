@@ -12,8 +12,8 @@ void BT_init(u32 baudRate) {
   UART_init(baudRate);
   }
 
-void BT_sends8(s8 data) {
-  UART_sends8(data);
+void BT_sendChar(s8 data) {
+  UART_sendChar(data);
   }
 
 void BT_sendString(s8* str) {
