@@ -581,7 +581,7 @@ EN_timerError_t Timer_read_and_reset_OCF(u8 OCRNumber, bool* flag) {
   }
 
 // Reset the OCF
-EN_timerError_t Timer_reset_OCF(u8 OCRNumber, bool* flag) {
+EN_timerError_t Timer_reset_OCF(u8 OCRNumber) {
   // Validate the OCR number
   if (OCRNumber != OCR_0 && OCRNumber != OCR_1A && OCRNumber != OCR_1B && OCRNumber != OCR_2) {
     return WRONG_OCR_REGISTER;
