@@ -257,16 +257,34 @@
       <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">
       </CustomCompilationSetting>
     </Compile>
-    <Compile Include="Services\Local_control\local.c">
+    <Compile Include="Services\Door\door.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Services\Local_control\local.h">
+    <Compile Include="Services\Door\door.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\Lights\lights.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\Lights\lights.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\Local_access\local.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\Local_access\local.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Services\Remote_access\remote.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Services\Remote_access\remote.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\AC\ac.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Services\AC\ac.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Services\User\user.c">
@@ -311,7 +329,10 @@
     <Folder Include="HAL" />
     <Folder Include="Application" />
     <Folder Include="Services" />
-    <Folder Include="Services\Local_control" />
+    <Folder Include="Services\Local_access" />
+    <Folder Include="Services\Lights" />
+    <Folder Include="Services\Door" />
+    <Folder Include="Services\AC" />
     <Folder Include="Services\Remote_access" />
     <Folder Include="Services\User" />
     <Folder Include="Utilities" />

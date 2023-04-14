@@ -11,7 +11,7 @@
 
 #include "../Services/User/user.h"
 #include "../Services/Remote_access/remote.h"
-#include "../Services/Local_control/local.h"
+#include "../Services/Local_access/local.h"
 
 // Does all the initializations required in the app
 void App_init(void);

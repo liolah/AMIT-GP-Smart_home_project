@@ -13,12 +13,12 @@ u8 msg_buffer_pointer;
 void (*requesting_function)(void);
 bool invalid_user_input;
 bool dump_invalid_data;
-
+u8 udr_temp;
 s8 option[3];
 
 ST_User_t remote_user;
 
-void remote_init(u32 baudRate) {
+void Remote_init(u32 baudRate) {
   BT_init(baudRate);
   }
 
@@ -105,55 +105,57 @@ void remote_login_prompt(void) {
   request_user_input(userName_prompt_handler, 13);
   }
 
+// Handles the user input asynchronously.
 ISR(USART_RXC_vect) {
-  // // If no input requested, ignore the input. No input requested is indicated by msg length of zero
-  // if (msg_length == 0) return;
+  // Read the UDR to clear the RXC pin
+  udr_temp = UDR;
+  // If no input requested, ignore the input. No input requested is indicated by msg length of zero
+  if (msg_length == 0) return;
 
-  // // If the msg length is reached without the input being terminated by null, then it's wrong input
-  // // If the input is invalid, reset the buffer pointer, set the invalid input flag, call the function responsible for handling the input, and keep ignoring the incoming data till null is reached
-  // if (dump_invalid_data) {
-  //   if (UDR == 0) {
-  //     dump_invalid_data = false;
-  //     invalid_user_input = false;
-  //     msg_buffer_pointer = 0;
-  //     }
-  //   return;
-  //   }
+  // If the msg length is reached without the input being terminated by null, then it's wrong input
+  // If the input is invalid, reset the buffer pointer, set the invalid input flag, call the function responsible for handling the input, and keep ignoring the incoming data till null is reached
+  if (dump_invalid_data) {
+    if (udr_temp == 0) {
+      dump_invalid_data = false;
+      invalid_user_input = false;
+      msg_buffer_pointer = 0;
+      }
+    return;
+    }
 
-  // msg_buffer[msg_buffer_pointer] = UDR;
-  // msg_buffer_pointer++;
+  msg_buffer[msg_buffer_pointer] = udr_temp;
+  msg_buffer_pointer++;
 
-  // // Msg is empty
-  // // Ignore null msgs
-  // if (msg_buffer_pointer == 1) {
-  //   if (msg_buffer[0] == 0) {
-  //     msg_buffer_pointer = 0;
-  //     return;
-  //     }
-  //   }
+  // Msg is empty
+  // Ignore null msgs
+  if (msg_buffer_pointer == 1) {
+    if (msg_buffer[0] == 0) {
+      msg_buffer_pointer = 0;
+      return;
+      }
+    }
 
-  // // Msg is longer than required
-  // if (msg_buffer_pointer == msg_length) {
-  //   if (msg_buffer[msg_buffer_pointer - 1] != 0) {
-  //     invalid_user_input = true;
-  //     dump_invalid_data = true;
-  //     msg_buffer_pointer = 0;
-  //     callFunWhenBufferReady();
-  //     }
-  //   }
+  // Msg is longer than required
+  if (msg_buffer_pointer == msg_length) {
+    if (msg_buffer[msg_buffer_pointer - 1] != 0) {
+      invalid_user_input = true;
+      dump_invalid_data = true;
+      msg_buffer_pointer = 0;
+      callFunWhenBufferReady();
+      }
+    }
 
-  // // Msg has ended and is within the required length
-  // if (UDR == 0) {
-  //   if (msg_buffer_pointer <= msg_length) {
-  //     callFunWhenBufferReady();
-  //     msg_buffer_pointer = 0;
-  //     }
-  //   }
+  // Msg has ended and is within the required length
+  if (udr_temp == 0) {
+    if (msg_buffer_pointer <= msg_length) {
+      callFunWhenBufferReady();
+      msg_buffer_pointer = 0;
+      }
+    }
   }
 
-// ISR(INT0_vect) {
-//   // Initialize communication with the user
-//   // Request user login credentials
-//   // remote_login_prompt();
-//   DIO_toggle(3, PORT_D);
-//   }
+ISR(INT0_vect) {
+  // Initialize communication with the user
+  // Request user login credentials
+  remote_login_prompt();
+  }

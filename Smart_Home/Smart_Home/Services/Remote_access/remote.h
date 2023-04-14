@@ -29,7 +29,7 @@ typedef enum EN_remoteConnStat_t
   }
 EN_remoteConnStat_t;
 
-void remote_init(u32 baudRate);
+void Remote_init(u32 baudRate);
 
 
 #endif /* REMOTE_H_ */

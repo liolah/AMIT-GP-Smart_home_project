@@ -40,9 +40,15 @@ MCAL\Timer\timer.c
 
 MCAL\UART\uart.c
 
-Services\Local_control\local.c
+Services\Door\door.c
+
+Services\Lights\lights.c
+
+Services\Local_access\local.c
 
 Services\Remote_access\remote.c
+
+Services\AC\ac.c
 
 Services\User\user.c
 

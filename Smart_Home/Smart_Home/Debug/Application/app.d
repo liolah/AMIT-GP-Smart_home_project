@@ -32,7 +32,7 @@ Application/app.d Application/app.o: ../Application/app.c \
  e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
  ../Application/../Services/Remote_access/../../Utilities/registers.h \
  ../Application/../Services/Remote_access/../../Utilities/bit_manipulation.h \
- ../Application/../Services/Local_control/local.h
+ ../Application/../Services/Local_access/local.h
 
 ../Application/app.h:
 
@@ -102,4 +102,4 @@ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulat
 
 ../Application/../Services/Remote_access/../../Utilities/bit_manipulation.h:
 
-../Application/../Services/Local_control/local.h:
+../Application/../Services/Local_access/local.h:
