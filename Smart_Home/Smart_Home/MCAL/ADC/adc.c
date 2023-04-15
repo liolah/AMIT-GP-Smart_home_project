@@ -27,7 +27,6 @@ EN_ADCError_t ADC_init() {
   return ADC_OK;
   }
 
-
 // Select an ADC channel to read from
 EN_ADCError_t ADC_select_channel(u8 channel) {
   if (channel > 7) return WRONG_ADC_CHANNEL;
@@ -80,6 +79,8 @@ EN_ADCError_t ADC_init_auto_trigger(u8 trigger) {
   switch (trigger) {
       case FREE_RUNNING_MODE_TRIGGER:
         // All bits are clear by default
+        // Start free running mode first conversion
+        set_bit(ADCSRA, ADSC);
         break;
       case ANALOG_COMPARATOR_TRIGGER:
         set_bit(SFIOR, ADTS0);
