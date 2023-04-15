@@ -2,7 +2,7 @@
  * uart.c
  *
  * Created: 3/25/2023 5:18:34 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 #include "uart.h"

@@ -287,6 +287,9 @@
     <Compile Include="Services\AC\ac.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Services\Remote_access\remote_config.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Services\User\user.c">
       <SubType>compile</SubType>
       <CustomCompilationSetting Condition="'$(Configuration)' == 'Debug'">

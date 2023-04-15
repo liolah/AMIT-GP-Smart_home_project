@@ -2,7 +2,7 @@
  * adc.h
  *
  * Created: 3/28/2023 1:01:44 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 

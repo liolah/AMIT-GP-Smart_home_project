@@ -2,8 +2,8 @@
  * adc_config.h
  *
  * Created: 3/28/2023 9:53:54 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 
 #ifndef ADC_CONFIG_H_

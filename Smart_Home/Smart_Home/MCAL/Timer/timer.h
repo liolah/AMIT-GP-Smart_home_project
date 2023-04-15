@@ -2,7 +2,7 @@
  * timer.h
  *
  * Created: 3/25/2023 4:37:37 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 
@@ -70,5 +70,5 @@ EN_timerError_t Timer_read_and_reset_OCF(u8 OCRNumber, bool* flag);
 
 // Reset the OCF
 EN_timerError_t Timer_reset_OCF(u8 OCRNumber);
-  
+
 #endif /* TIMER_H_ */

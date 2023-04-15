@@ -2,7 +2,7 @@
  * user.c
  *
  * Created: 4/4/2023 9:30:20 AM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 #include "user.h"
@@ -136,7 +136,6 @@ EN_UserStatusCode_t add_user(ST_User_t* user) {
 EN_UserStatusCode_t delete_user(ST_User_t* user) {
   // Find the user block index
   u8 page, userIndex, usersBlockStatus, usersAuthorityLevel;
-  s8 tempUserName[13];
   // Comparing the user code is slightly more efficient because it's shorter
   s8 tempUserCode[7];
   for (page = 0; page < 8; page++) {
@@ -146,14 +145,18 @@ EN_UserStatusCode_t delete_user(ST_User_t* user) {
     for (userIndex = 0; userIndex < 8;userIndex++) {
       if (read_bit(usersBlockStatus, userIndex)) {  // If the user isn't deleted
         EEPROM_read_block(page, 21 + 31 * userIndex, 7, tempUserCode);
-        if (strcmp(user->code, tempUserName) == 0) { // User has been found
-
-          return USER_FOUND;
+        if (strcmp(user->code, tempUserCode) == 0) { // User has been found
+          // Mark it as deleted
+          clear_bit(usersBlockStatus, userIndex);
+          clear_bit(usersAuthorityLevel, userIndex);
+          EEPROM_write_byte(page, 0, usersBlockStatus);
+          EEPROM_write_byte(page, 1, usersAuthorityLevel);
+          return USER_DELETED_SUCCESSFULLY;
           }
         }
       }
     }
-  // Mark it as deleted
+  return USER_NOT_FOUND;
   }
 
 

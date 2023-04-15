@@ -2,7 +2,7 @@
  * ac.c
  *
  * Created: 4/14/2023 6:24:50 AM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 #include "ac.h"
@@ -35,6 +35,19 @@ void AC_auto_control_service_start(void) {
 #elif AC_ADC_TRIGGER == TIMER_1_OVF_TRIGGER
   Timer_normal_init(TIMER_1, 0);
   Timer_start(TIMER_1, 256);
+#endif
+  }
+
+void AC_auto_control_service_stop(void) {
+  // Turn off the AC
+  DIO_write(AC_PIN, AC_PORT, LOW);
+  // Turn off the timer
+#if AC_ADC_TRIGGER == TIMER_0_COMPARE_MATCH_TRIGGER
+  Timer_stop(TIMER_0);
+#elif AC_ADC_TRIGGER == TIMER_0_OVF_TRIGGER
+  Timer_stop(TIMER_0);
+#elif AC_ADC_TRIGGER == TIMER_1_OVF_TRIGGER
+  Timer_stop(TIMER_1);
 #endif
   }
 

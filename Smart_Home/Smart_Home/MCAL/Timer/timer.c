@@ -2,7 +2,7 @@
  * timer.c
  *
  * Created: 3/25/2023 4:38:13 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 #include "timer.h"
@@ -588,16 +588,16 @@ EN_timerError_t Timer_reset_OCF(u8 OCRNumber) {
     }
   switch (OCRNumber) {
       case OCR_0:
-          set_bit(TIFR, OCF0);
+        set_bit(TIFR, OCF0);
         break;
       case OCR_1A:
-          set_bit(TIFR, OCF1A);
+        set_bit(TIFR, OCF1A);
         break;
       case OCR_1B:
-          set_bit(TIFR, OCF1B);
+        set_bit(TIFR, OCF1B);
         break;
       case OCR_2:
-          set_bit(TIFR, OCF2);
+        set_bit(TIFR, OCF2);
         break;
     }
   return TIMER_OK;

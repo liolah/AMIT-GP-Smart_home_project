@@ -1,59 +1,79 @@
-main.d main.o: .././main.c \
+main.d main.o: .././main.c .././Application/app.h \
+ .././Application/../Services/User/user.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
+ .././Application/../Services/User/../../HAL/EEPROM/eeprom.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- .././HAL/LCD/lcd.h .././HAL/LCD/lcd_config.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- .././HAL/LCD/../../MCAL/DIO/dio.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- .././HAL/LCD/../../MCAL/DIO/../../Utilities/registers.h \
- .././HAL/LCD/../../MCAL/DIO/../../Utilities/types.h \
- .././HAL/LCD/../../MCAL/DIO/../../Utilities/bit_manipulation.h \
- .././HAL/Keypad/keypad.h .././HAL/Keypad/../../MCAL/DIO/dio.h \
- .././HAL/EEPROM/eeprom.h .././HAL/EEPROM/../../MCAL/I2C/I2C.h \
- .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/registers.h \
- .././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h \
- .././HAL/Servo/servo.h .././HAL/Servo/../../MCAL/DIO/dio.h \
- .././HAL/Servo/../../MCAL/Timer/timer.h \
- .././HAL/Servo/../../MCAL/Timer/../../Utilities/registers.h \
- .././HAL/Servo/../../MCAL/Timer/../../Utilities/bit_manipulation.h \
- .././HAL/Servo/../../MCAL/Timer/timer_config.h .././MCAL/ADC/adc.h \
- .././MCAL/ADC/../../Utilities/registers.h \
- .././MCAL/ADC/../../Utilities/bit_manipulation.h \
- .././MCAL/ADC/adc_config.h .././MCAL/UART/uart.h \
- .././MCAL/UART/../../Utilities/registers.h \
- .././MCAL/UART/../../Utilities/bit_manipulation.h \
- .././MCAL/Timer/timer.h .././Services/User/user.h \
- .././Services/User/../../HAL/EEPROM/eeprom.h \
- .././Services/User/../../HAL/Buzzer/buzzer.h \
- .././Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h \
- .././Services/AC/ac.h .././Services/AC/../../HAL/LM35/lm35.h \
- .././Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h \
- .././Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h \
- .././Services/AC/../../MCAL/Timer/timer.h \
- .././Services/AC/../../MCAL/Interrupts/interrupts.h \
- .././Services/AC/../../MCAL/Interrupts/../../Utilities/registers.h \
- .././Services/AC/../../MCAL/Interrupts/../../Utilities/bit_manipulation.h \
- .././Services/Remote_access/remote.h \
- .././Services/Remote_access/../User/user.h \
- .././Services/Remote_access/../../HAL/HC-05/hc_05.h \
- .././Services/Remote_access/../../HAL/HC-05/../../MCAL/DIO/dio.h \
- .././Services/Remote_access/../../HAL/HC-05/../../MCAL/UART/uart.h \
- .././Services/Remote_access/../../MCAL/Interrupts/interrupts.h \
- .././Services/Remote_access/../../Utilities/registers.h \
- .././Services/Remote_access/../../Utilities/bit_manipulation.h
+ .././Application/../Services/User/../../HAL/EEPROM/../../MCAL/I2C/I2C.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\types.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ .././Application/../Services/User/../../HAL/Buzzer/buzzer.h \
+ .././Application/../Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ .././Application/../Services/Remote_access/remote.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
+ .././Application/../Services/Remote_access/remote_config.h \
+ .././Application/../Services/Remote_access/../User/user.h \
+ .././Application/../Services/Remote_access/../Lights/lights.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\led\led.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer_config.h \
+ .././Application/../Services/Remote_access/../Door/door.h \
+ .././Application/../Services/Remote_access/../Door/../../HAL/Servo/servo.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h \
+ .././Application/../Services/Remote_access/../../HAL/HC-05/hc_05.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\uart\uart.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ .././Application/../Services/Remote_access/../../MCAL/Interrupts/interrupts.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ .././Application/../Services/Local_access/local.h \
+ .././Application/../Services/Local_access/../../HAL/LCD/lcd.h \
+ .././Application/../Services/Local_access/../../HAL/LCD/lcd_config.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
+ .././Application/../Services/Local_access/../../HAL/Keypad/keypad.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
+ .././Application/../Services/Local_access/../../Services/User/user.h \
+ .././Application/../Services/Door/door.h \
+ .././Application/../Services/AC/ac.h \
+ .././Application/../Services/AC/../../HAL/LM35/lm35.h \
+ .././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ .././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc_config.h \
+ .././Application/../Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h \
+ .././Application/../Services/AC/../../MCAL/Timer/timer.h \
+ .././Application/../Services/AC/../../MCAL/Interrupts/interrupts.h \
+ .././Application/../Services/Lights/lights.h
+
+.././Application/app.h:
+
+.././Application/../Services/User/user.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
+.././Application/../Services/User/../../HAL/EEPROM/eeprom.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
 
@@ -61,104 +81,106 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
-
-.././HAL/LCD/lcd.h:
-
-.././HAL/LCD/lcd_config.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
-
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
-.././HAL/LCD/../../MCAL/DIO/dio.h:
+.././Application/../Services/User/../../HAL/EEPROM/../../MCAL/I2C/I2C.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
-.././HAL/LCD/../../MCAL/DIO/../../Utilities/registers.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\types.h:
 
-.././HAL/LCD/../../MCAL/DIO/../../Utilities/types.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
 
-.././HAL/LCD/../../MCAL/DIO/../../Utilities/bit_manipulation.h:
+.././Application/../Services/User/../../HAL/Buzzer/buzzer.h:
 
-.././HAL/Keypad/keypad.h:
+.././Application/../Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h:
 
-.././HAL/Keypad/../../MCAL/DIO/dio.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
-.././HAL/EEPROM/eeprom.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
 
-.././HAL/EEPROM/../../MCAL/I2C/I2C.h:
+.././Application/../Services/Remote_access/remote.h:
 
-.././HAL/EEPROM/../../MCAL/I2C/../../Utilities/registers.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
-.././HAL/EEPROM/../../MCAL/I2C/../../Utilities/bit_manipulation.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
 
-.././HAL/Servo/servo.h:
+.././Application/../Services/Remote_access/remote_config.h:
 
-.././HAL/Servo/../../MCAL/DIO/dio.h:
+.././Application/../Services/Remote_access/../User/user.h:
 
-.././HAL/Servo/../../MCAL/Timer/timer.h:
+.././Application/../Services/Remote_access/../Lights/lights.h:
 
-.././HAL/Servo/../../MCAL/Timer/../../Utilities/registers.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\led\led.h:
 
-.././HAL/Servo/../../MCAL/Timer/../../Utilities/bit_manipulation.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
-.././HAL/Servo/../../MCAL/Timer/timer_config.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h:
 
-.././MCAL/ADC/adc.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
-.././MCAL/ADC/../../Utilities/registers.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
 
-.././MCAL/ADC/../../Utilities/bit_manipulation.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer_config.h:
 
-.././MCAL/ADC/adc_config.h:
+.././Application/../Services/Remote_access/../Door/door.h:
 
-.././MCAL/UART/uart.h:
+.././Application/../Services/Remote_access/../Door/../../HAL/Servo/servo.h:
 
-.././MCAL/UART/../../Utilities/registers.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
-.././MCAL/UART/../../Utilities/bit_manipulation.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h:
 
-.././MCAL/Timer/timer.h:
+.././Application/../Services/Remote_access/../../HAL/HC-05/hc_05.h:
 
-.././Services/User/user.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
-.././Services/User/../../HAL/EEPROM/eeprom.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\uart\uart.h:
 
-.././Services/User/../../HAL/Buzzer/buzzer.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
-.././Services/User/../../HAL/Buzzer/../../MCAL/DIO/dio.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
 
-.././Services/AC/ac.h:
+.././Application/../Services/Remote_access/../../MCAL/Interrupts/interrupts.h:
 
-.././Services/AC/../../HAL/LM35/lm35.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
-.././Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
 
-.././Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h:
+.././Application/../Services/Local_access/local.h:
 
-.././Services/AC/../../MCAL/Timer/timer.h:
+.././Application/../Services/Local_access/../../HAL/LCD/lcd.h:
 
-.././Services/AC/../../MCAL/Interrupts/interrupts.h:
+.././Application/../Services/Local_access/../../HAL/LCD/lcd_config.h:
 
-.././Services/AC/../../MCAL/Interrupts/../../Utilities/registers.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
-.././Services/AC/../../MCAL/Interrupts/../../Utilities/bit_manipulation.h:
+.././Application/../Services/Local_access/../../HAL/Keypad/keypad.h:
 
-.././Services/Remote_access/remote.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
-.././Services/Remote_access/../User/user.h:
+.././Application/../Services/Local_access/../../Services/User/user.h:
 
-.././Services/Remote_access/../../HAL/HC-05/hc_05.h:
+.././Application/../Services/Door/door.h:
 
-.././Services/Remote_access/../../HAL/HC-05/../../MCAL/DIO/dio.h:
+.././Application/../Services/AC/ac.h:
 
-.././Services/Remote_access/../../HAL/HC-05/../../MCAL/UART/uart.h:
+.././Application/../Services/AC/../../HAL/LM35/lm35.h:
 
-.././Services/Remote_access/../../MCAL/Interrupts/interrupts.h:
+.././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h:
 
-.././Services/Remote_access/../../Utilities/registers.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
-.././Services/Remote_access/../../Utilities/bit_manipulation.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
+
+.././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc_config.h:
+
+.././Application/../Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h:
+
+.././Application/../Services/AC/../../MCAL/Timer/timer.h:
+
+.././Application/../Services/AC/../../MCAL/Interrupts/interrupts.h:
+
+.././Application/../Services/Lights/lights.h:

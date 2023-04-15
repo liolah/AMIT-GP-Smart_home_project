@@ -2,7 +2,7 @@
  * user.h
  *
  * Created: 4/4/2023 9:30:10 AM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 
@@ -27,7 +27,7 @@ typedef struct ST_User_t
 
 typedef enum EN_UserStatusCode_t
   {
-  LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY, USER_ADDED_SUCCESSFULLY, ERROR_FULL_DB
+  LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY, USER_ADDED_SUCCESSFULLY, USER_DELETED_SUCCESSFULLY, ERROR_FULL_DB
   } EN_UserStatusCode_t;
 
 bool remote_user_loggedin;
@@ -48,7 +48,7 @@ EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* use
 
 bool validate_user_password(ST_User_t* user, s8* password);
 
-void invalid_login_attempt(void);
+void invalid_remote_login_attempt(void);
 
 void set_alarm(void);
 

@@ -2,8 +2,8 @@
  * relay.c
  *
  * Created: 3/26/2023 5:12:40 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 #include "relay.h"
 

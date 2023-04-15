@@ -2,8 +2,8 @@
  * registers.h
  *
  * Created: 3/25/2023 3:16:48 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 
 #ifndef REGISTERS_H_
@@ -11,10 +11,10 @@
 
 #include "types.h"
 
-// *********************************************************
-// DIO Registers
-// *********************************************************
-// PORTA registers
+ // *********************************************************
+ // DIO Registers
+ // *********************************************************
+ // PORTA registers
 #define PORTA *((volatile u8*)0x3B)  // 8-bit register
 #define PORTA7  7
 #define PORTA6  6

@@ -2,7 +2,7 @@
  * timer_config.h
  *
  * Created: 3/27/2023 4:56:45 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 

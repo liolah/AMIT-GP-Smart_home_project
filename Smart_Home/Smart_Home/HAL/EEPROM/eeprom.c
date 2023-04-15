@@ -2,7 +2,7 @@
  * eeprom.c
  *
  * Created: 3/26/2023 5:07:33 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 #include "eeprom.h"
@@ -76,7 +76,7 @@ void EEPROM_write_block(u8 page, u8 address, u16 bytes_number, s8* data) {
   u16 dataIndex, blockNumber, i;
   u16 first_block_size = 16 - (address % 16);
   if (16 - (address % 16) > bytes_number) first_block_size = bytes_number;
-  
+
   // Write the first part of the data in the remaining space in the starting row
   I2C_start();
   I2C_write(0xA0 + (page << 1));
@@ -91,7 +91,7 @@ void EEPROM_write_block(u8 page, u8 address, u16 bytes_number, s8* data) {
 
   // Return if the data fits in the row (data fits in a single row or the remaining part of it after the address)
   if (first_block_size == bytes_number) return;
-  
+
   u16 last_block_size = (address + bytes_number) % 16;
   u16 blocks_number = (bytes_number - first_block_size - last_block_size) / 16;
   // Write the remaining whole rows if any

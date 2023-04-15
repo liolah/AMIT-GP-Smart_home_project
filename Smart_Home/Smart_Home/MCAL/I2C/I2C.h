@@ -2,7 +2,7 @@
  * i2c.h
  *
  * Created: 3/25/2023 5:17:31 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 

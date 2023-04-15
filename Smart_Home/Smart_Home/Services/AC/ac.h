@@ -2,7 +2,7 @@
  * ac.h
  *
  * Created: 4/14/2023 6:24:38 AM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
  //? According to the specifications and requirements, the temperature control has to be automatic only, a manual mode is not required.
@@ -36,5 +36,7 @@
 #define TIMER_0_TOV_RESET_BY_ACTIVATING_TIMER0_OVF_INT  1
 
 void AC_auto_control_service_start(void);
+
+void AC_auto_control_service_stop(void);
 
 #endif /* TEMPERATURE_H_ */

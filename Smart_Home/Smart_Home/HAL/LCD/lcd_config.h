@@ -2,8 +2,8 @@
  * lcd_config.h
  *
  * Created: 3/26/2023 5:06:15 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 
 #ifndef LCD_CONFIG_H_

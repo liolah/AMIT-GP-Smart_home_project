@@ -2,7 +2,7 @@
  * eeprom.h
  *
  * Created: 3/26/2023 5:07:27 PM
- *  Author: hesha
+ *  Author: Hesham Hany
  */
 
 
@@ -24,7 +24,7 @@
 #define WRITE_BLOCK_METHOD MULTIBYTE 
 #define READ_BLOCK_METHOD MULTIBYTE 
 
-// Initialize the EEPROM
+ // Initialize the EEPROM
 void EEPROM_init();
 
 // Read a byte on the EEPROM, given the address and the page number

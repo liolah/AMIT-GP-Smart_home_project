@@ -2,8 +2,8 @@
  * motor.h
  *
  * Created: 3/26/2023 5:07:04 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 
 #ifndef MOTOR_H_

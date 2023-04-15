@@ -2,8 +2,8 @@
  * buzzer.h
  *
  * Created: 3/26/2023 5:08:11 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 
 #ifndef BUZZER_H_

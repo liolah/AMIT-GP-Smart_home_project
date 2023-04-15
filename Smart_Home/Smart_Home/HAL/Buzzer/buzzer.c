@@ -2,8 +2,8 @@
  * buzzer.c
  *
  * Created: 3/26/2023 5:08:43 PM
- *  Author: hesha
- */ 
+ *  Author: Hesham Hany
+ */
 
 #include "buzzer.h"
 
