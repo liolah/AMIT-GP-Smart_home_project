@@ -11,7 +11,6 @@
 
 #include "../../MCAL/ADC/adc.h"
 #include "../../MCAL/DIO/dio.h"
-#include "../../MCAL/Timer/timer.h"
 
  // Initialize LM35 in normal polling mode for general applications
 void LM35_init_polling(u8 pinNumber);
