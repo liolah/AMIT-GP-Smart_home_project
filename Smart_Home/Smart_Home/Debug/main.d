@@ -36,7 +36,7 @@ main.d main.o: .././main.c \
  .././Services/AC/ac.h .././Services/AC/../../HAL/LM35/lm35.h \
  .././Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h \
  .././Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h \
- .././Services/AC/../../HAL/LM35/../../MCAL/Timer/timer.h \
+ .././Services/AC/../../MCAL/Timer/timer.h \
  .././Services/AC/../../MCAL/Interrupts/interrupts.h \
  .././Services/AC/../../MCAL/Interrupts/../../Utilities/registers.h \
  .././Services/AC/../../MCAL/Interrupts/../../Utilities/bit_manipulation.h \
@@ -139,7 +139,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 .././Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h:
 
-.././Services/AC/../../HAL/LM35/../../MCAL/Timer/timer.h:
+.././Services/AC/../../MCAL/Timer/timer.h:
 
 .././Services/AC/../../MCAL/Interrupts/interrupts.h:
 

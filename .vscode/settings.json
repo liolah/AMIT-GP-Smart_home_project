@@ -2,5 +2,6 @@
   "files.associations": {
     "led.h": "c"
   },
-  "cmake.configureOnOpen": false
+  "cmake.configureOnOpen": false,
+  "C_Cpp.dimInactiveRegions": false
 }
