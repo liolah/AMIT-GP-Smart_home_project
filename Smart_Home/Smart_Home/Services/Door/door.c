@@ -9,7 +9,7 @@
 
  // Initialize the servo for the door
 void Door_init(void) {
-  servo_init();
+  Servo_init();
   }
 
 // Open the door by moving the servo to the open angle
