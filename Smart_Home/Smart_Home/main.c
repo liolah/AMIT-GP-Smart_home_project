@@ -19,28 +19,13 @@
 #include "Services/User/user.h"
 #include "Services/Remote_access/remote.h"
 
-u16 temperature;
- // #include "Application/app.h"
 ISR(ADC_vect) {
-	temperature = (u16)ADCL;
-	temperature += ((u16)ADCH << 8);
 	DIO_toggle(1, 'B');
-	// set_bit(TIFR, TOV1);
-	set_bit(TIFR, OCF0);
+	
+	//set_bit(TIFR, OCF0);
 	}
 
-// ISR(TIMER1_OVF_vect) {
-// 	// PORTB = PORTB - 1;
-// 	DIO_toggle(7, 'D');
-// 	}
-ISR(TIMER0_COMP_vect) {
-	// PORTB = PORTB - 1;
-	DIO_toggle(7, 'D');
-	}
 int main(void) {
-	// PWM_init(OC_1A, 0.5, PWM_PHASE_CORRECT);
-	// DIO_init(5, PORT_D, OUT);
-	// Timer_start(TIMER_1, 8);
 	sei();
 	DIO_init(7, PORT_A, IN);
 	DIO_init(7, PORT_D, OUT);
@@ -49,10 +34,6 @@ int main(void) {
 	OCR0 = 255;
 	set_bit(TCCR0, CS00);
 	set_bit(TCCR0, CS02);
-	// set_bit(TCCR1B, CS10);
-
-	// set_bit(TIMSK, TOIE1);
-	set_bit(TIMSK, OCIE0);
 	
 	set_bit(ADMUX, REFS0);
 	set_bit(ADMUX, REFS1);
@@ -64,8 +45,6 @@ int main(void) {
 	set_bit(ADCSRA, ADATE);
 	
 	SFIOR |= (1 << ADTS0) | (1 << ADTS1);
-	// SFIOR |= (1 << ADTS2) | (1 << ADTS1);
-	// set_bit(SFIOR, ADTS2);
 
 	ADMUX = (ADMUX & 0xE0) | 7;
 
