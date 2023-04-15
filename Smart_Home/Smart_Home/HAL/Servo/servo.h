@@ -34,9 +34,9 @@
 #define SERVO_MAX_ANGLE  180.0
 
 // Initialized the servo
-void servo_init();
+void Servo_init();
 
 // Moves the servo to a specific angle (relative to the 0 angle position, not the previous one).
-void servo_move_to_angle(u8 angle);
+void Servo_move_to_angle(u8 angle);
 
 #endif /* SERVO_H_ */
