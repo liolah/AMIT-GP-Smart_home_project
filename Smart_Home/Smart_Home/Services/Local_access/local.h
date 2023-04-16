@@ -28,9 +28,6 @@
 #define BACKSPACE_OPTION "1)<x"
 #define ENTER_OPTION "2)Ok"
 
-
-
-
 void Local_access_init(void);
 
 bool running_devices[7];

@@ -10,11 +10,10 @@
 s8 msg_buffer[15];
 s8 msg_length;
 s8 msg_buffer_pointer;
-void (*requesting_function)(void);
+
 bool invalid_user_input;
 bool dump_invalid_data;
 s8 udr_temp;
-s8 option[3];
 u8 device_number;
 
 ST_User_t remote_user;
@@ -30,10 +29,6 @@ void Remote_init(u32 baudRate) {
   BT_init(baudRate);
   }
 
-void callFunWhenBufferReady(void) {
-  requesting_function();
-  }
-
 void println_msg(s8* msg) {
   // Send the msg
   BT_sendString(msg);
@@ -46,8 +41,8 @@ void print_msg(s8* msg) {
   BT_sendString(msg);
   }
 
-void request_user_input(void (*requestingFunction)(void), u8 msgLength) {
-  requesting_function = requestingFunction;
+void request_user_input(s8 options[4], u8 msgLength) {
+  strcpy(user_dialog_tree, options);
   msg_length = msgLength;
   }
 
@@ -424,7 +419,7 @@ ISR(USART_RXC_vect) {
       dump_invalid_data = true;
       msg_buffer_pointer = 0;
       BT_sendChar('\r');
-      callFunWhenBufferReady();
+      Remote_control_interface(user_dialog_tree);
       }
     }
 
@@ -434,7 +429,7 @@ ISR(USART_RXC_vect) {
       // Replace the carriage return with null to terminate the string correctly
       msg_buffer[msg_buffer_pointer - 1] = '\0';
       BT_sendChar('\r');
-      callFunWhenBufferReady();
+      Remote_control_interface(user_dialog_tree);
       msg_buffer_pointer = 0;
       }
     }
@@ -473,14 +468,14 @@ ISR(USART_RXC_vect) {
       invalid_user_input = true;
       dump_invalid_data = true;
       msg_buffer_pointer = 0;
-      callFunWhenBufferReady();
+      Remote_control_interface(user_dialog_tree);
       }
     }
 
   // Msg has ended and is within the required length
   if (udr_temp == HC_05_BLUETOOTH_MODULE_STRING_DELIMITER) {
     if (msg_buffer_pointer <= msg_length) {
-      callFunWhenBufferReady();
+      Remote_control_interface(user_dialog_tree);
       msg_buffer_pointer = 0;
       }
     }
@@ -491,4 +486,45 @@ ISR(INT0_vect) {
   // Initialize communication with the user
   // Request user login credentials
   remote_login_prompt();
+  }
+
+//*************************************************************************************
+//^ Refactoring:
+//*************************************************************************************
+
+s8 user_dialog_tree[4];
+
+void Remote_control_interface(s8 options[4]) {
+  u8 lv1 = options[0];
+  u8 lv2 = options[1];
+  u8 lv3 = options[2];
+  u8 lv4 = options[3];
+  switch (lv1) {
+    // Main menu
+      case '0':
+        switch (lv2) {
+            case '0':
+              break;
+            case '1':
+              break;
+            case '2':
+              break;
+          }
+        break;
+        // Add new user
+      case '1':
+        break;
+        // Delete and existing user
+      case '2':
+        break;
+        // Control a device
+      case '3':
+        break;
+        // Logout
+      case '4':
+        break;
+        // Wrong input
+      default:
+        break;
+    }
   }

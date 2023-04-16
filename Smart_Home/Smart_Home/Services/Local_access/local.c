@@ -7,9 +7,31 @@
 
 #include "local.h"
 
+ // Used to store the state of the lamps and the AC
 bool running_devices[7];
+
+// The last screen shown on the LCD in show running devices task
 u8 running_devices_screen;
+
+// The last screen shown on the LCD in devices control task
 u8 control_devices_screen;
+
+// 0 = The user's in the progress of entering the user code
+// 1 = The user is entering the password
+u8 login_stage;
+
+// Used to determine how the keypad input will be used.
+// 0 = The user is logged out - Showing running devices
+// 1 = Login in progress. The user is attempting to login.
+// 2 = Devices control. The user's logged in and is controlling the devices. 
+u8 local_control_running_task;
+
+s8 input_buffer[11];
+u8 input_buffer_pointer;
+
+ST_User_t local_user;
+
+s8 pressed_key;
 
 void Local_access_init(void) {
   LCD_init();
@@ -101,4 +123,15 @@ void Show_running_devices(u8 screen) {
     }
   }
 
-/*void LCD_menu*/
+
+void Local_control_input_handler(void) {
+  switch (local_control_running_task) {
+      case 0:
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+    }
+  }
+

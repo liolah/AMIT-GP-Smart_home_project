@@ -24,6 +24,11 @@ s8 msg_length;
 s8 msg_buffer_pointer;
 bool invalid_user_input;
 
+
+s8 user_dialog_tree[4];
+
+void Remote_control_interface(s8 options[4]);
+
 typedef enum EN_remoteConnStat_t
   {
   REMOTE_INIT_SUCCESSFUL
