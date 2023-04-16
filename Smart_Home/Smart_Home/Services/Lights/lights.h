@@ -38,6 +38,18 @@
 #define LAMP_6_DIMMABLE_PWM_PIN  OC_2
 #define LAMP_6_DIMMABLE_PORT     PORT_D
 
+#define PROTEUS_SIM
+ // The prescalar for proteus is set to somewhat high value in order to reduce the CPU load taken in high frequency pwm simulation. The simulation will be very slow if set to low value.
+// In real life it won't be a problem though
+#define PROTEUS_PWM_PRESCALAR 256
+#define HARDWARE_IMPLEMENTATION_PRESCALAR 1
+
+#ifdef PROTEUS_SIM
+#define LAMP_6_DIMMABLE_PRESCALAR PROTEUS_PWM_PRESCALAR
+#else 
+#define LAMP_6_DIMMABLE_PRESCALAR HARDWARE_IMPLEMENTATION_PRESCALAR
+#endif
+
  // Initializes all six lamps
 void Lamps_init(void);
 

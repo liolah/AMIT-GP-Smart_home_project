@@ -16,8 +16,9 @@ void Lamps_init(void) {
   LED_init(LAMP_5_PORT, LAMP_5_PIN);
   LED_init(LAMP_6_DIMMABLE_PORT, LAMP_6_DIMMABLE_PIN);
   // Initialize the pwm pin which lamp6 is on for brightness control
-  PWM_init(LAMP_6_DIMMABLE_PWM_PIN, 1, PWM_FAST);
-  Timer_start(TIMER_2, 1);
+  PWM_init(LAMP_6_DIMMABLE_PWM_PIN, 0, PWM_FAST);
+
+  Timer_start(TIMER_2, LAMP_6_DIMMABLE_PRESCALAR);
   }
 
 // Turn on a lamp
@@ -39,7 +40,7 @@ void Lamp_on(u8 lampNumber) {
         LED_on(LAMP_5_PORT, LAMP_5_PIN);
         break;
       case LAMP_6:
-        LED_on(LAMP_6_DIMMABLE_PORT, LAMP_6_DIMMABLE_PIN);
+        PWM_OCP_connect(LAMP_6_DIMMABLE_PWM_PIN);
         break;
     }
   }
@@ -63,7 +64,7 @@ void Lamp_off(u8 lampNumber) {
         LED_off(LAMP_5_PORT, LAMP_5_PIN);
         break;
       case LAMP_6:
-        LED_off(LAMP_6_DIMMABLE_PORT, LAMP_6_DIMMABLE_PIN);
+        PWM_OCP_disconnect(LAMP_6_DIMMABLE_PWM_PIN);
         break;
     }
   }
@@ -87,7 +88,12 @@ void Lamp_toggle(u8 lampNumber) {
         LED_toggle(LAMP_5_PORT, LAMP_5_PIN);
         break;
       case LAMP_6:
-        LED_toggle(LAMP_6_DIMMABLE_PORT, LAMP_6_DIMMABLE_PIN);
+        if (read_bit(TCCR2, COM21)) { // OC pin is connected and lamp6 is on
+          Lamp_off(6);
+          }
+        else {
+          Lamp_on(6);
+          }
         break;
     }
   }
