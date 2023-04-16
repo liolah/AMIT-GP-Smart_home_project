@@ -56,6 +56,12 @@ EN_timerError_t PWM_set_DC(u8 pwmPin, double dutyCycle);
 // disconnects the OC pins and sets the prescalar to 0.
 EN_timerError_t PWM_stop(u8 pwmPin);
 
+// disconnects the OC pins without stopping the timer.
+EN_timerError_t PWM_OCP_disconnect(u8 pwmPin);
+
+// Connects the OC pins.
+EN_timerError_t PWM_OCP_connect(u8 pwmPin);
+
 // Start the timer
 EN_timerError_t Timer_start(u8 timerNumber, u16 prescalar);
 

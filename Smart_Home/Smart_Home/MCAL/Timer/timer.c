@@ -308,13 +308,6 @@ EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode) {
               clear_bit(TCCR0, WGM01);
               break;
           }
-#ifdef PWM_NON_INVERTED_MODE
-        clear_bit(TCCR0, COM00);
-        set_bit(TCCR0, COM01);
-#else 
-        set_bit(TCCR0, COM00);
-        set_bit(TCCR0, COM01);
-#endif
         // The value in the OCR determines the duty cycle
         OCR0 = (u8)(dutyCycle * 255);
         break;
@@ -389,13 +382,6 @@ EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode) {
         // Enable the PWM function of the OC pin.
         switch (pwmPin) {
             case OC_1A:
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR1A, COM1A0);
-              set_bit(TCCR1A, COM1A1);
-#else 
-              set_bit(TCCR1A, COM1A0);
-              set_bit(TCCR1A, COM1A1);
-#endif
 #if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
               OCR1A = (u16)(dutyCycle * 0x00FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
@@ -409,13 +395,6 @@ EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode) {
 #endif
               break;
             case OC_1B:
-#ifdef PWM_NON_INVERTED_MODE
-              clear_bit(TCCR1A, COM1B0);
-              set_bit(TCCR1A, COM1B1);
-#else 
-              set_bit(TCCR1A, COM1B0);
-              set_bit(TCCR1A, COM1B1);
-#endif
 #if (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_8_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_8_BIT)
               OCR1B = (u16)(dutyCycle * 0x00FF);
 #elif (TIMER_1_FAST_PWM_MODE == TIMER_1_FAST_PWM_9_BIT || TIMER_1_PHASE_CORRECT_PWM_MODE == TIMER_1_PHASE_CORRECT_PWM_9_BIT)
@@ -441,17 +420,11 @@ EN_timerError_t PWM_init(u8 pwmPin, double dutyCycle, u8 mode) {
               clear_bit(TCCR2, WGM21);
               break;
           }
-#ifdef PWM_NON_INVERTED_MODE
-        clear_bit(TCCR2, COM20);
-        set_bit(TCCR2, COM21);
-#else 
-        set_bit(TCCR2, COM20);
-        set_bit(TCCR2, COM21);
-#endif
         // The value in the OCR determines the duty cycle
         OCR2 = (u8)(dutyCycle * 255);
         break;
     }
+  PWM_OCP_connect(pwmPin);
   return TIMER_OK;
   }
 
@@ -465,24 +438,94 @@ EN_timerError_t PWM_stop(u8 pwmPin) {
       case OC_0:
         clear_bit(TCCR0, COM00);
         clear_bit(TCCR0, COM01);
-        set_prescalar(TIMER_0, PWM_PRESCALAR);
+        set_prescalar(TIMER_0, 0);
         break;
       case OC_1A:
         clear_bit(TCCR1A, COM1A0);
         clear_bit(TCCR1A, COM1A1);
-        // Since setting the prescalar to 0 will alo stop the pwm generation on pin OC1B,
-        // I won't stop the timer here
-        // set_prescalar(TIMER_1, PWM_PRESCALAR);
+        set_prescalar(TIMER_1, 0);
         break;
       case OC_1B:
         clear_bit(TCCR1A, COM1B0);
         clear_bit(TCCR1A, COM1B1);
-        // set_prescalar(TIMER_1, PWM_PRESCALAR);
+        set_prescalar(TIMER_1, 0);
         break;
       case OC_2:
         clear_bit(TCCR2, COM20);
         clear_bit(TCCR2, COM21);
-        set_prescalar(TIMER_2, PWM_PRESCALAR);
+        set_prescalar(TIMER_2, 0);
+        break;
+    }
+  return TIMER_OK;
+  }
+
+// disconnects the OC pins.
+EN_timerError_t PWM_OCP_disconnect(u8 pwmPin) {
+  if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
+    return WRONG_PWM_PIN;
+    }
+  switch (pwmPin) {
+      case OC_0:
+        clear_bit(TCCR0, COM00);
+        clear_bit(TCCR0, COM01);
+        break;
+      case OC_1A:
+        clear_bit(TCCR1A, COM1A0);
+        clear_bit(TCCR1A, COM1A1);
+        break;
+      case OC_1B:
+        clear_bit(TCCR1A, COM1B0);
+        clear_bit(TCCR1A, COM1B1);
+        break;
+      case OC_2:
+        clear_bit(TCCR2, COM20);
+        clear_bit(TCCR2, COM21);
+        break;
+    }
+  return TIMER_OK;
+  }
+
+// Connects the OC pins.
+EN_timerError_t PWM_OCP_connect(u8 pwmPin) {
+  if (pwmPin != OC_0 && pwmPin != OC_1A && pwmPin != OC_1B && pwmPin != OC_2) {
+    return WRONG_PWM_PIN;
+    }
+  switch (pwmPin) {
+      case OC_0:
+#if PWM_SIGNAL_INVERSION == PWM_NON_INVERTED_MODE
+        clear_bit(TCCR0, COM00);
+        set_bit(TCCR0, COM01);
+#else 
+        set_bit(TCCR0, COM00);
+        set_bit(TCCR0, COM01);
+#endif
+        break;
+      case OC_1A:
+#if PWM_SIGNAL_INVERSION == PWM_NON_INVERTED_MODE
+        clear_bit(TCCR1A, COM1A0);
+        set_bit(TCCR1A, COM1A1);
+#else 
+        set_bit(TCCR1A, COM1A0);
+        set_bit(TCCR1A, COM1A1);
+#endif
+        break;
+      case OC_1B:
+#if PWM_SIGNAL_INVERSION == PWM_NON_INVERTED_MODE
+        clear_bit(TCCR1A, COM1B0);
+        set_bit(TCCR1A, COM1B1);
+#else 
+        set_bit(TCCR1A, COM1B0);
+        set_bit(TCCR1A, COM1B1);
+#endif
+        break;
+      case OC_2:
+#if PWM_SIGNAL_INVERSION == PWM_NON_INVERTED_MODE
+        clear_bit(TCCR2, COM20);
+        set_bit(TCCR2, COM21);
+#else 
+        set_bit(TCCR2, COM20);
+        set_bit(TCCR2, COM21);
+#endif
         break;
     }
   return TIMER_OK;
