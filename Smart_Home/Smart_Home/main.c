@@ -8,10 +8,18 @@
 #include "Application/app.h"
 
 int main(void) {
+	LCD_init();
+	Lamps_init();
+	
+	// LCD_writeString_xy(0, 1, "Hello");
+	// App_init();
 
-	App_init();
-
-	App_start();
+	// App_start();
+	while (1)
+	{
+		/* code */
+	}
+	
 
 	}
 
