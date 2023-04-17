@@ -49,6 +49,8 @@ main.d main.o: .././main.c .././Application/app.h \
  .././Application/../Services/Local_access/../../HAL/Keypad/keypad.h \
  e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
  .././Application/../Services/Local_access/../../Services/User/user.h \
+ .././Application/../Services/Local_access/../../Services/Lights/lights.h \
+ .././Application/../Services/Local_access/../../Services/Remote_access/remote.h \
  .././Application/../Services/Door/door.h \
  .././Application/../Services/AC/ac.h \
  .././Application/../Services/AC/../../HAL/LM35/lm35.h \
@@ -162,6 +164,10 @@ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
 .././Application/../Services/Local_access/../../Services/User/user.h:
+
+.././Application/../Services/Local_access/../../Services/Lights/lights.h:
+
+.././Application/../Services/Local_access/../../Services/Remote_access/remote.h:
 
 .././Application/../Services/Door/door.h:
 

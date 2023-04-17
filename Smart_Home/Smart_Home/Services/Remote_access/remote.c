@@ -26,6 +26,7 @@ void print_initial_options_menu(void);
 void remote_control(void);
 
 void Remote_init(u32 baudRate) {
+  User_DB_init();
   BT_init(baudRate);
   }
 
@@ -317,7 +318,7 @@ void invalid_remote_login_attempt(void) {
     println_msg(msg);
     return;
     }
-  set_alarm();
+  Alarm_set();
   run_system = false;
   }
 
