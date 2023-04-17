@@ -6,6 +6,7 @@
  */
 
 #include "user.h"
+
 bool remote_user_loggedin;
 bool local_user_loggedin;
 bool run_system;
@@ -15,6 +16,10 @@ bool remote_user_loggedin = false;
 bool local_user_loggedin = false;
 bool run_system = true;
 u8 invalid_trails = 0;
+
+EN_UserStatusCode_t User_DB_init(void) {
+  EEPROM_init();
+  }
 
 EN_UserStatusCode_t getUserByName(s8* userName, ST_User_t* user) {
   // search by user name
@@ -76,9 +81,7 @@ EN_UserStatusCode_t getUserByCode(s8* userCode, ST_User_t* user) {
   return USER_NOT_FOUND;
   }
 
-
-
-EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* user) {
+EN_UserStatusCode_t user_search(s8* user_code_or_name, bool mode, ST_User_t* user) {
   // The mode is used to determine if the search is going to be done user name (remote mode) or user code (local mode). 
   if (REMOTE_MODE) {
     return getUserByName(user_code_or_name, user);
@@ -88,11 +91,7 @@ EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* use
     }
   }
 
-bool validate_user_password(ST_User_t* user, s8* password) {
-  return (strcmp(user->password, password) == 0);
-  }
-
-void set_alarm(void) {
+void Alarm_set(void) {
   Buzzer_on(BUZZER_PORT, BUZZER_PIN);
   }
 
@@ -159,11 +158,10 @@ EN_UserStatusCode_t delete_user(ST_User_t* user) {
   return USER_NOT_FOUND;
   }
 
-
 // *****************************************************
 // DB initialization functions
 // *****************************************************
-void eeprom_fill_zeroes(void) {
+void EEPROM_fill_zeroes(void) {
   u8 page;
   u16 byte;
   s8 zeroes[16] = { 0 };
@@ -187,8 +185,8 @@ void write_first_user(void) {
   EEPROM_write_block(0, 28, 11, password);
   }
 
-EN_UserStatusCode_t format_users_db(void) {
-  eeprom_fill_zeroes();
+EN_UserStatusCode_t User_DB_format(void) {
+  EEPROM_fill_zeroes();
   write_first_user();
   return USERS_DB_FORMATTED_SUCCESSFULLY;
   }
