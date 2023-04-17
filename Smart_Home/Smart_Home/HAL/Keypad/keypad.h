@@ -29,8 +29,13 @@
 
 #define KEYPAD_NO_PRESSED_KEY_VALUE  0xFF
 
-void Keypad_init(void);
+typedef enum EN_KeypadStatusCode_t
+  {
+  KEYPAD_INIT_OK, KEY_PRESSED, NO_KEY_PRESSED
+  } EN_KeypadStatusCode_t;
 
-u8 Keypad_getPressedKey(void);
+EN_KeypadStatusCode_t Keypad_init(void);
+
+EN_KeypadStatusCode_t Keypad_getPressedKey(u8* key);
 
 #endif /* KEYPAD_H_ */

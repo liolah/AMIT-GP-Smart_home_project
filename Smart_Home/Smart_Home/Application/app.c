@@ -15,7 +15,7 @@ void App_init(void) {
   Lamps_init();
   Door_init();
   Local_access_init();
-  // format_users_db();
+  // User_DB_format();
   sei();
 
   INT0_init(RISING_EDGE_INTERRUPT_REQUEST);
