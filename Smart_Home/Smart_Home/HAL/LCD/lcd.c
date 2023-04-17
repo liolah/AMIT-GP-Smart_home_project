@@ -91,14 +91,14 @@ void LCD_init(void) {
 #endif
   }
 
-void LCD_sendString(s8* str) {
+void LCD_write_string(s8* str) {
   u32 i;
   for (i = 0;str[i] != 0;i++) {
     LCD_sendData(str[i]);
     }
   }
 
-void LCD_writeString_xy(u8 x, u8 y, s8* str) {
+void LCD_move_cursor_xy(u8 x, u8 y) {
   switch (y) {
       case 0:
         LCD_sendCommand(0x80 + x);
@@ -107,6 +107,10 @@ void LCD_writeString_xy(u8 x, u8 y, s8* str) {
         LCD_sendCommand(0xC0 + x);
         break;
     }
-  LCD_sendString(str);
+  }
+
+void LCD_write_string_xy(u8 x, u8 y, s8* str) {
+  LCD_move_cursor_xy(x, y);
+  LCD_write_string(str);
   // TODO: Input validation
   }
