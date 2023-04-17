@@ -50,17 +50,18 @@ main.d main.o: .././main.c .././Application/app.h \
  e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
  .././Application/../Services/Local_access/../../Services/User/user.h \
  .././Application/../Services/Local_access/../../Services/Lights/lights.h \
+ .././Application/../Services/Local_access/../../Services/AC/ac.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\lm35\lm35.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\adc\adc.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\adc\adc_config.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h \
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\interrupts\interrupts.h \
  .././Application/../Services/Local_access/../../Services/Remote_access/remote.h \
  .././Application/../Services/Door/door.h \
  .././Application/../Services/AC/ac.h \
- .././Application/../Services/AC/../../HAL/LM35/lm35.h \
- .././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
- .././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc_config.h \
- .././Application/../Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h \
- .././Application/../Services/AC/../../MCAL/Timer/timer.h \
- .././Application/../Services/AC/../../MCAL/Interrupts/interrupts.h \
  .././Application/../Services/Lights/lights.h
 
 .././Application/app.h:
@@ -167,26 +168,28 @@ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
 .././Application/../Services/Local_access/../../Services/Lights/lights.h:
 
-.././Application/../Services/Local_access/../../Services/Remote_access/remote.h:
+.././Application/../Services/Local_access/../../Services/AC/ac.h:
 
-.././Application/../Services/Door/door.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\lm35\lm35.h:
 
-.././Application/../Services/AC/ac.h:
-
-.././Application/../Services/AC/../../HAL/LM35/lm35.h:
-
-.././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\adc\adc.h:
 
 e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
 e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
 
-.././Application/../Services/AC/../../HAL/LM35/../../MCAL/ADC/adc_config.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\adc\adc_config.h:
 
-.././Application/../Services/AC/../../HAL/LM35/../../MCAL/DIO/dio.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 
-.././Application/../Services/AC/../../MCAL/Timer/timer.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h:
 
-.././Application/../Services/AC/../../MCAL/Interrupts/interrupts.h:
+e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\interrupts\interrupts.h:
+
+.././Application/../Services/Local_access/../../Services/Remote_access/remote.h:
+
+.././Application/../Services/Door/door.h:
+
+.././Application/../Services/AC/ac.h:
 
 .././Application/../Services/Lights/lights.h:

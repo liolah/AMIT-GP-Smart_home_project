@@ -10,7 +10,7 @@
 int main(void) {
 	Local_access_init();
 	run_system = true;
-	
+	Lamps_init();
 	// App_init();
 
 	// App_start();
