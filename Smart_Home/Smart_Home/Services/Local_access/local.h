@@ -9,29 +9,34 @@
 #ifndef LOCAL_H_
 #define LOCAL_H_
 
-#include "../../HAL/LCD/lcd.h"
 #include <stdio.h>
+#include "../../HAL/LCD/lcd.h"
 #include "../../HAL/Keypad/keypad.h"
 #include "../../Services/User/user.h"
 #include "../../Services/Lights/lights.h"
+#include "../../Services/AC/ac.h"
 #include "../../Services/Remote_access/remote.h"
 
-#define OPTIONS_MENU_1 "1)\x7F 2)Login  3)\x7E"
-#define OPTIONS_MENU_2 "1)\x7F      2)Login"
-#define OPTIONS_MENU_3 "2)Login      3)\x7E"
-#define OPTIONS_MENU_4 "1)\x7F 2)Toggle 3)\x7E"
-#define OPTIONS_MENU_5 "1)\x7F   2)On   3)\x7E"
-#define OPTIONS_MENU_6 "1)\x7F  2)Off   3)\x7E"
-#define OPTIONS_MENU_7 "2)On         3)\x7E"
-#define OPTIONS_MENU_8 "2)Off        3)\x7E"
-#define OPTIONS_MENU_9 "1)\x7F   2)+    3)-"
+#define OPTIONS_MENU_1  "1)\x7F 2)Login  3)\x7E"
+#define OPTIONS_MENU_2  "1)\x7F     2)Login "
+#define OPTIONS_MENU_3  "2)Login      3)\x7E"
+#define OPTIONS_MENU_4  "1)\x7F 2)Toggle 3)\x7E"
+#define OPTIONS_MENU_5  "1)\x7F   2)On   3)\x7E"
+#define OPTIONS_MENU_6  "1)\x7F  2)Off   3)\x7E"
+#define OPTIONS_MENU_7  "2)On         3)\x7E"
+#define OPTIONS_MENU_8  "2)Off        3)\x7E"
+#define OPTIONS_MENU_9  "1)\x7F 2)+  3)- 4)\x7E"
+#define OPTIONS_MENU_10 "1)\x7F    2)Log out"
 
 #define BACKSPACE_OPTION "-)<X"
 #define ENTER_OPTION "=)Ok"
 
-#define LAMP_6_BRIGHTNESS_PERCENTAGE_STEP 10
+#define LAMP_6_BRIGHTNESS_PERCENTAGE_STEP 20
 
 bool running_devices[7];
+
+// When both an admin remote user and a local user are connected to the system, the local user has to get a permission from the admin to be able to control the system at the same time.
+bool local_control_permission_granted;
 
 // Initialize the local control system
 void Local_access_init(void);
@@ -41,9 +46,6 @@ void Local_control_input_handler(void);
 
 // Updates the logical states (in/off) of the running devices' array 
 void Get_running_devices(void);
-
-// Updates the device status array, which has lamp 6 brightness level 
-void Get_devices_status(void);
 
 // Shows the bottom line options on the LCD
 void Show_bottom_options_menu(u8 menu);

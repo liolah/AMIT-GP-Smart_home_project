@@ -10,8 +10,8 @@
  // Used to store the state of the lamps and the AC
 bool running_devices[7];
 
-// Used to store the state of the lamps, including the brightness of lamp6
-s8 devices_status[6];
+// Used to store the brightness of lamp6
+s16 dimmer_brightness;
 
 // The last screen shown on the LCD in show running devices task
 u8 running_devices_screen;
@@ -27,7 +27,9 @@ u8 login_stage;
 bool login_stage_started;
 
 // When both an admin remote user and a local user are connected to the system, the local user has to get a permission from the admin to be able to control the system at the same time.
-bool control_permission_granted;
+bool local_control_permission_granted;
+
+bool local_user_loggedin;
 
 // Used to determine how the keypad input will be used.
 // 0 = The user is logged out - Showing running devices
@@ -58,6 +60,8 @@ void Get_running_devices(void) {
   running_devices[5] = read_bit(TCCR2, COM21); // To see if the OC pins are connected
   // Check the AC
   DIO_Read(7, PORT_D, &running_devices[6]);
+  // The value in OCR2 determine the brightness of the led
+  dimmer_brightness = OCR2;
   }
 
 // Shows the bottom line options on the LCD
@@ -90,6 +94,9 @@ void Show_bottom_options_menu(u8 menu) {
       case 9:
         LCD_write_string_xy(0, 1, OPTIONS_MENU_9);
         break;
+      case 10:
+        LCD_write_string_xy(0, 1, OPTIONS_MENU_10);
+        break;
     }
   }
 
@@ -97,16 +104,6 @@ void Show_bottom_options_menu(u8 menu) {
 void Show_side_options_menu(void) {
   LCD_write_string_xy(12, 0, BACKSPACE_OPTION);
   LCD_write_string_xy(12, 1, ENTER_OPTION);
-  }
-
-// Updates the device status array, which has lamp 6 brightness level 
-void Get_devices_status(void) {
-  // Check the on/off lamps
-  u8 lamp;
-  for (lamp = 0; lamp < 5; lamp++) {
-    DIO_Read(lamp + 2, PORT_C, &devices_status[lamp]);
-    }
-  devices_status[5] = (u8)(OCR1A / 200);
   }
 
 // Shows the currently running devices with the appropriate control menu appended (Screen controls and login- no device controls)
@@ -122,14 +119,20 @@ void Show_running_devices(u8 screen) {
       default:
         LCD_write_string_xy(0, 0, "Lamp");
         LCD_sendData(screen + 48);
-        LCD_write_string(": ");
+        LCD_write_string(":  ");
         break;
     }
-  // Write the device state
-  if (running_devices[screen - 1])
-    LCD_write_string("On");
-  else
-    LCD_write_string("Off");
+  if (screen == 6) {
+    s8 brightness[4];
+    sprintf(brightness, "%d%%", (u8)((double)dimmer_brightness / 2.55));
+    LCD_write_string(brightness);
+    }
+  else {// Write the device state
+    if (running_devices[screen - 1])
+      LCD_write_string("On");
+    else
+      LCD_write_string("Off");
+    }
   // Show the options menu
   switch (screen) {
       case 1:
@@ -155,19 +158,24 @@ void Show_devices_controls(u8 screen) {
 
   if (screen < 6) {
     // Write the device state
-    if (devices_status[screen - 1])
+    if (running_devices[screen - 1])
       LCD_write_string("On");
     else
       LCD_write_string("Off");
     }
-  else {
+  else if (screen == 6) { // Dimmer
     s8 brightness[4];
-    sprintf(brightness, "%d%%", devices_status[5]);
+    sprintf(brightness, "%d%%", (u8)((double)dimmer_brightness / 2.55));
+    LCD_write_string(brightness);
+    }
+  else {  // Logout screen
+    LCD_clear_screen();
+    LCD_write_string_xy(4, 0, "Log out?");
     }
   // Show the options menu
   switch (screen) {
       case 1:
-        if (devices_status[0])
+        if (running_devices[0])
           Show_bottom_options_menu(8);
         else
           Show_bottom_options_menu(7);
@@ -175,8 +183,11 @@ void Show_devices_controls(u8 screen) {
       case 6:
         Show_bottom_options_menu(9);
         break;
+      case 7:
+        Show_bottom_options_menu(10);
+        break;
       default:
-        if (devices_status[screen - 1])
+        if (running_devices[screen - 1])
           Show_bottom_options_menu(6);
         else
           Show_bottom_options_menu(5);
@@ -193,13 +204,13 @@ void invalid_local_login_attempt(void) {
     LCD_sendData((3 - invalid_trails) + 48);
     LCD_write_string(" attempts");
     LCD_write_string_xy(3, 1, "remaining !");
-    _delay_ms(1500);
+    _delay_ms(1000);
     return;
     }
   LCD_clear_screen();
   LCD_write_string_xy(4, 0, "Too many");
   LCD_write_string_xy(0, 1, "wrong attempts!");
-  _delay_ms(1500);
+  _delay_ms(1000);
   LCD_clear_screen();
   LCD_write_string_xy(3, 0, "- System -");
   LCD_write_string_xy(2, 1, "- Suspended -");
@@ -299,11 +310,12 @@ void Local_control_input_handler(void) {
                   login_stage_started = false;
                   login_stage = 0;
                   local_control_running_task = 2;
+                  local_user_loggedin = true;
                   LCD_clear_screen();
                   LCD_write_string_xy(4, 0, "Welcome");
                   LCD_write_string_xy((16 - strlen(local_user.name)) / 2 - 1, 1, local_user.name);
                   LCD_sendData('!');
-                  _delay_ms(1500);
+                  _delay_ms(1000);
                   }
                 else {
                   LCD_clear_screen();
@@ -327,14 +339,14 @@ void Local_control_input_handler(void) {
         break;
         // Devices control
       case 2:
-        if (remote_user_loggedin && !control_permission_granted) {
+        if (remote_user_loggedin && !local_control_permission_granted) {
           LCD_clear_screen();
           LCD_write_string_xy(0, 0, "Admin Permission");
           LCD_write_string_xy(3, 1, "Required !");
           //~ Controls can be added to allow the user to go back and view the running devices if needed.
           }
         else {
-          Get_devices_status();
+          Get_running_devices();
           if (control_devices_screen == 0) {  // First run
             Show_devices_controls(1);
             control_devices_screen++;
@@ -349,14 +361,24 @@ void Local_control_input_handler(void) {
                     case 6:
                       // Increment the brightness
                       // Floor the brightness
-                      devices_status[5] = devices_status[5] - (devices_status[5] % LAMP_6_BRIGHTNESS_PERCENTAGE_STEP);
-                      devices_status[5] += LAMP_6_BRIGHTNESS_PERCENTAGE_STEP;
-                      if (devices_status[5] > 100) devices_status[5] = 100;
-                      Lamp_dimmable_set_brightness((double)devices_status[5] / 100.0);
+                      dimmer_brightness += ((double)LAMP_6_BRIGHTNESS_PERCENTAGE_STEP * 2.55);
+                      if (dimmer_brightness > 255) dimmer_brightness = 255;
+                      Lamp_dimmable_set_brightness(((double)dimmer_brightness / 255.0));
+                      break;
+                    case 7:
+                      // Logout
+                      local_user_loggedin = false;
+                      control_devices_screen = 0;
+                      running_devices_screen = 0;
+                      local_control_running_task = 0;
+                      LCD_clear_screen();
+                      LCD_write_string_xy(1, 0, "logging out...");
+                      LCD_write_string_xy(4, 1, "Good Bye!");
+                      _delay_ms(1000);
                       break;
                     default:
                       Lamp_toggle(control_devices_screen);
-                      devices_status[control_devices_screen - 1] = !devices_status[control_devices_screen - 1];
+                      running_devices[control_devices_screen - 1] = !running_devices[control_devices_screen - 1];
                       break;
                   }
                 break;
@@ -365,15 +387,18 @@ void Local_control_input_handler(void) {
                     case 6:
                       // Decrement the brightness
                       // Ceil the brightness
-                      devices_status[5] = devices_status[5] - (devices_status[5] % LAMP_6_BRIGHTNESS_PERCENTAGE_STEP) + LAMP_6_BRIGHTNESS_PERCENTAGE_STEP;
-                      devices_status[5] -= LAMP_6_BRIGHTNESS_PERCENTAGE_STEP;
-                      if (devices_status[5] < 0) devices_status[5] = 0;
-                      Lamp_dimmable_set_brightness((double)devices_status[5] / 100.0);
+                      dimmer_brightness -= ((double)LAMP_6_BRIGHTNESS_PERCENTAGE_STEP * 2.55);
+                      if (dimmer_brightness < 0) dimmer_brightness = 0;
+                      Lamp_dimmable_set_brightness(((double)dimmer_brightness / 255.0));
                       break;
                     default:
-                      if (control_devices_screen < 6) control_devices_screen++;
+                      if (control_devices_screen < 7) control_devices_screen++;
                       break;
                   }
+                break;
+              case '4':
+                // Moving to logout screen
+                if (control_devices_screen == 6) control_devices_screen++;
                 break;
             }
           Show_devices_controls(control_devices_screen);
@@ -381,4 +406,3 @@ void Local_control_input_handler(void) {
         break;
     }
   }
-
