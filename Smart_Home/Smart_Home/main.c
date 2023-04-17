@@ -9,15 +9,13 @@
 
 int main(void) {
 	Local_access_init();
-
+	run_system = true;
 	
 	// App_init();
 
 	// App_start();
-	while (1) {
+	while (run_system) {
 		Local_control_input_handler();
 		}
-
-
 	}
 

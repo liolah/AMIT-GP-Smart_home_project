@@ -10,7 +10,7 @@
  // Used to store the state of the lamps and the AC
 bool running_devices[7];
 
-// Used to store the state of the lamps, including the brightness of lam6
+// Used to store the state of the lamps, including the brightness of lamp6
 s8 devices_status[6];
 
 // The last screen shown on the LCD in show running devices task
@@ -189,12 +189,20 @@ void invalid_local_login_attempt(void) {
   invalid_trails++;
   if (invalid_trails < 3) {
     LCD_clear_screen();
-    LCD_move_cursor_xy(0, 0);
+    LCD_move_cursor_xy(3, 0);
     LCD_sendData((3 - invalid_trails) + 48);
     LCD_write_string(" attempts");
-    LCD_write_string_xy(0, 1, "remaining !");
+    LCD_write_string_xy(3, 1, "remaining !");
+    _delay_ms(1500);
     return;
     }
+  LCD_clear_screen();
+  LCD_write_string_xy(4, 0, "Too many");
+  LCD_write_string_xy(0, 1, "wrong attempts!");
+  _delay_ms(1500);
+  LCD_clear_screen();
+  LCD_write_string_xy(3, 0, "- System -");
+  LCD_write_string_xy(2, 1, "- Suspended -");
   Alarm_set();
   run_system = false;
   }
@@ -227,7 +235,6 @@ void Local_control_input_handler(void) {
         break;
         // Logging in
       case 1:
-        if (keypad_stat == NO_KEY_PRESSED) return;
         switch (login_stage) {
           // Entering the user code
             case 0:
@@ -239,6 +246,7 @@ void Local_control_input_handler(void) {
                 login_stage_started = true;
                 input_buffer_pointer = 0;
                 }
+              if (keypad_stat == NO_KEY_PRESSED) return;
               if (pressed_key == '-') { // Delete last input number
                 if (input_buffer_pointer > 0) input_buffer_pointer--;
                 LCD_write_string_xy(input_buffer_pointer, 1, " ");
@@ -257,10 +265,13 @@ void Local_control_input_handler(void) {
                   LCD_write_string_xy(5, 0, "Wrong");
                   LCD_write_string_xy(2, 1, "User Code !");
                   invalid_local_login_attempt();
+                  login_stage_started = false;
                   }
                 }
               else if (pressed_key >= '0' && pressed_key <= '9') { // Ignoring invalid options
                 if (input_buffer_pointer < 6) {
+                  // Echo the input on the LCD
+                  LCD_sendData(pressed_key);
                   input_buffer[input_buffer_pointer] = pressed_key;
                   input_buffer_pointer++;
                   }
@@ -292,16 +303,21 @@ void Local_control_input_handler(void) {
                   LCD_write_string_xy(4, 0, "Welcome");
                   LCD_write_string_xy((16 - strlen(local_user.name)) / 2 - 1, 1, local_user.name);
                   LCD_sendData('!');
+                  _delay_ms(1500);
                   }
                 else {
                   LCD_clear_screen();
                   LCD_write_string_xy(5, 0, "Wrong");
                   LCD_write_string_xy(3, 1, "Password !");
+                  login_stage_started = false;
                   invalid_local_login_attempt();
                   }
                 }
               else if (pressed_key >= '0' && pressed_key <= '9') { // Ignoring invalid options
+                // Limit the input length
                 if (input_buffer_pointer < 10) {
+                  // Echo the input on the LCD
+                  LCD_sendData(pressed_key);
                   input_buffer[input_buffer_pointer] = pressed_key;
                   input_buffer_pointer++;
                   }
@@ -320,7 +336,7 @@ void Local_control_input_handler(void) {
         else {
           Get_devices_status();
           if (control_devices_screen == 0) {  // First run
-            Show_running_devices(1);
+            Show_devices_controls(1);
             control_devices_screen++;
             }
           if (keypad_stat == NO_KEY_PRESSED) return;
@@ -362,7 +378,6 @@ void Local_control_input_handler(void) {
             }
           Show_devices_controls(control_devices_screen);
           }
-        break;
         break;
     }
   }

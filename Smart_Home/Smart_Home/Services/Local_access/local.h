@@ -22,8 +22,8 @@
 #define OPTIONS_MENU_4 "1)\x7F 2)Toggle 3)\x7E"
 #define OPTIONS_MENU_5 "1)\x7F   2)On   3)\x7E"
 #define OPTIONS_MENU_6 "1)\x7F  2)Off   3)\x7E"
-#define OPTIONS_MENU_7 "2)On         2)\x7E"
-#define OPTIONS_MENU_8 "2)Off        2)\x7E"
+#define OPTIONS_MENU_7 "2)On         3)\x7E"
+#define OPTIONS_MENU_8 "2)Off        3)\x7E"
 #define OPTIONS_MENU_9 "1)\x7F   2)+    3)-"
 
 #define BACKSPACE_OPTION "-)<X"
