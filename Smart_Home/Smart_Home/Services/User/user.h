@@ -35,6 +35,8 @@ bool local_user_loggedin;
 bool run_system;
 u8 invalid_trails;
 
+EN_UserStatusCode_t User_DB_init(void);
+
 EN_UserStatusCode_t getUserByName(s8* userName, ST_User_t* user);
 
 EN_UserStatusCode_t getUserByCode(s8* userCode, ST_User_t* user);
@@ -44,13 +46,11 @@ EN_UserStatusCode_t add_user(ST_User_t* user);
 EN_UserStatusCode_t delete_user(ST_User_t* user);
 
 // Searches for the user by the username. user is null if the user isn't found 
-EN_UserStatusCode_t search_user(s8* user_code_or_name, bool mode, ST_User_t* user);
-
-bool validate_user_password(ST_User_t* user, s8* password);
+EN_UserStatusCode_t user_search(s8* user_code_or_name, bool mode, ST_User_t* user);
 
 void invalid_remote_login_attempt(void);
 
-void set_alarm(void);
+void Alarm_set(void);
 
 //*******************************************************
 //! One time run functions 
@@ -64,6 +64,6 @@ void set_alarm(void);
 // The other six bytes are reserved unused. 
 // Excluding the isAdmin flag, each user needs 31 bytes to be stored. Starting from bytes 9. The users are stored one after each other.
 //? It also creates the first admin user. username: admin, userCode: 000000, password: 1234
-EN_UserStatusCode_t format_users_db(void);
+EN_UserStatusCode_t User_DB_format(void);
 
 #endif /* USER_H_ */
