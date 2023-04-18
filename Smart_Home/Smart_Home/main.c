@@ -8,14 +8,14 @@
 #include "Application/app.h"
 
 int main(void) {
-	Local_access_init();
-	run_system = true;
+	Remote_init(9600);
 	Lamps_init();
+	Door_init();
 	// App_init();
 
 	// App_start();
-	while (run_system) {
-		Local_control_input_handler();
+	while (1) {
+		
 		}
 	}
 

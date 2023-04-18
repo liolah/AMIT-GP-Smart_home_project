@@ -11,8 +11,6 @@ s8 msg_buffer[15];
 s8 msg_length;
 s8 msg_buffer_pointer;
 
-bool invalid_user_input;
-bool dump_invalid_data;
 s8 udr_temp;
 u8 device_number;
 
@@ -20,14 +18,35 @@ ST_User_t remote_user;
 ST_User_t new_user;
 ST_User_t temp_user;
 
+bool numerical_input_mode;
+
+//* For BT mode(unused) 
+// bool invalid_user_input;
+// bool dump_invalid_data;
+
+// ***************************************************************************
+//^ Private functions declarations 
+// ***************************************************************************
 void add_user_prompt(void);
 void initial_options_menu(void);
 void print_initial_options_menu(void);
 void remote_control(void);
 
+void print_msg(s8* msg);
+void println_msg(s8* msg);
+set_target_interface_node(u8 lv1, u8 lv2, u8 lv3);
+// ***************************************************************************
+void set_target_interface_node(u8 lv1, u8 lv2, u8 lv3) {
+  user_dialog_tree[0] = lv1;
+  user_dialog_tree[1] = lv2;
+  user_dialog_tree[2] = lv3;
+  }
+
 void Remote_init(u32 baudRate) {
   User_DB_init();
   BT_init(baudRate);
+  INT0_init(RISING_EDGE_INTERRUPT_REQUEST);
+  UART_RXC_INT_init();
   }
 
 void println_msg(s8* msg) {
@@ -42,9 +61,9 @@ void print_msg(s8* msg) {
   BT_sendString(msg);
   }
 
-void request_user_input(s8 options[4], u8 msgLength) {
-  strcpy(user_dialog_tree, options);
+void request_user_input(u8 msgLength, bool numericalInputOnly) {
   msg_length = msgLength;
+  numerical_input_mode = numericalInputOnly;
   }
 
 void delete_user_prompt(void) {
@@ -312,70 +331,16 @@ void add_user_prompt(void) {
 
 void invalid_remote_login_attempt(void) {
   invalid_trails++;
+  s8 msg[50];
   if (invalid_trails < 3) {
-    s8 msg[50];
-    sprintf(msg, "\r\nInvalid login attempt! \r\n%d attempts remaining.", 3 - invalid_trails);
+    sprintf(msg, "Invalid login attempt! \r\n%d attempts remaining.", 3 - invalid_trails);
     println_msg(msg);
     return;
     }
+  strcpy(msg, "Too many login attempts! \r--- System Suspended! ---");
+  println_msg(msg);
   Alarm_set();
   run_system = false;
-  }
-
-void userPassword_prompt_handler(void) {
-  // Validate the given username (length and syntax)
-  if (invalid_user_input) {
-    invalid_remote_login_attempt();
-    print_msg("Enter your password:\t");
-    request_user_input(userPassword_prompt_handler, 11);
-    }
-  else {
-    if (strcmp(remote_user.password, msg_buffer)) { // Wrong password
-      print_msg("Wrong password!");
-      invalid_remote_login_attempt();
-      print_msg("Enter your password:\t");
-      request_user_input(userPassword_prompt_handler, 11);
-      }
-    else {
-      remote_user_loggedin = true;
-      print_msg("Welcome ");
-      print_msg(remote_user.name);
-      println_msg("!");
-      // Show the options menu
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
-      }
-    }
-  }
-
-void userName_prompt_handler(void) {
-  // Validate the given username (length and syntax)
-  if (invalid_user_input) {
-    invalid_remote_login_attempt();
-    print_msg("Enter your user name:\t");
-    request_user_input(userName_prompt_handler, 13);
-    }
-  else {
-    EN_UserStatusCode_t userExists = getUserByName(msg_buffer, &remote_user);
-    if (userExists == USER_NOT_FOUND) {
-      print_msg("User doesn't exist!");
-      invalid_remote_login_attempt();
-      print_msg("Enter your user name:\t");
-      request_user_input(userName_prompt_handler, 13);
-      }
-    else {
-      // Prompt the user to enter the password
-      print_msg("Enter your password:\t");
-      request_user_input(userPassword_prompt_handler, 11);
-      }
-    }
-  }
-
-void remote_login_prompt(void) {
-  println_msg("Welcome to the Smart Home System!");
-  println_msg("To proceed, please login.");
-  print_msg("Enter your user name:\t");
-  request_user_input(userName_prompt_handler, 13);
   }
 
 // Handles the user input asynchronously.
@@ -386,6 +351,13 @@ ISR(USART_RXC_vect) {
 
   // If no input requested, ignore the input. No input requested is indicated by msg length of zero
   if (msg_length == 0) return;
+
+  // Accept numbers only in the numerical input mode
+  if (numerical_input_mode) {
+    if (!(udr_temp >= '0' && udr_temp <= '9' || udr_temp == '\b' || udr_temp == PROTEUS_VIRTUAL_TERMINAL_STRING_DELIMITER || udr_temp == '\n')) {
+      return;
+      }
+    }
 
   // Handling backspaces
   if (udr_temp == '\b') {
@@ -414,13 +386,11 @@ ISR(USART_RXC_vect) {
     BT_sendChar(udr_temp);
 
   // Msg is longer than required
+  // Delete the last input char. Don't allow the user to enter longer input than the maximum required
   if (msg_buffer_pointer == msg_length) {
     if (msg_buffer[msg_buffer_pointer - 1] != PROTEUS_VIRTUAL_TERMINAL_STRING_DELIMITER) {
-      invalid_user_input = true;
-      dump_invalid_data = true;
-      msg_buffer_pointer = 0;
-      BT_sendChar('\r');
-      Remote_control_interface(user_dialog_tree);
+      msg_buffer_pointer--;
+      BT_sendChar('\b');
       }
     }
 
@@ -435,6 +405,7 @@ ISR(USART_RXC_vect) {
       }
     }
 #elif UART_COMMUNICATION_INTERFACE ==  HC_05_BLUETOOTH_MODULE
+  //! DISCLAIMER: this piece of code wasn't tested and isn't guaranteed to work!
   // Read the UDR to clear the RXC pin
   udr_temp = UDR;
   // If no input requested, ignore the input. No input requested is indicated by msg length of zero
@@ -524,8 +495,69 @@ void Remote_control_interface(s8 options[4]) {
         // Logout
       case '4':
         break;
-        // Wrong input
-      default:
+        // Login handler
+      case 'L':
+        switch (lv2) {
+            case 0:   // Print the welcome message
+              println_msg("Welcome to the Smart Home System!");
+              println_msg("To proceed, please login.");
+              set_target_interface_node('L', 1, 0);
+              Remote_control_interface(user_dialog_tree);
+              // Signal to move to the next login step
+              // Set the required message length needed in the next buffer
+              break;
+            case 1:   // Handle username input
+              switch (lv3) {
+                  case 0: // input
+                    print_msg("Enter your user name:\t");
+                    set_target_interface_node('L', 1, 1);
+                    request_user_input(13, false);
+                    break;
+                  case 1: // validation. Validate by checking if the name exists in the DB. Go to password input if true. Go to username input if false.
+                    EN_UserStatusCode_t userExists = getUserByName(msg_buffer, &remote_user);
+                    if (userExists == USER_NOT_FOUND) {
+                      println_msg("User doesn't exist!");
+                      invalid_remote_login_attempt();
+                      set_target_interface_node('L', 1, 0);
+                      Remote_control_interface(user_dialog_tree);
+                      }
+                    else {
+                      // Prompt the user to enter the password
+                      set_target_interface_node('L', 2, 0);
+                      Remote_control_interface(user_dialog_tree);
+                      }
+                    break;
+                }
+              break;
+            case 2:   // Handle password input
+              switch (lv3) {
+                  case 0: // input
+                    print_msg("Enter your password:\t");
+                    set_target_interface_node('L', 2, 1);
+                    request_user_input(11, true);
+                    break;
+                  case 1: // validation. Validate by checking if the name exists in the DB. Go to password input if true. Go to username input if false.
+                    if (strcmp(remote_user.password, msg_buffer)) { // Wrong password
+                      println_msg("Wrong password!");
+                      invalid_remote_login_attempt();
+                      set_target_interface_node('L', 2, 0);
+                      Remote_control_interface(user_dialog_tree);
+                      }
+                    else {
+                      remote_user_loggedin = true;
+                      print_msg("Welcome ");
+                      print_msg(remote_user.name);
+                      println_msg("!");
+                      // Show the options menu
+                      print_initial_options_menu();
+                      request_user_input(initial_options_menu, 2);
+                      }
+                    break;
+                }
+              break;
+            case 3:   // Handle password input
+              break;
+          }
         break;
     }
   }
