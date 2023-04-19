@@ -209,7 +209,6 @@ void invalid_local_login_attempt(void) {
   LCD_clear_screen();
   LCD_write_string_xy(3, 0, "- System -");
   LCD_write_string_xy(2, 1, "- Suspended -");
-  Alarm_set();
   run_system = false;
   }
 

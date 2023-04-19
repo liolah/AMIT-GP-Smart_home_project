@@ -56,8 +56,6 @@ EN_UserStatusCode_t user_search(s8* user_code_or_name, bool mode, ST_User_t* use
 
 void invalid_remote_login_attempt(void);
 
-void Alarm_set(void);
-
 //*******************************************************
 //! One time run functions 
 //*******************************************************

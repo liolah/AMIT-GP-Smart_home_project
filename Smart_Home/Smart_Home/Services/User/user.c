@@ -82,11 +82,6 @@ EN_UserStatusCode_t user_search(s8* user_code_or_name, bool mode, ST_User_t* use
     }
   }
 
-void Alarm_set(void) {
-  Buzzer_init(BUZZER_PORT, BUZZER_PIN);
-  Buzzer_on(BUZZER_PORT, BUZZER_PIN);
-  }
-
 void write_user(u8 userBlockIndex, ST_User_t* user) {
   // Get the user block location (page - index)
   u8 page = userBlockIndex / 8;
