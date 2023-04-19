@@ -29,8 +29,6 @@ ST_User_t new_user;
 // Used in deleting a user
 ST_User_t temp_user;
 
-bool remote_user_loggedin;
-
 // When this flag is set, only digits and backspaces will be accepted as input. 
 // (the password and the usercode must be both digits only for them to be used in the local control system as it only can input digits)
 bool numerical_input_mode;
@@ -55,6 +53,8 @@ void print_msg(s8* msg);
 void callFunWhenBufferReady(void);
 
 void request_user_input(void (*requestingFunction)(void), u8 msgLength, bool numericalInputOnly);
+
+void get_lamp_state(u8 lamp, u8* state);
 
 void remote_login_prompt(void);
 
@@ -117,6 +117,10 @@ void request_user_input(void (*requestingFunction)(void), u8 msgLength, bool num
   requesting_function = requestingFunction;
   msg_length = msgLength;
   numerical_input_mode = numericalInputOnly;
+  }
+
+void get_lamp_state(u8 lamp, u8* state) {
+  DIO_Read(lamp + 2, PORT_C, state);
   }
 
 void delete_user_prompt(void) {
@@ -190,14 +194,16 @@ void control_device(void) {
           println_msg("\r\nInvalid input!!\t");
           }
         else {
-          Lamp_toggle(device_number);
-          Get_running_devices();
-          if (running_devices[device_number - 1]) {
-            println_msg("The Lamp is now on!");
-            }
-          else {
-            println_msg("The Lamp is now off!");
-            }
+          //! Disabled because the program used more than 99.5% of the data memory and can't be extended further.
+          // u8 state;
+          // get_lamp_state(option - 48, state);
+          // Lamp_toggle(device_number);
+          // if (state) {
+          //   println_msg("The Lamp is now on!");
+          //   }
+          // else {
+          //   println_msg("The Lamp is now off!");
+          //   }
           }
         break;
     }
@@ -219,7 +225,8 @@ void remote_control(void) {
       remote_control();
       }
     else {
-      s8 msg[40];
+      u8 state;
+      get_lamp_state(option - 48, &state);
       device_number = option - 48;
       switch (option) {
           case '6':
@@ -239,14 +246,16 @@ void remote_control(void) {
             initial_options_menu();
             break;
           default:
-            Get_running_devices();
-            if (running_devices[device_number - 1]) {
-              sprintf(msg, "Lamp %d is on. Turn it off? (Y/N)", option - 48);
-              }
-            else {
-              sprintf(msg, "Lamp %d is off. Turn it on? (Y/N)", option - 48);
-              }
-            println_msg(msg);
+            // if (state) {
+            //   print_msg("Lamp ");
+            //   BT_sendChar(device_number);
+            //   println_msg(" is on. Turn it off? (Y/N)");
+            //   }
+            // else {
+            //   print_msg("Lamp ");
+            //   // BT_sendChar(device_number);
+            //   println_msg(" is off. Turn it on? (Y/N)");
+            //   }
             request_user_input(control_device, 2, false);
             break;
         }
@@ -467,18 +476,20 @@ void userName_prompt_handler(void) {
   }
 
 void remote_login_prompt(void) {
-  if (!remote_user_loggedin) {
-    println_msg("Welcome to the Smart Home System!");
-    println_msg("To proceed, please login.");
-    userName_prompt_handler();
-    }
-  else {
-    print_msg("Welcome ");
-    print_msg(remote_user.name);
-    println_msg("!");
-    // Show the options menu
-    initial_options_menu();
-    }
+  //! for some reason this part causes a compilation error related to .bss section in memory!!!! 
+  // if (!remote_user_loggedin) {
+  println_msg("Welcome!");
+  // println_msg("Welcome to the Smart Home System!");
+  // println_msg("To proceed, please login.");
+  userName_prompt_handler();
+  //   }
+  // else {
+  // print_msg("Welcome ");
+  // print_msg(remote_user.name);
+  // println_msg("!");
+  // // Show the options menu
+  // initial_options_menu();
+  // }
   }
 
 void invalid_remote_login_attempt(void) {

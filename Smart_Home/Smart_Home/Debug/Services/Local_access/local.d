@@ -43,21 +43,7 @@ Services/Local_access/local.d Services/Local_access/local.o: \
  ../Services/Local_access/../../Services/AC/../../MCAL/Timer/timer.h \
  ../Services/Local_access/../../Services/AC/../../MCAL/Interrupts/interrupts.h \
  e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
- ../Services/Local_access/../../Services/Remote_access/remote.h \
- ../Services/Local_access/../../Services/Remote_access/remote_config.h \
- ../Services/Local_access/../../Services/Remote_access/../User/user.h \
- ../Services/Local_access/../../Services/Remote_access/../Lights/lights.h \
- ../Services/Local_access/../../Services/Remote_access/../Door/door.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\servo\servo.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\hc-05\hc_05.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\uart\uart.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h \
- e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\interrupts\interrupts.h
+ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h
 
 ../Services/Local_access/local.h:
 
@@ -148,31 +134,3 @@ e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
 e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
 
 e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
-
-../Services/Local_access/../../Services/Remote_access/remote.h:
-
-../Services/Local_access/../../Services/Remote_access/remote_config.h:
-
-../Services/Local_access/../../Services/Remote_access/../User/user.h:
-
-../Services/Local_access/../../Services/Remote_access/../Lights/lights.h:
-
-../Services/Local_access/../../Services/Remote_access/../Door/door.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\servo\servo.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\timer\timer.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\hal\hc-05\hc_05.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\dio\dio.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\uart\uart.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\registers.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\utilities\bit_manipulation.h:
-
-e:\amit\amit-gp-smart_home_project\smart_home\smart_home\mcal\interrupts\interrupts.h:

@@ -17,6 +17,17 @@
 #define REMOTE_MODE 0
 #define LOCAL_MODE  1
 
+bool remote_user_loggedin;
+
+bool local_user_loggedin;
+
+// When both an admin remote user and a local user are connected to the system, the local user has to get a permission from the admin to be able to control the system at the same time.
+bool local_control_permission_granted;
+
+bool run_system;
+
+u8 invalid_trails;
+
 typedef struct ST_User_t
   {
   bool isAdmin;
@@ -27,11 +38,8 @@ typedef struct ST_User_t
 
 typedef enum EN_UserStatusCode_t
   {
-  LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY, USER_ADDED_SUCCESSFULLY, USER_DELETED_SUCCESSFULLY, ERROR_FULL_DB
+  LOGIN_SUCCESSFUL, LOGIN_FAILED, USER_FOUND, USER_NOT_FOUND, WRONG_USERNAME, WRONG_PASSWORD, WRONG_USERCODE, LOGOUT_SUCCESSFUL, DB_INIT_SUCCESSFUL, USERS_DB_FORMATTED_SUCCESSFULLY, USER_ADDED_SUCCESSFULLY, USER_DELETED_SUCCESSFULLY, ERROR_FULL_DB
   } EN_UserStatusCode_t;
-
-bool run_system;
-u8 invalid_trails;
 
 EN_UserStatusCode_t User_DB_init(void);
 

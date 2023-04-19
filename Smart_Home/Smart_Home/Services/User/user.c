@@ -7,11 +7,9 @@
 
 #include "user.h"
 
-bool run_system;
-u8 invalid_trails;
-
 EN_UserStatusCode_t User_DB_init(void) {
   EEPROM_init();
+  return DB_INIT_SUCCESSFUL;
   }
 
 EN_UserStatusCode_t getUserByName(s8* userName, ST_User_t* user) {
@@ -85,6 +83,7 @@ EN_UserStatusCode_t user_search(s8* user_code_or_name, bool mode, ST_User_t* use
   }
 
 void Alarm_set(void) {
+  Buzzer_init(BUZZER_PORT, BUZZER_PIN);
   Buzzer_on(BUZZER_PORT, BUZZER_PIN);
   }
 

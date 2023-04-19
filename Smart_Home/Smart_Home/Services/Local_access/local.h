@@ -15,7 +15,6 @@
 #include "../../Services/User/user.h"
 #include "../../Services/Lights/lights.h"
 #include "../../Services/AC/ac.h"
-#include "../../Services/Remote_access/remote.h"
 
 #define OPTIONS_MENU_1  "1)\x7F 2)Login  3)\x7E"
 #define OPTIONS_MENU_2  "1)\x7F     2)Login "
@@ -33,12 +32,7 @@
 
 #define LAMP_6_BRIGHTNESS_PERCENTAGE_STEP 20
 
-bool running_devices[7];
-
-// When both an admin remote user and a local user are connected to the system, the local user has to get a permission from the admin to be able to control the system at the same time.
-bool local_control_permission_granted;
-
-// Initialize the local control system
+ // Initialize the local control system
 void Local_access_init(void);
 
 // Used in the super loop for getting the user input and handling it.

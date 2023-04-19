@@ -26,11 +26,6 @@ u8 login_stage;
 // When cleared the LCD gets initialized to show the appropriate login screen
 bool login_stage_started;
 
-// When both an admin remote user and a local user are connected to the system, the local user has to get a permission from the admin to be able to control the system at the same time.
-bool local_control_permission_granted;
-
-bool local_user_loggedin;
-
 // Used to determine how the keypad input will be used.
 // 0 = The user is logged out - Showing running devices
 // 1 = Login in progress. The user is attempting to login.
