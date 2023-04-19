@@ -7,18 +7,39 @@
 
 #include "remote.h"
 
+ // A buffer used to store the user input before sending it to the right function
 s8 msg_buffer[15];
+
+// Requested input maximum length
 s8 msg_length;
+
+// least available index in the buffer
 s8 msg_buffer_pointer;
 
+// The UDR must be read to reset the RXC interrupt. This UDR wil be stored in this variable
 s8 udr_temp;
 u8 device_number;
 
+// Stores the data of the logged in user
 ST_User_t remote_user;
+
+// Used to store the new user data temporarily
 ST_User_t new_user;
+
+// Used in deleting a user
 ST_User_t temp_user;
 
+bool remote_user_loggedin;
+
+// When this flag is set, only digits and backspaces will be accepted as input. 
+// (the password and the usercode must be both digits only for them to be used in the local control system as it only can input digits)
 bool numerical_input_mode;
+
+// Points to the function responsible for handling the input
+void (*requesting_function)(void);
+
+// Used to check if the user input has been requested for a function at least once
+bool user_input_accepted;
 
 //* For BT mode(unused) 
 // bool invalid_user_input;
@@ -27,20 +48,47 @@ bool numerical_input_mode;
 // ***************************************************************************
 //^ Private functions declarations 
 // ***************************************************************************
-void add_user_prompt(void);
-void initial_options_menu(void);
-void print_initial_options_menu(void);
-void remote_control(void);
+void println_msg(s8* msg);
 
 void print_msg(s8* msg);
-void println_msg(s8* msg);
-set_target_interface_node(u8 lv1, u8 lv2, u8 lv3);
+
+void callFunWhenBufferReady(void);
+
+void request_user_input(void (*requestingFunction)(void), u8 msgLength, bool numericalInputOnly);
+
+void remote_login_prompt(void);
+
+void userName_prompt_handler(void);
+
+void userPassword_prompt_handler(void);
+
+void invalid_remote_login_attempt(void);
+
+void logout(void);
+
+void grant_local_control_permission(void);
+
+void print_initial_options_menu(void);
+
+void initial_options_menu(void);
+
+void print_remote_control_menu(void);
+
+void remote_control(void);
+
+void control_device(void);
+
+void add_user_prompt(void);
+
+void add_user_code_prompt(void);
+
+void add_user_password_prompt(void);
+
+void add_user_isAdmin_prompt(void);
+
+void delete_user_prompt(void);
+
 // ***************************************************************************
-void set_target_interface_node(u8 lv1, u8 lv2, u8 lv3) {
-  user_dialog_tree[0] = lv1;
-  user_dialog_tree[1] = lv2;
-  user_dialog_tree[2] = lv3;
-  }
 
 void Remote_init(u32 baudRate) {
   User_DB_init();
@@ -61,34 +109,34 @@ void print_msg(s8* msg) {
   BT_sendString(msg);
   }
 
-void request_user_input(u8 msgLength, bool numericalInputOnly) {
+void callFunWhenBufferReady(void) {
+  requesting_function();
+  }
+
+void request_user_input(void (*requestingFunction)(void), u8 msgLength, bool numericalInputOnly) {
+  requesting_function = requestingFunction;
   msg_length = msgLength;
   numerical_input_mode = numericalInputOnly;
   }
 
 void delete_user_prompt(void) {
-  if (invalid_user_input) {
-    println_msg("\r\nInvalid user name!\t");
-    //! The system should ask the user wether he want s to continue or not, and continue to validate his input. 
-    //! But due to close deadline, the user will be returned to the initial menu.
-    print_initial_options_menu();
-    request_user_input(initial_options_menu, 2);
+  if (!user_input_accepted) {
+    print_msg("Enter the user name of the user you want to delete: ");
+    request_user_input(delete_user_prompt, 13, false);
+    user_input_accepted = true;
     }
   else {
+    user_input_accepted = false;
     EN_UserStatusCode_t userExists = getUserByName(msg_buffer, &temp_user);
     if (userExists == USER_NOT_FOUND) {
       println_msg("\rError! User not found. Returning to the main menu...");
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
       }
     else {
       // Delete the user
       delete_user(&temp_user);
       println_msg("The user has been deleted successfully!\t");
-      //! Return to the main menu
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
       }
+    initial_options_menu();
     }
   }
 
@@ -99,79 +147,109 @@ void print_remote_control_menu(void) {
   println_msg("[3] Lamp 3");
   println_msg("[4] Lamp 4");
   println_msg("[5] Lamp 5");
-  println_msg("[6] Lamp 6");
+  println_msg("[6] Lamp 6 (dimmable)");
   if (remote_user.isAdmin) {
     println_msg("[7] The Door");
+    println_msg("[8] Go back to main menu");
+    }
+  else {
+    println_msg("[7] Go back to main menu");
     }
   }
-
-// TODO: Send the status of each device to the user instead of just asking him to switch the device on or off.
 
 void control_device(void) {
   u8 option = msg_buffer[0];
-  if (invalid_user_input || option < '0' || option > '9') {
-    println_msg("\r\nInvalid input!!\t");
-    print_remote_control_menu();
-    request_user_input(remote_control, 2);
+  switch (device_number) {
+      case 6:
+        if (option < '0' || option > '9') {
+          println_msg("\r\nInvalid input!!\t");
+          }
+        else {
+          option -= 48; // Convert to int
+          Lamp_dimmable_set_brightness((double)option / 9.0);
+          println_msg("The brightness has been adjusted!");
+          }
+        break;
+      case 7:
+        if (option != '0' && option != '1') {
+          println_msg("\r\nInvalid input!!\t");
+          }
+        else {
+          if (option == '0') {
+            Door_close();
+            println_msg("The Door is closed now.");
+            }
+          else {
+            Door_open();
+            println_msg("The Door is open now.");
+            }
+          }
+        break;
+      default:
+        if (option != 'Y' && option != 'y' && option != 'n' && option != 'N') {
+          println_msg("\r\nInvalid input!!\t");
+          }
+        else {
+          Lamp_toggle(device_number);
+          Get_running_devices();
+          if (running_devices[device_number - 1]) {
+            println_msg("The Lamp is now on!");
+            }
+          else {
+            println_msg("The Lamp is now off!");
+            }
+          }
+        break;
     }
-  else {
-    if (device_number < 6) {
-      if (option == '1') {
-        Lamp_on(device_number);
-        println_msg("The device has been turned on!");
-        }
-      else {
-        Lamp_off(device_number);
-        println_msg("The device has been turned off!");
-        }
-      }
-    else if (device_number == 6) { // Dimmable led
-      Lamp_dimmable_set_brightness(((double)(option - 48) / 9.0));
-      println_msg("The brightness has been adjusted!");
-      }
-    else {
-      if (option == '1') {
-        Door_open();
-        println_msg("The Door is open now.");
-        }
-      else {
-        Door_close();
-        println_msg("The Door is closed now.");
-        }
-      }
-    print_remote_control_menu();
-    request_user_input(remote_control, 2);
-    }
+  remote_control();
   }
 
+// Prints the state of the device and prompts the user if he wants to change it.
 void remote_control(void) {
-  u8 option = msg_buffer[0];
-  if (remote_user.isAdmin) {
-    if (invalid_user_input || option < '1' || option > '7') {
-      println_msg("Invalid option!\t");
-      print_remote_control_menu();
-      request_user_input(remote_control, 2);
-      }
-    else {
-      println_msg("Do you want to switch the device on or off? (Enter 1 to turn it on. 0 to turn it off)");
-      println_msg("For dimmable lamp the brightness levels are from 0 to 9.");
-      println_msg("If you slected the door, entr 1 to open and 0 to close.");
-      request_user_input(control_device, 2);
-      device_number = option - 48;
-      }
+  if (!user_input_accepted) {
+    print_remote_control_menu();
+    request_user_input(remote_control, 2, true);
+    user_input_accepted = true;
     }
   else {
-    if (invalid_user_input || option < '1' || option > '6') {
+    user_input_accepted = false;
+    u8 option = msg_buffer[0];
+    if ((!remote_user.isAdmin && option > '7') || option < '1' || option > '8') {
       println_msg("Invalid option!\t");
-      print_remote_control_menu();
-      request_user_input(remote_control, 2);
+      remote_control();
       }
     else {
-      println_msg("Do you want to switch the device on or off? (Enter 1 to turn it on. 0 to turn it off)");
-      println_msg("For dimmable lamp the brightness levels are from 0 to 9.");
-      println_msg("If you slected the door, entr 1 to open and 0 to close.");
-      request_user_input(control_device, 2);
+      s8 msg[40];
       device_number = option - 48;
+      switch (option) {
+          case '6':
+            print_msg("Enter the brightness level for the lamp(from 0(off) to 9(max)): ");
+            request_user_input(control_device, 2, true);
+            break;
+          case '7':
+            if (remote_user.isAdmin) {
+              println_msg("Enter 1 to open the door and 0 to close it: ");
+              request_user_input(control_device, 2, true);
+              }
+            else {
+              initial_options_menu();
+              }
+            break;
+          case '8':
+            initial_options_menu();
+            break;
+          default:
+            Get_running_devices();
+            if (running_devices[device_number - 1]) {
+              sprintf(msg, "Lamp %d is on. Turn it off? (Y/N)", option - 48);
+              }
+            else {
+              sprintf(msg, "Lamp %d is off. Turn it on? (Y/N)", option - 48);
+              }
+            println_msg(msg);
+            request_user_input(control_device, 2, false);
+            break;
+        }
       }
     }
   }
@@ -183,6 +261,9 @@ void print_initial_options_menu(void) {
     println_msg("[2] Delete user\t");
     println_msg("[3] Control a device\t");
     println_msg("[4] Log out\t");
+    if (local_user_loggedin) {
+      println_msg("[5] Allow local user control\t");
+      }
     }
   else {
     println_msg("Select one of the following options(by entering its number):\t");
@@ -191,141 +272,212 @@ void print_initial_options_menu(void) {
     }
   }
 
-void initial_options_menu() {
-  if (remote_user.isAdmin) {
-    u8 option = msg_buffer[0];
-    if (invalid_user_input || option < '1' || option > '4') {
-      println_msg("Invalid option!\t");
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
-      }
-    else {
-      switch (option) {
-          case '1':
-            print_msg("Enter the user name: ");
-            request_user_input(add_user_prompt, 13);
-            break;
-          case '2':
-            print_msg("Enter the user name: ");
-            request_user_input(delete_user_prompt, 13);
-            break;
-          case '3':
-            print_remote_control_menu();
-            request_user_input(remote_control, 2);
-            break;
-          case '4':
-            remote_user_loggedin = true;
-            println_msg("To login again you have to disconnect and reconnect to the BT module...");
-            println_msg("You have successfully logged out...");
-            msg_length = 0;
-            break;
-        }
-      }
+void grant_local_control_permission(void) {
+  local_control_permission_granted = true;
+  }
+
+void initial_options_menu(void) {
+  if (!user_input_accepted) {
+    print_initial_options_menu();
+    request_user_input(initial_options_menu, 2, true);
+    user_input_accepted = true;
     }
   else {
-    u8 option = msg_buffer[0];
-    if (invalid_user_input || option < '1' || option > '2') {
-      println_msg("Invalid option!\t");
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
+    user_input_accepted = false;
+    if (remote_user.isAdmin) {
+      u8 option = msg_buffer[0];
+      if (option < '1' || option > '5') {
+        println_msg("Invalid option!\t");
+        initial_options_menu();
+        }
+      else {
+        switch (option) {
+            case '1':
+              add_user_prompt();
+              break;
+            case '2':
+              delete_user_prompt();
+              break;
+            case '3':
+              remote_control();
+              break;
+            case '4':
+              logout();
+              break;
+            case '5':
+              grant_local_control_permission();
+              break;
+          }
+        }
       }
     else {
-      switch (option) {
-          case '1':
-            print_remote_control_menu();
-            request_user_input(remote_control, 2);
-            break;
-          case '2':
-            remote_user_loggedin = true;
-            println_msg("To login again you have to disconnect and reconnect to the BT module...");
-            println_msg("You have successfully logged out...");
-            msg_length = 0;
-            break;
+      u8 option = msg_buffer[0];
+      if (option < '1' || option > '2') {
+        println_msg("Invalid option!\t");
+        initial_options_menu();
+        }
+      else {
+        switch (option) {
+            case '1':
+              remote_control();
+              break;
+            case '2':
+              logout();
+              break;
+          }
         }
       }
     }
   }
 
+void logout(void) {
+  remote_user_loggedin = false;
+  println_msg("To login again you have to disconnect and reconnect to the BT module...");
+  println_msg("You have successfully logged out...");
+  msg_length = 0;
+  }
+
 void add_user_isAdmin_prompt(void) {
-  if (invalid_user_input) {
-    println_msg("\r\nInvalid input!!\t");
-    //! The system should ask the user wether he wants to continue or not, and continue to validate his input. 
-    //! But due to close deadline, the user will be returned to the initial menu.
-    print_initial_options_menu();
-    request_user_input(initial_options_menu, 2);
+  if (!user_input_accepted) {
+    println_msg("Do you want to make the new user an admin? (y/n) ");
+    request_user_input(add_user_isAdmin_prompt, 2, false);
+    user_input_accepted = true;
     }
   else {
+    user_input_accepted = false;
     new_user.isAdmin = (msg_buffer[0] == 'y' || msg_buffer[0] == 'Y');
     add_user(&new_user);
     println_msg("User has been added successfully!");
-    //! Return to the main menu
-    print_initial_options_menu();
-    request_user_input(initial_options_menu, 2);
+    // Return to the main menu
+    initial_options_menu();
     }
   }
 
 void add_user_password_prompt(void) {
-  if (invalid_user_input) {
-    println_msg("\r\nPassword too long!!\t");
-    //! The system should ask the user wether he want s to continue or not, and continue to validate his input. 
-    //! But due to close deadline, the user will be returned to the initial menu.
-    print_initial_options_menu();
-    request_user_input(initial_options_menu, 2);
+  if (!user_input_accepted) {
+    println_msg("Enter the new user's password(The password can only consist of numbers and 4 digits at least, 10 at max): ");
+    request_user_input(add_user_password_prompt, 11, true);
+    user_input_accepted = true;
     }
   else {
-    strcpy(new_user.password, msg_buffer);
-    print_msg("Do you want to make the new user an admin? (y/n) ");
-    request_user_input(add_user_isAdmin_prompt, 2);
+    user_input_accepted = false;
+    if (strlen(msg_buffer) < 4) {
+      println_msg("Password too short!!\t");
+      add_user_password_prompt();
+      }
+    else {
+      strcpy(new_user.password, msg_buffer);
+      add_user_isAdmin_prompt();
+      }
     }
   }
 
 void add_user_code_prompt(void) {
-  if (invalid_user_input) {
-    println_msg("\r\nInvalid user code!\t");
-    //! The system should ask the user wether he want s to continue or not, and continue to validate his input. 
-    //! But due to close deadline, the user will be returned to the initial menu.
-    print_initial_options_menu();
-    request_user_input(initial_options_menu, 2);
+  if (!user_input_accepted) {
+    print_msg("Enter the new user's code(must be a unique six digit code): ");
+    request_user_input(add_user_code_prompt, 7, true);
+    user_input_accepted = true;
     }
-  else {
-    EN_UserStatusCode_t userExists = getUserByCode(msg_buffer, &temp_user);
-    if (userExists == USER_NOT_FOUND) {
-      strcpy(new_user.code, msg_buffer);
-      print_msg("Enter the new user's password: ");
-      request_user_input(add_user_password_prompt, 11);
+  else {// Validating the length of the user code. It can't be more than 6 digits by the input limitations. But the input can be smaller
+    user_input_accepted = false;
+    if (strlen(msg_buffer) != 6) {
+      println_msg("User code too short!");
+      add_user_code_prompt();
       }
     else {
-      // Prompt the user to enter the password
-      println_msg("\rThe user code already exists!\t");
-      //! Return to the main menu
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
+      EN_UserStatusCode_t userExists = getUserByCode(msg_buffer, &temp_user);
+      if (userExists == USER_NOT_FOUND) {
+        strcpy(new_user.code, msg_buffer);
+        add_user_password_prompt();
+        }
+      else {
+        println_msg("\rThe user code already exists!\t");
+        add_user_code_prompt();
+        }
       }
     }
   }
 
 void add_user_prompt(void) {
-  if (invalid_user_input) {
-    println_msg("\r\nInvalid user name!\t");
-    //! The system should ask the user wether he want s to continue or not, and continue to validate his input. 
-    //! But due to close deadline, the user will be returned to the initial menu.
-    print_initial_options_menu();
-    request_user_input(initial_options_menu, 2);
+  if (!user_input_accepted) {
+    print_msg("Enter the new user's name: ");
+    request_user_input(add_user_prompt, 13, false);
+    user_input_accepted = true;
     }
   else {
+    user_input_accepted = false;
     EN_UserStatusCode_t userExists = getUserByName(msg_buffer, &temp_user);
     if (userExists == USER_NOT_FOUND) {
       strcpy(new_user.name, msg_buffer);
-      print_msg("Enter the new user's code(must be a unique six digit code): ");
-      request_user_input(add_user_code_prompt, 7);
+      add_user_code_prompt();
       }
     else {
       // Prompt the user to enter the user code
       println_msg("\rThe user already exists!\t");
       //! Return to the main menu
-      print_initial_options_menu();
-      request_user_input(initial_options_menu, 2);
+      initial_options_menu();
       }
+    }
+  }
+
+void userPassword_prompt_handler(void) {
+  if (!user_input_accepted) {
+    print_msg("Enter your password:\t");
+    request_user_input(userPassword_prompt_handler, 11, true);
+    user_input_accepted = true;
+    }
+  else {
+    user_input_accepted = false;
+    if (strcmp(remote_user.password, msg_buffer)) { // Wrong password
+      println_msg("Wrong password!");
+      invalid_remote_login_attempt();
+      userPassword_prompt_handler();
+      }
+    else {
+      remote_user_loggedin = true;
+      print_msg("Welcome ");
+      print_msg(remote_user.name);
+      println_msg("!");
+      // Show the options menu
+      initial_options_menu();
+      }
+    }
+  }
+
+void userName_prompt_handler(void) {
+  // Request user input for the first time and in case of wrong input
+  if (!user_input_accepted) {
+    print_msg("Enter your user name:\t");
+    request_user_input(userName_prompt_handler, 13, false);
+    user_input_accepted = true;
+    }
+  else {
+    EN_UserStatusCode_t userExists = getUserByName(msg_buffer, &remote_user);
+    user_input_accepted = false;
+    if (userExists == USER_NOT_FOUND) {
+      println_msg("User doesn't exist!");
+      invalid_remote_login_attempt();
+      userName_prompt_handler();
+      }
+    else {
+      // Prompt the user to enter the password
+      userPassword_prompt_handler();
+      }
+    }
+  }
+
+void remote_login_prompt(void) {
+  if (!remote_user_loggedin) {
+    println_msg("Welcome to the Smart Home System!");
+    println_msg("To proceed, please login.");
+    userName_prompt_handler();
+    }
+  else {
+    print_msg("Welcome ");
+    print_msg(remote_user.name);
+    println_msg("!");
+    // Show the options menu
+    initial_options_menu();
     }
   }
 
@@ -354,7 +506,7 @@ ISR(USART_RXC_vect) {
 
   // Accept numbers only in the numerical input mode
   if (numerical_input_mode) {
-    if (!(udr_temp >= '0' && udr_temp <= '9' || udr_temp == '\b' || udr_temp == PROTEUS_VIRTUAL_TERMINAL_STRING_DELIMITER || udr_temp == '\n')) {
+    if (!((udr_temp >= '0' && udr_temp <= '9') || udr_temp == '\b' || udr_temp == PROTEUS_VIRTUAL_TERMINAL_STRING_DELIMITER || udr_temp == '\n')) {
       return;
       }
     }
@@ -400,7 +552,7 @@ ISR(USART_RXC_vect) {
       // Replace the carriage return with null to terminate the string correctly
       msg_buffer[msg_buffer_pointer - 1] = '\0';
       BT_sendChar('\r');
-      Remote_control_interface(user_dialog_tree);
+      callFunWhenBufferReady();
       msg_buffer_pointer = 0;
       }
     }
@@ -440,14 +592,14 @@ ISR(USART_RXC_vect) {
       invalid_user_input = true;
       dump_invalid_data = true;
       msg_buffer_pointer = 0;
-      Remote_control_interface(user_dialog_tree);
+      callFunWhenBufferReady();
       }
     }
 
   // Msg has ended and is within the required length
   if (udr_temp == HC_05_BLUETOOTH_MODULE_STRING_DELIMITER) {
     if (msg_buffer_pointer <= msg_length) {
-      Remote_control_interface(user_dialog_tree);
+      callFunWhenBufferReady();
       msg_buffer_pointer = 0;
       }
     }
@@ -458,106 +610,4 @@ ISR(INT0_vect) {
   // Initialize communication with the user
   // Request user login credentials
   remote_login_prompt();
-  }
-
-//*************************************************************************************
-//^ Refactoring:
-//*************************************************************************************
-
-s8 user_dialog_tree[4];
-
-void Remote_control_interface(s8 options[4]) {
-  u8 lv1 = options[0];
-  u8 lv2 = options[1];
-  u8 lv3 = options[2];
-  u8 lv4 = options[3];
-  switch (lv1) {
-    // Main menu
-      case '0':
-        switch (lv2) {
-            case '0':
-              break;
-            case '1':
-              break;
-            case '2':
-              break;
-          }
-        break;
-        // Add new user
-      case '1':
-        break;
-        // Delete and existing user
-      case '2':
-        break;
-        // Control a device
-      case '3':
-        break;
-        // Logout
-      case '4':
-        break;
-        // Login handler
-      case 'L':
-        switch (lv2) {
-            case 0:   // Print the welcome message
-              println_msg("Welcome to the Smart Home System!");
-              println_msg("To proceed, please login.");
-              set_target_interface_node('L', 1, 0);
-              Remote_control_interface(user_dialog_tree);
-              // Signal to move to the next login step
-              // Set the required message length needed in the next buffer
-              break;
-            case 1:   // Handle username input
-              switch (lv3) {
-                  case 0: // input
-                    print_msg("Enter your user name:\t");
-                    set_target_interface_node('L', 1, 1);
-                    request_user_input(13, false);
-                    break;
-                  case 1: // validation. Validate by checking if the name exists in the DB. Go to password input if true. Go to username input if false.
-                    EN_UserStatusCode_t userExists = getUserByName(msg_buffer, &remote_user);
-                    if (userExists == USER_NOT_FOUND) {
-                      println_msg("User doesn't exist!");
-                      invalid_remote_login_attempt();
-                      set_target_interface_node('L', 1, 0);
-                      Remote_control_interface(user_dialog_tree);
-                      }
-                    else {
-                      // Prompt the user to enter the password
-                      set_target_interface_node('L', 2, 0);
-                      Remote_control_interface(user_dialog_tree);
-                      }
-                    break;
-                }
-              break;
-            case 2:   // Handle password input
-              switch (lv3) {
-                  case 0: // input
-                    print_msg("Enter your password:\t");
-                    set_target_interface_node('L', 2, 1);
-                    request_user_input(11, true);
-                    break;
-                  case 1: // validation. Validate by checking if the name exists in the DB. Go to password input if true. Go to username input if false.
-                    if (strcmp(remote_user.password, msg_buffer)) { // Wrong password
-                      println_msg("Wrong password!");
-                      invalid_remote_login_attempt();
-                      set_target_interface_node('L', 2, 0);
-                      Remote_control_interface(user_dialog_tree);
-                      }
-                    else {
-                      remote_user_loggedin = true;
-                      print_msg("Welcome ");
-                      print_msg(remote_user.name);
-                      println_msg("!");
-                      // Show the options menu
-                      print_initial_options_menu();
-                      request_user_input(initial_options_menu, 2);
-                      }
-                    break;
-                }
-              break;
-            case 3:   // Handle password input
-              break;
-          }
-        break;
-    }
   }

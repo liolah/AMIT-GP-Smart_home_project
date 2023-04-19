@@ -7,15 +7,8 @@
 
 #include "user.h"
 
-bool remote_user_loggedin;
-bool local_user_loggedin;
 bool run_system;
 u8 invalid_trails;
-
-bool remote_user_loggedin = false;
-bool local_user_loggedin = false;
-bool run_system = true;
-u8 invalid_trails = 0;
 
 EN_UserStatusCode_t User_DB_init(void) {
   EEPROM_init();
