@@ -25,13 +25,14 @@ void App_init(void) {
 
 // Contains all functionalities and top level logic of the app
 void App_start(void) {
-  while (1) {
-    while (run_system) {
-      Local_control_input_handler();
-      }
-    cli();
-    // Set the alarm
-    Buzzer_on(BUZZER_PORT, BUZZER_PIN);
+  while (run_system) {
+    Local_control_input_handler();
     }
+  cli();
+  // If the invalid attempts are exhausted, the program will halt.
+  // The program can halt by returning  and letting it reach the end of main. Or by just entering another infinite loop.
+    // Set the alarm
+  Buzzer_on(BUZZER_PORT, BUZZER_PIN);
+  while (1) {}
   }
 
