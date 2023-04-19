@@ -502,7 +502,6 @@ void invalid_remote_login_attempt(void) {
     }
   strcpy(msg, "Too many login attempts! \r--- System Suspended! ---");
   println_msg(msg);
-  Alarm_set();
   run_system = false;
   }
 
