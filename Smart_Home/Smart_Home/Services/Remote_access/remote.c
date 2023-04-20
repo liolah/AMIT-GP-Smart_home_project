@@ -195,15 +195,15 @@ void control_device(void) {
           }
         else {
           //! Disabled because the program used more than 99.5% of the data memory and can't be extended further.
-          // u8 state;
-          // get_lamp_state(option - 48, state);
-          // Lamp_toggle(device_number);
-          // if (state) {
-          //   println_msg("The Lamp is now on!");
-          //   }
-          // else {
-          //   println_msg("The Lamp is now off!");
-          //   }
+          u8 state;
+          get_lamp_state(option - 48, state);
+          Lamp_toggle(device_number);
+          if (state) {
+            println_msg("The Lamp is now on!");
+            }
+          else {
+            println_msg("The Lamp is now off!");
+            }
           }
         break;
     }
@@ -246,16 +246,16 @@ void remote_control(void) {
             initial_options_menu();
             break;
           default:
-            // if (state) {
-            //   print_msg("Lamp ");
-            //   BT_sendChar(device_number);
-            //   println_msg(" is on. Turn it off? (Y/N)");
-            //   }
-            // else {
-            //   print_msg("Lamp ");
-            //   // BT_sendChar(device_number);
-            //   println_msg(" is off. Turn it on? (Y/N)");
-            //   }
+            if (state) {
+              print_msg("Lamp ");
+              BT_sendChar(device_number);
+              println_msg(" is on. Turn it off? (Y/N)");
+              }
+            else {
+              print_msg("Lamp ");
+              // BT_sendChar(device_number);
+              println_msg(" is off. Turn it on? (Y/N)");
+              }
             request_user_input(control_device, 2, false);
             break;
         }
