@@ -5,7 +5,6 @@
  *  Author: Hesham Hany
  */
 
-
 #ifndef APP_H_
 #define APP_H_
 
